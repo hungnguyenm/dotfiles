@@ -17,7 +17,7 @@ cd ~/dotfiles
 
 I remap my keys so that the caps lock key is control, but it's only control if you press it in combination with another key, otherwise it's escape. And then my enter/return key is control if pressed in combination, otherwise it's enter.
 
-Then install [Karabiner](https://github.com/tekezo/Karabiner). And turn on these settings:
+Install [Karabiner](https://github.com/tekezo/Karabiner). And turn on these settings:
 
 Control-L to Control_L (+ When you type Control_L only, send Escape)
 
