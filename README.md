@@ -16,7 +16,7 @@ So, to recap, the install script will:
 ## Installation
 
 ``` bash
-git clone git://github.com/aharris88/dotfiles ~/dotfiles
+git clone git://github.com/hungnguyenm/dotfiles ~/dotfiles
 cd ~/dotfiles
 ./setup.sh
 ```
