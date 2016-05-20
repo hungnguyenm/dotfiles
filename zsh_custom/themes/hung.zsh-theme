@@ -7,13 +7,12 @@
 # if superuser make the username green
 if [ $UID -eq 0 ]; then NCOLOR="green"; else NCOLOR="white"; fi
 
-# if ssh then show hostname
-prompt_host() {
-	if [ -n "$SSH_CLIENT" ]; then prompt_segment "@%m"; fi 
-}
-
 # prompt
-PROMPT='[%{$fg[$NCOLOR]%}%B%n$(prompt_host)%b%{$reset_color%}:%{$fg[red]%}%30<...<%~%<<%{$reset_color%}]%(!.#.$) '
+if [ -n "$SSH_CLIENT" ]; then
+	PROMPT='[%{$fg[$NCOLOR]%}%B%n@%m%b%{$reset_color%}:%{$fg[red]%}%30<...<%~%<<%{$reset_color%}]%(!.#.$) '
+else
+	PROMPT='[%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[red]%}%30<...<%~%<<%{$reset_color%}]%(!.#.$) '
+fi
 
 # LS colors, made with http://geoff.greer.fm/lscolors/
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
