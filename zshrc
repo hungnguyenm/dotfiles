@@ -1,9 +1,10 @@
 # Path to oh-my-zsh configuration
 ZSH=$HOME/.oh-my-zsh
-
-ZSH_THEME="mh"
+ZSH_CUSTOM=$HOME/dotfiles/zsh_custom/
 
 # Configs
+ZSH_THEME="hung"
+DEFAULT_USER=hung
 
 # - Disable auto title
 DISABLE_AUTO_TITLE=true

@@ -16,11 +16,17 @@ So, to recap, the install script will:
 4. If zsh is installed, run a `chsh -s` to set it as the default shell.
 
 ## Installation
-
+### Local Host
 ``` bash
 git clone git://github.com/hungnguyenm/dotfiles ~/dotfiles
 cd ~/dotfiles
 ./setup.sh
+```
+### Remote Host
+``` bash
+git clone git://github.com/hungnguyenm/dotfiles ~/dotfiles
+cd ~/dotfiles
+./setup_ssh.sh
 ```
 
 ## Keyboard Settings
