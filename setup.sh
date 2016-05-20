@@ -49,13 +49,13 @@ fi
 
 install_tmux () {
     if ! { [type tmux >/dev/null 2>/dev/null]; } then
-        # If the platform is Linux, try an apt-get to install zsh and then recurse
+        # If the platform is Linux, try an apt-get to install tmux, bc and then recurse
         if [[ $platform == 'Linux' ]]; then
-            sudo apt-get install tmux -y
+            sudo apt-get install tmux bc -y
             install_zsh
-        # If the platform is OS X, tell the user to install zsh :)
+        # If the platform is OS X, tell the user to install tmux, bc :)
         elif [[ $platform == 'Darwin' ]]; then
-            echo "Please install tmux, then re-run this script!"
+            echo "Please install tmux and bc, then re-run this script!"
             exit
         fi
     fi
