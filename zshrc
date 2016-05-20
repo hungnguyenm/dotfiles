@@ -19,7 +19,7 @@ compinit
 COMPLETION_WAITING_DOTS="true"
 
 # Plugins
-plugins=(common-aliases git gitignore macports osx tmux z) 
+plugins=(common-aliases git gitignore macports osx z) 
 
 source $ZSH/oh-my-zsh.sh
 
