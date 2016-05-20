@@ -24,9 +24,6 @@ export EDITOR=vim
 ZSH_THEME="hung"
 DEFAULT_USER=hung
 
-# - Disable auto title
-DISABLE_AUTO_TITLE=true
-
 # - Turn on interactive comments
 setopt interactivecomments
 
