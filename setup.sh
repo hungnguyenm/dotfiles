@@ -6,7 +6,7 @@
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
 # list of files/folders to symlink in homedir
-files="gitconfig vim vimrc zshrc"
+files="gitconfig tmux.conf vim vimrc zshrc"
 
 ##########
 
@@ -20,6 +20,9 @@ echo -n "Changing to the $dir directory ..."
 cd $dir
 echo "done"
 
+# get the platform of the current machine
+platform=$(uname);
+
 install_zsh () {
 # Test to see if zshell is installed.  If it is:
 if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
@@ -32,8 +35,6 @@ if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
         chsh -s $(which zsh)
     fi
 else
-    # If zsh isn't installed, get the platform of the current machine
-    platform=$(uname);
     # If the platform is Linux, try an apt-get to install zsh and then recurse
     if [[ $platform == 'Linux' ]]; then
         sudo apt-get install zsh -y
@@ -46,7 +47,22 @@ else
 fi
 }
 
+install_tmux () {
+    if ! { [type tmux >/dev/null 2>/dev/null]; } then
+        # If the platform is Linux, try an apt-get to install zsh and then recurse
+        if [[ $platform == 'Linux' ]]; then
+            sudo apt-get install tmux -y
+            install_zsh
+        # If the platform is OS X, tell the user to install zsh :)
+        elif [[ $platform == 'Darwin' ]]; then
+            echo "Please install tmux, then re-run this script!"
+            exit
+        fi
+    fi
+}
+
 install_zsh
+install_tmux
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
