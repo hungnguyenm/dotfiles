@@ -9,6 +9,7 @@ alias reloadtmux="source-file ~/.tmux.conf && echo 'tmux config reloaded from ~/
 
 alias tmux-cc="tmux -CC"
 alias tmux-ls="tmux list-sessions"
+alias tmux-lk="tmux list-keys"
 alias tmux-a="tmux attach"
 
 # Path
