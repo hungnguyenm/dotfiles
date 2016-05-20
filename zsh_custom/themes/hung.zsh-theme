@@ -10,6 +10,7 @@ if [ $UID -eq 0 ]; then NCOLOR="green"; else NCOLOR="white"; fi
 # prompt
 if [ -n "$SSH_CLIENT" ]; then
 	PROMPT='[%{$fg[$NCOLOR]%}%B%n@%m%b%{$reset_color%}:%{$fg[red]%}%30<...<%~%<<%{$reset_color%}]%(!.#.$) '
+	RPROMPT='%M'
 else
 	PROMPT='[%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[red]%}%30<...<%~%<<%{$reset_color%}]%(!.#.$) '
 fi
