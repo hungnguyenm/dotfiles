@@ -31,9 +31,9 @@ done
 install_zsh () {
 # Test to see if zshell is installed.  If it is:
 if [ -f /bin/zsh -o -f /usr/bin/zsh ]; then
-    # Clone my oh-my-zsh repository from GitHub only if it isn't already present
-    if [[ ! -d $dir/oh-my-zsh/ ]]; then
-        git clone http://github.com/michaeljsmalley/oh-my-zsh.git
+    # Install oh-my-zsh if it isn't already present
+    if [[ ! -d ~/.oh-my-zsh/ ]]; then
+        curl -L https://raw.github.com/robbyrussell/oh-my-zsh/master/tools/install.sh | sh
     fi
     # Set the default shell to zsh if it isn't currently set to zsh
     if [[ ! $(echo $SHELL) == $(which zsh) ]]; then
