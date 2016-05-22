@@ -7,6 +7,7 @@ alias reload="echo 'reload help:\n\r\n\rreloadzsh: reload zsh\n\rreloadtmux: rel
 alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias reloadtmux="source-file ~/.tmux.conf && echo 'tmux config reloaded from ~/.tmux.conf'"
 
+alias tn="tmux new-session"
 alias tcc="tmux -CC"
 alias tlk="tmux list-keys"
 
