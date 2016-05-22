@@ -21,6 +21,9 @@ PATH="$PATH:/Library/TeX/texbin"
 # - OSX - sage
 PATH="$PATH:/Applications/sage"
 
+# - LD_LIBRARY_PATH ~ for RTI DDS
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/hung/exe/rti_connext_dds-5.2.3/lib/x64Linux3gcc4.8.2"
+
 export PATH
 export EDITOR=vim
 
