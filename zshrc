@@ -7,10 +7,8 @@ alias reload="echo 'reload help:\n\r\n\rreloadzsh: reload zsh\n\rreloadtmux: rel
 alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias reloadtmux="source-file ~/.tmux.conf && echo 'tmux config reloaded from ~/.tmux.conf'"
 
-alias tmux-cc="tmux -CC"
-alias tmux-ls="tmux list-sessions"
-alias tmux-lk="tmux list-keys"
-alias tmux-a="tmux attach"
+alias tcc="tmux -CC"
+alias tlk="tmux list-keys"
 
 # Path
 PATH="/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/bin:$PATH"
