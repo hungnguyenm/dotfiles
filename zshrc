@@ -11,6 +11,9 @@ alias tn="tmux new-session"
 alias tcc="tmux -CC"
 alias tlk="tmux list-keys"
 
+alias sap="sudo apt-get update"
+alias sad="sudo apt-get upgrade"
+
 # Path
 PATH="/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/bin:$PATH"
 
