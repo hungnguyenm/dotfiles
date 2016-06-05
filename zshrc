@@ -14,6 +14,10 @@ alias tlk="tmux list-keys"
 alias sap="sudo apt-get update"
 alias sad="sudo apt-get upgrade"
 
+alias cdu="cd .."
+alias cduu="cd ../.."
+alias cduuu="cd ../../.."
+
 # Path
 PATH="/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/bin:$PATH"
 
