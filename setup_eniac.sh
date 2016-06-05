@@ -6,7 +6,7 @@
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
 # list of files/folders to symlink in homedir
-files="gitconfig tmux.conf virc vim vimrc zshrc"
+files="gitconfig tmux.conf virc vim vimrc zshrc emacs emacs.d"
 
 ##########
 

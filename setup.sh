@@ -6,7 +6,7 @@
 dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
 # list of files/folders to symlink in homedir
-files="gitconfig tmux.conf virc vim vimrc zshrc"
+files="gitconfig tmux.conf virc vim vimrc zshrc emacs emacs.d"
 
 ##########
 
@@ -48,21 +48,33 @@ fi
 }
 
 install_tmux () {
-    if ! { [type tmux >/dev/null 2>/dev/null]; } then
+    command -v emacs >/dev/null 2>&1 || {
         # If the platform is Linux, try an apt-get to install tmux, bc and then recurse
         if [[ $platform == 'Linux' ]]; then
             sudo apt-get install tmux bc -y
-            install_zsh
-        # If the platform is OS X, tell the user to install tmux, bc :)
+        # If the platform is OS X, tell the user to install tmux, bc
         elif [[ $platform == 'Darwin' ]]; then
             echo "Please install tmux and bc, then re-run this script!"
             exit
         fi
-    fi
+    }
+}
+
+install_emacs () {
+    command -v emacs >/dev/null 2>&1 || {
+        # If the platform is Linux, try an apt-get to install emacs (and vim)
+        if [[ $platform == 'Linux' ]]; then
+            sudo apt-get install vim emacs -y
+        # If the platform is OS X, tell the user to install emacs
+        elif [[ $platform == 'Darwin' ]]; then
+            echo "Please install emacs and vim, this script won't install emacs on this system!"
+        fi
+    }
 }
 
 install_zsh
 install_tmux
+install_emacs
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
