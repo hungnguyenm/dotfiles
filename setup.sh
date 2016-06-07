@@ -7,6 +7,7 @@ dir=~/dotfiles                    # dotfiles directory
 olddir=~/dotfiles_old             # old dotfiles backup directory
 # list of files/folders to symlink in homedir
 files="gitconfig tmux.conf virc vim vimrc zshrc emacs emacs.d"
+server_files="pam_environment"
 
 ##########
 
@@ -83,3 +84,13 @@ for file in $files; do
     echo "Creating symlink to $file in home directory."
     ln -s $dir/$file ~/.$file
 done
+
+# server part - run on Linux platform
+if [[ $platform == 'Linux' ]]; then
+    for server_file in $server_files; do
+        echo "Moving $server_file from ~ to $olddir"
+        mv ~/.$server_file ~/dotfiles_old/
+        echo "Creating symlink to $server_file in home directory."
+        ln -s $dir/$server_file ~/.$server_file
+    done
+fi
