@@ -19,6 +19,10 @@ alias cdu="cd .."
 alias cduu="cd ../.."
 alias cduuu="cd ../../.."
 
+function xcopy() { xsel --clipboard < "$*"; }
+function xover() { xsel --clipboard > "$*"; }
+function xpaste() { xsel --clipboard >> "$*"; }
+
 # Path
 PATH="/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/bin:$PATH"
 
