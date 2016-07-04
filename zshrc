@@ -19,6 +19,8 @@ alias cdu="cd .."
 alias cduu="cd ../.."
 alias cduuu="cd ../../.."
 
+alias emacs="emacs -nw"
+
 function xcopy() { xsel --clipboard < "$*"; }
 function xover() { xsel --clipboard > "$*"; }
 function xpaste() { xsel --clipboard >> "$*"; }
