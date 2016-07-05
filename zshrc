@@ -2,6 +2,11 @@
 ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/dotfiles/zsh_custom/
 
+# Enable 256-color
+if [ "$TERM" = "xterm" ]; then
+  export TERM="xterm-256color"
+fi
+
 # Aliases
 alias reload="echo 'reload help:\n\r\n\rreloadzsh: reload zsh\n\rreloadtmux: reload tmux'"
 alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
