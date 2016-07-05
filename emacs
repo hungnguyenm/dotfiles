@@ -14,7 +14,6 @@
 (add-to-list 'custom-theme-load-path "~/dotfiles/emacs.d/themes/emacs-color-theme-solarized")
 (custom-set-variables '(solarized-termcolors 256))
 (custom-set-variables '(solarized-contrast 'high))
-(custom-set-variables '(solarized-visibility 'high))
 (load-theme 'solarized t)
 (set-frame-parameter nil 'background-mode 'dark)
 (set-terminal-parameter nil 'background-mode 'dark)
