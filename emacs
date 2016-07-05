@@ -12,12 +12,9 @@
 
 ; Add solarized theme
 (add-to-list 'custom-theme-load-path "~/dotfiles/emacs.d/themes/emacs-color-theme-solarized")
-(add-hook 'after-make-frame-functions
-  (lambda (frame)
-    (let ((mode (if (display-graphic-p frame) 'light 'dark)))
-      (set-frame-parameter frame 'background-mode mode)
-      (set-terminal-parameter frame 'background-mode mode))
-    (load-theme 'solarized)))
+(load-theme 'solarized t)
+(set-frame-parameter nil 'background-mode 'dark)
+(set-terminal-parameter nil 'background-mode 'dark)
 
 ;; Load emacs packages and activate them
 ;; This must come before configurations of installed packages.
