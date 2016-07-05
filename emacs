@@ -5,4 +5,4 @@
 	   '(("\\.cmake\\'" . cmake-mode))
 	   auto-mode-alist))
 
-(autoload 'cmake-mode "~/CMake/Auxiliary/cmake-mode.el" t)
+(autoload 'cmake-mode "~/dotfiles/emacs.d/modes/cmake-mode.el" t)
