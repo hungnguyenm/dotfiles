@@ -12,7 +12,7 @@
 
 ; Add solarized theme
 (add-to-list 'custom-theme-load-path "~/dotfiles/emacs.d/themes/emacs-color-theme-solarized")
-(load-theme 'solarized-dark t)
+(load-theme 'solarized t)
 
 ;; Load emacs packages and activate them
 ;; This must come before configurations of installed packages.
