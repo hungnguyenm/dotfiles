@@ -12,6 +12,7 @@
 
 ; Add solarized theme
 (add-to-list 'custom-theme-load-path "~/dotfiles/emacs.d/themes/emacs-color-theme-solarized")
+(custom-set-variables '(solarized-termcolors 256))
 (load-theme 'solarized t)
 (set-frame-parameter nil 'background-mode 'dark)
 (set-terminal-parameter nil 'background-mode 'dark)
