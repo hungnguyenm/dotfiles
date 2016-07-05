@@ -4,7 +4,7 @@ Color Pallete:
 02: #D01B24 ==> #E57674
 03: #6BBE6C ==> #85981C
 04: #A57705
-05: #2075C7
+05: #2075C7 ==> #61A5D7
 06: #C61B6E
 07: #259185 ==> #58AFA8
 08: #E9E2CB ==> #EEE8D6
@@ -22,4 +22,4 @@ Color Pallete:
 
 gconftool-2 -s -t string /apps/guake/style/font/color "#9B9BC1C1C2C2"
 gconftool-2 -s -t string /apps/guake/style/background/color "#00001E1E2626"
-gconftool-2 -s -t string /apps/guake/style/font/palette "#899CA1:#E57674:#85981C:#A5A577770505:#20207575C7C7:#C6C61B1B6E6E:#58AFA8:#EEE8D6:#000063638888:#D77F65:#95A539:#B1B17E7E2828:#62A6D9:#E1E14D4D8E8E:#0000B2B29E9E:#EEE8D6:#93B1B6:#002833"
+gconftool-2 -s -t string /apps/guake/style/font/palette "#899CA1:#E57674:#85981C:#A5A577770505:#61A5D7:#C6C61B1B6E6E:#58AFA8:#EEE8D6:#000063638888:#D77F65:#95A539:#B1B17E7E2828:#62A6D9:#E1E14D4D8E8E:#0000B2B29E9E:#EEE8D6:#93B1B6:#002833"
