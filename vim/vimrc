@@ -1,2 +1,3 @@
 set nocompatible
 syntax on
+set clipboard=unnamedplus
