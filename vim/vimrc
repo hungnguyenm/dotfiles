@@ -2,6 +2,11 @@ set nocompatible
 syntax on
 set clipboard=unnamedplus
 
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set noexpandtab
+
 " ---- Vundle config
 filetype off
 " set the runtime path to include Vundle and initialize
