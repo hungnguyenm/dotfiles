@@ -2,6 +2,9 @@
 ZSH=$HOME/.oh-my-zsh
 ZSH_CUSTOM=$HOME/dotfiles/zsh_custom/
 
+# ROS - replace with correct ROS version and uncomment
+#source /opt/ros/indigo/setup.zsh
+
 # Enable 256-color
 if [ "$TERM" = "xterm" ]; then
   export TERM="xterm-256color"
