@@ -4,6 +4,7 @@ ZSH_CUSTOM=$HOME/dotfiles/zsh_custom/
 
 # ROS - replace with correct ROS version and uncomment
 #source /opt/ros/indigo/setup.zsh
+#source ~/catkin_ws/devel/setup.zsh
 
 # Enable 256-color
 if [ "$TERM" = "xterm" ]; then
