@@ -9,6 +9,10 @@ fi
 if [[ -f ~/catkin_ws/devel/setup.zsh && -r ~/catkin_ws/devel/setup.zsh ]]; then
   source ~/catkin_ws/devel/setup.zsh
 fi
+# ROS -- server's dependent ROS config
+if [[ -f ~/iros.zsh && -r ~/iros.zsh ]]; then
+  source ~/iros.zsh
+fi
 
 # Enable 256-color
 if [ "$TERM" = "xterm" ]; then
