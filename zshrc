@@ -6,6 +6,9 @@ ZSH_CUSTOM=$HOME/dotfiles/zsh_custom/
 if [[ -f /opt/ros/indigo/setup.zsh && -r /opt/ros/indigo/setup.zsh ]]; then
   source /opt/ros/indigo/setup.zsh
 fi
+if [[ -f /opt/ros/kinetic/setup.zsh && -r /opt/ros/kinetic/setup.zsh ]]; then
+  source /opt/ros/kinetic/setup.zsh
+fi
 if [[ -f ~/catkin_ws/devel/setup.zsh && -r ~/catkin_ws/devel/setup.zsh ]]; then
   source ~/catkin_ws/devel/setup.zsh
 fi
