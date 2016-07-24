@@ -16,7 +16,7 @@ call vundle#begin()
 Plugin 'gmarik/Vundle.vim'
 
 " Additional plugin
-Plugin 'Valloric/YouCompleteMe'
+" Plugin 'Valloric/YouCompleteMe'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
