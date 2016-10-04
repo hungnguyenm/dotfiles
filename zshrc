@@ -35,10 +35,6 @@ function sai() { sudo apt-get install "$*"; }
 alias sap="sudo apt-get update"
 alias sad="sudo apt-get upgrade"
 
-alias cdu="cd .."
-alias cduu="cd ../.."
-alias cduuu="cd ../../.."
-
 alias emacs="emacs -nw"
 
 function xcopy() { xsel --clipboard < "$*"; }
