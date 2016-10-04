@@ -1,4 +1,2 @@
-NDDSHOME=/home/hung/exe/rti_connext_dds-5.2.3
-RTI_JAVA_OPTION=-d64
-LD_LIBRARY_PATH=/usr/local/cuda-7.5/lib64:/home/hung/exe/rti_connext_dds-5.2.3/lib/x64Linux3gcc4.8.2
-PATH DEFAULT=${PATH}:/usr/local/cuda-7.5/bin
+LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
+PATH DEFAULT=${PATH}:/usr/local/cuda/bin
