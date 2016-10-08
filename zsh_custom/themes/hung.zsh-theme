@@ -7,16 +7,25 @@
 # if superuser make the username green
 if [ $UID -eq 0 ]; then NCOLOR="green"; else NCOLOR="white"; fi
 
+function git_prompt() {
+  local ref
+  if [[ "$(command git config --get oh-my-zsh.hide-status 2>/dev/null)" != "1" ]]; then
+    ref=$(command git symbolic-ref HEAD 2> /dev/null) || \
+    ref=$(command git rev-parse --short HEAD 2> /dev/null) || return 0
+    echo "$(parse_git_dirty)"
+  fi
+}
+
 # prompt
 if [ -n "$SSH_CLIENT" ]; then
-	PROMPT='[%{$fg[$NCOLOR]%}%B%n%{$fg[blue]%}@%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(parse_git_dirty)$(git_prompt_status)%{$reset_color%}%(!.#.$) '
+	PROMPT='[%{$fg[$NCOLOR]%}%B%n%{$fg[blue]%}@%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)$(git_prompt_status)%{$reset_color%}%(!.#.$) '
 else
-	PROMPT='[%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(parse_git_dirty)$(git_prompt_status)%{$reset_color%}%(!.#.$) '
+	PROMPT='[%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)$(git_prompt_status)%{$reset_color%}%(!.#.$) '
 fi
 
 # Format for parse_git_dirty()
 ZSH_THEME_GIT_PROMPT_DIRTY=" "
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%} ✔"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%} v"
 
 # Format for git_prompt_status()
 ZSH_THEME_GIT_PROMPT_ADDED="%{$fg_bold[green]%}+"
