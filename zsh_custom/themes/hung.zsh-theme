@@ -9,9 +9,9 @@ if [ $UID -eq 0 ]; then NCOLOR="green"; else NCOLOR="white"; fi
 
 # prompt
 if [ -n "$SSH_CLIENT" ]; then
-	PROMPT='[%{$fg[$NCOLOR]%}%B%n%{$fg[blue]%}@%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(parse_git_dirty)$(git_prompt_status){$reset_color%}%(!.#.$) '
+	PROMPT='[%{$fg[$NCOLOR]%}%B%n%{$fg[blue]%}@%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(parse_git_dirty)$(git_prompt_status)$reset_color%%(!.#.$) '
 else
-	PROMPT='[%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(parse_git_dirty)$(git_prompt_status){$reset_color%}%(!.#.$) '
+	PROMPT='[%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(parse_git_dirty)$(git_prompt_status)$reset_color%%(!.#.$) '
 fi
 
 # Format for parse_git_dirty()
