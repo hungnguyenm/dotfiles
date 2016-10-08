@@ -9,10 +9,22 @@ if [ $UID -eq 0 ]; then NCOLOR="green"; else NCOLOR="white"; fi
 
 # prompt
 if [ -n "$SSH_CLIENT" ]; then
-	PROMPT='[%{$fg[$NCOLOR]%}%B%n%{$fg[blue]%}@%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]%(!.#.$) '
+	PROMPT='[%{$fg[$NCOLOR]%}%B%n%{$fg[blue]%}@%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(parse_git_dirty)$(git_prompt_status)%(!.#.$) '
 else
-	PROMPT='[%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]%(!.#.$) '
+	PROMPT='[%{$fg[$NCOLOR]%}%B%n%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(parse_git_dirty)$(git_prompt_status)%(!.#.$) '
 fi
+
+# Format for parse_git_dirty()
+ZSH_THEME_GIT_PROMPT_DIRTY=" "
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%} ✔"
+
+# Format for git_prompt_status()
+ZSH_THEME_GIT_PROMPT_ADDED="%{$fg_bold[green]%}+"
+ZSH_THEME_GIT_PROMPT_MODIFIED="%{$fg_bold[blue]%}!"
+ZSH_THEME_GIT_PROMPT_DELETED="%{$fg_bold[red]%}-"
+ZSH_THEME_GIT_PROMPT_RENAMED="%{$fg_bold[magenta]%}>"
+ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg_bold[yellow]%}#"
+ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[cyan]%}?"
 
 # LS colors, made with http://geoff.greer.fm/lscolors/
 export LSCOLORS="Gxfxcxdxbxegedabagacad"
