@@ -53,6 +53,7 @@ PATH="$PATH:/Applications/sage"
 
 # - Ubuntu - android-studio
 PATH="$PATH:$HOME/opt/android-studio/bin"
+PATH="$PATH:$HOME/Android/Sdk/platform-tools"
 
 # - LD_LIBRARY_PATH ~ for RTI DDS
 #LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/hung/exe/rti_connext_dds-5.2.3/lib/x64Linux3gcc4.8.2"
