@@ -17,6 +17,20 @@ if [[ -f ~/iros.zsh && -r ~/iros.zsh ]]; then
   source ~/iros.zsh
 fi
 
+# Update tmux environment variables
+if [ -n "$TMUX" ]; then
+  function tmux_refresh {
+    export $(tmux show-environment | grep "^SSH_AUTH_SOCK")
+    export $(tmux show-environment | grep "^DISPLAY")
+  }
+else
+  function tmux_refresh { }
+fi
+
+function preexec {
+    tmux_refresh
+}
+
 # Enable 256-color
 if [ "$TERM" = "xterm" ]; then
   export TERM="xterm-256color"
@@ -75,7 +89,10 @@ compinit
 # - Display dots while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 
+# ssh-agent
+zstyle :omz:plugins:ssh-agent agent-forwarding on
+
 # Plugins
-plugins=(common-aliases git macports osx tmux z)
+plugins=(common-aliases ssh-agent git osx tmux z)
 
 source $ZSH/oh-my-zsh.sh
