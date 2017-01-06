@@ -83,7 +83,7 @@ fi
 
 # Format for parse_git_dirty()
 ZSH_THEME_GIT_PROMPT_DIRTY=" "
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%} v"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[green]%}v"
 
 # Format for git_prompt_status()
 ZSH_THEME_GIT_PROMPT_ADDED="%{$fg_bold[green]%}+"
