@@ -69,7 +69,7 @@ function git_prompt() {
 			STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_CLEAN"
 		fi
 
-		STATUS="$STATUS) %{${reset_color}%}"
+		STATUS="$STATUS%{${reset_color}%}) "
 		echo "$STATUS"
 	fi
 }
