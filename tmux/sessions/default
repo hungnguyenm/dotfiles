@@ -1,0 +1,21 @@
+# Default Session
+
+## setup main window
+new-window -c "~/" -n MAIN
+kill-window -a
+split-window -h
+split-window -v
+selectp -t 1
+
+## create working 1 window
+neww
+split-window -h
+selectp -t 1
+
+## create working 2 window
+neww
+split-window -h
+selectp -t 1
+
+## return focus to main window
+selectw -t 1
