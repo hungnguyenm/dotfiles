@@ -1,6 +1,6 @@
 # Path to oh-my-zsh configuration
 ZSH=$HOME/.oh-my-zsh
-ZSH_CUSTOM=$HOME/dotfiles/zsh_custom/
+ZSH_CUSTOM=$HOME/dotfiles/zsh_custom
 
 # ROS
 if [[ -f /opt/ros/indigo/setup.zsh && -r /opt/ros/indigo/setup.zsh ]]; then
@@ -94,6 +94,10 @@ COMPLETION_WAITING_DOTS="true"
 
 # ssh-agent
 zstyle :omz:plugins:ssh-agent agent-forwarding on
+
+# zsh-git-prompt
+export GIT_PROMPT_EXECUTABLE=${GIT_PROMPT_EXECUTABLE:-"python"}
+autoload -U add-zsh-hook
 
 # Plugins
 plugins=(common-aliases ssh-agent git osx tmux z)
