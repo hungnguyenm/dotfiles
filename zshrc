@@ -109,6 +109,6 @@ export GIT_PROMPT_EXECUTABLE=${GIT_PROMPT_EXECUTABLE:-"python"}
 autoload -U add-zsh-hook
 
 # Plugins
-plugins=(common-aliases ssh-agent git osx brew tmux z sublime zsh-syntax-highlighting)
+plugins=(common-aliases ssh-agent git extract osx brew tmux z sublime zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
