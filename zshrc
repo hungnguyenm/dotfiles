@@ -48,7 +48,15 @@ alias tn="tmux new-session"
 alias tcc="tmux -CC"
 alias tlk="tmux list-keys"
 
-alias sshfs-u="fusermount -u"
+case `uname` in
+  Darwin)
+    alias sshfs-u="umount"
+    ;;
+  Linux)
+    alias sshfs-u="fusermount -u"
+    ;;
+esac
+
 
 function sai() { sudo apt-get install "$*"; }
 alias sap="sudo apt-get update"
