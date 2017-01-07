@@ -40,9 +40,9 @@ if [ "$TERM" = "xterm" ]; then
 fi
 
 # Aliases
-alias reload="echo 'reload help:\n\r\n\rreloadzsh: reload zsh\n\rreloadtmux: reload tmux'"
+alias reload="echo 'reload help:\n\r\n\rreloadzsh: reload zsh\n\rreloaddotfiles: redownload dotfiles'"
 alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
-alias reloadtmux="source-file ~/.tmux.conf && echo 'tmux config reloaded from ~/.tmux.conf'"
+alias reloaddotfiles="rm -rf ~/dotfiles; git clone --recursive https://github.com/hungnguyenm/dotfiles"
 
 alias tn="tmux new-session"
 alias tcc="tmux -CC"
@@ -56,7 +56,6 @@ case `uname` in
     alias sshfs-u="fusermount -u"
     ;;
 esac
-
 
 function sai() { sudo apt-get install "$*"; }
 alias sap="sudo apt-get update"
