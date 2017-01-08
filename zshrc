@@ -58,15 +58,13 @@ function xcopy() { xsel --clipboard < "$*"; }
 function xover() { xsel --clipboard > "$*"; }
 function xpaste() { xsel --clipboard >> "$*"; }
 
-
-[[ -r ~/.ssh/config ]] && _ssh_config=(${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
 function fs() {
-  if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]] ; then
+  if [[ -n "$1" ]] ; then
     mkdir -p ~/remote/"$1"
     if [[ -n "$2" ]] ; then
-      sshfs "$1": ~/remote/"$1"
-    else
       sshfs "$1":"$2" ~/remote/"$1"
+    else
+      sshfs "$1": ~/remote/"$1"
     fi
   else
     echo "fatal: fs only works with hosts defined in ~/.ssh/config\n\rUsage: fs host OR fs host path"
@@ -74,7 +72,7 @@ function fs() {
 }
 
 function fsu() {
-  if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]] ; then
+  if [[ -n "$1" ]] ; then
     case `uname` in
       Darwin) umount ~/remote/"$1"
         ;;
@@ -130,9 +128,6 @@ plugins=(common-aliases ssh-agent git extract osx brew tmux z sublime zsh-syntax
 
 # Finally, source OMZ and update styles
 source $ZSH/oh-my-zsh.sh
-
-zstyle -s ':completion:*:hosts' hosts _ssh_config
-zstyle ':completion:*:hosts' hosts $_ssh_config
 
 compdef _hosts fs
 compdef _hosts fsu
