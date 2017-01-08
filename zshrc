@@ -57,11 +57,7 @@ function xcopy() { xsel --clipboard < "$*"; }
 function xover() { xsel --clipboard > "$*"; }
 function xpaste() { xsel --clipboard >> "$*"; }
 
-
-zstyle -s ':completion:*:hosts' hosts _ssh_config
 [[ -r ~/.ssh/config ]] && _ssh_config=(${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
-zstyle ':completion:*:hosts' hosts $_ssh_config
-
 function fs() {
   if [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]
   then
@@ -85,9 +81,6 @@ function fsu() {
     echo "fatal: fsu only works with hosts defined in ~/.ssh/config"
   fi
 }
-
-compdef _hosts fs
-compdef _hosts fsu
 
 # Path
 PATH="/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/bin:$PATH"
@@ -130,4 +123,12 @@ autoload -U add-zsh-hook
 # Plugins
 plugins=(common-aliases ssh-agent git extract osx brew tmux z sublime zsh-syntax-highlighting)
 
+
+# Finally, source OMZ and update styles
 source $ZSH/oh-my-zsh.sh
+
+zstyle -s ':completion:*:hosts' hosts _ssh_config
+zstyle ':completion:*:hosts' hosts $_ssh_config
+
+compdef _hosts fs
+compdef _hosts fsu
