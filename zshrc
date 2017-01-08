@@ -122,8 +122,11 @@ zstyle :omz:plugins:ssh-agent agent-forwarding on
 export GIT_PROMPT_EXECUTABLE=${GIT_PROMPT_EXECUTABLE:-"python"}
 autoload -U add-zsh-hook
 
+# git-auto-fetch
+GIT_AUTO_FETCH_INTERVAL=3600 #in seconds
+
 # Plugins
-plugins=(common-aliases ssh-agent git extract osx brew tmux z sublime zsh-syntax-highlighting)
+plugins=(common-aliases ssh-agent git git-auto-fetch extract osx brew tmux z sublime zsh-syntax-highlighting)
 
 
 # Finally, source OMZ and update styles
