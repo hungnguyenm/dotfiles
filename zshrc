@@ -44,20 +44,10 @@ alias reload="echo 'reload help:\n\r\n\rreloadzsh: reload zsh\n\rreloaddotfiles:
 alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias reloaddotfiles="rm -rf ~/dotfiles; git clone --recursive https://github.com/hungnguyenm/dotfiles"
 
-alias tn="tmux new-session"
 alias tcc="tmux -CC"
 alias tlk="tmux list-keys"
 
-case `uname` in
-  Darwin)
-    alias sshfs-u="umount"
-    ;;
-  Linux)
-    alias sshfs-u="fusermount -u"
-    ;;
-esac
-
-function sai() { sudo apt-get install "$*"; }
+alias sai="sudo apt-get install"
 alias sap="sudo apt-get update"
 alias sad="sudo apt-get upgrade"
 
@@ -66,6 +56,38 @@ alias emacs="emacs -nw"
 function xcopy() { xsel --clipboard < "$*"; }
 function xover() { xsel --clipboard > "$*"; }
 function xpaste() { xsel --clipboard >> "$*"; }
+
+
+zstyle -s ':completion:*:hosts' hosts _ssh_config
+[[ -r ~/.ssh/config ]] && _ssh_config=(${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
+zstyle ':completion:*:hosts' hosts $_ssh_config
+
+function fs() {
+  if [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]
+  then
+    mkdir -p ~/remote/"$1"
+    sshfs "$1": ~/remote/"$1"
+  else
+    echo "fatal: fs only works with hosts defined in ~/.ssh/config"
+  fi
+}
+
+function fsu() {
+  if [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]
+  then
+    case `uname` in
+      Darwin) umount ~/remote/"$1"
+        ;;
+      Linux) fusermount -u ~/remote/"$1"
+        ;;
+    esac
+  else
+    echo "fatal: fsu only works with hosts defined in ~/.ssh/config"
+  fi
+}
+
+compdef _hosts fs
+compdef _hosts fsu
 
 # Path
 PATH="/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/bin:$PATH"
@@ -80,9 +102,6 @@ PATH="$PATH:/Applications/sage"
 # - Ubuntu - android-studio
 PATH="$PATH:$HOME/opt/android-studio/bin"
 PATH="$PATH:$HOME/Android/Sdk/platform-tools"
-
-# - LD_LIBRARY_PATH ~ for RTI DDS
-#LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/hung/exe/rti_connext_dds-5.2.3/lib/x64Linux3gcc4.8.2"
 
 export PATH
 export EDITOR=vim
@@ -109,6 +128,6 @@ export GIT_PROMPT_EXECUTABLE=${GIT_PROMPT_EXECUTABLE:-"python"}
 autoload -U add-zsh-hook
 
 # Plugins
-plugins=(common-aliases ssh-agent git osx tmux z zsh-syntax-highlighting)
+plugins=(common-aliases ssh-agent git extract osx brew tmux z sublime zsh-syntax-highlighting)
 
 source $ZSH/oh-my-zsh.sh
