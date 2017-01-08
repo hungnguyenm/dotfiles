@@ -40,24 +40,15 @@ if [ "$TERM" = "xterm" ]; then
 fi
 
 # Aliases
-alias reload="echo 'reload help:\n\r\n\rreloadzsh: reload zsh\n\rreloaddotfiles: redownload dotfiles'"
-alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
-alias reloaddotfiles="rm -rf ~/dotfiles; git clone --recursive https://github.com/hungnguyenm/dotfiles"
+alias reload="echo 'reload help:\n\r\n\rrelzsh: reload zsh\n\rreldotfiles: git pull dotfiles\n\rrecdotfiles: rm and redownload dotfiles'"
+alias relzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
+alias recdotfiles="rm -rf ~/dotfiles; git clone --recursive https://github.com/hungnguyenm/dotfiles"
+alias reldotfiles="git -C ~/dotfiles pull"
 
-alias tn="tmux new-session"
 alias tcc="tmux -CC"
 alias tlk="tmux list-keys"
 
-case `uname` in
-  Darwin)
-    alias sshfs-u="umount"
-    ;;
-  Linux)
-    alias sshfs-u="fusermount -u"
-    ;;
-esac
-
-function sai() { sudo apt-get install "$*"; }
+alias sai="sudo apt-get install"
 alias sap="sudo apt-get update"
 alias sad="sudo apt-get upgrade"
 
@@ -66,6 +57,33 @@ alias emacs="emacs -nw"
 function xcopy() { xsel --clipboard < "$*"; }
 function xover() { xsel --clipboard > "$*"; }
 function xpaste() { xsel --clipboard >> "$*"; }
+
+[[ -r ~/.ssh/config ]] && _ssh_config=(${${${(@M)${(f)"$(cat ~/.ssh/config)"}:#Host *}#Host }:#*[*?]*})
+function fs() {
+  if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]] ; then
+    mkdir -p ~/remote/"$1"
+    if [[ -n "$2" ]] ; then
+      sshfs "$1": ~/remote/"$1"
+    else
+      sshfs "$1":"$2" ~/remote/"$1"
+    fi
+  else
+    echo "fatal: fs only works with hosts defined in ~/.ssh/config\n\rUsage: fs host OR fs host path"
+  fi
+}
+
+function fsu() {
+  if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]] ; then
+    case `uname` in
+      Darwin) umount ~/remote/"$1"
+        ;;
+      Linux) fusermount -u ~/remote/"$1"
+        ;;
+    esac
+  else
+    echo "fatal: fsu only works with hosts defined in ~/.ssh/config"
+  fi
+}
 
 # Path
 PATH="/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/bin:$PATH"
@@ -80,9 +98,6 @@ PATH="$PATH:/Applications/sage"
 # - Ubuntu - android-studio
 PATH="$PATH:$HOME/opt/android-studio/bin"
 PATH="$PATH:$HOME/Android/Sdk/platform-tools"
-
-# - LD_LIBRARY_PATH ~ for RTI DDS
-#LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/home/hung/exe/rti_connext_dds-5.2.3/lib/x64Linux3gcc4.8.2"
 
 export PATH
 export EDITOR=vim
@@ -111,4 +126,12 @@ autoload -U add-zsh-hook
 # Plugins
 plugins=(common-aliases ssh-agent git extract osx brew tmux z sublime zsh-syntax-highlighting)
 
+
+# Finally, source OMZ and update styles
 source $ZSH/oh-my-zsh.sh
+
+zstyle -s ':completion:*:hosts' hosts _ssh_config
+zstyle ':completion:*:hosts' hosts $_ssh_config
+
+compdef _hosts fs
+compdef _hosts fsu
