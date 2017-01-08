@@ -40,9 +40,10 @@ if [ "$TERM" = "xterm" ]; then
 fi
 
 # Aliases
-alias reload="echo 'reload help:\n\r\n\rreloadzsh: reload zsh\n\rreloaddotfiles: redownload dotfiles'"
-alias reloadzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
-alias reloaddotfiles="rm -rf ~/dotfiles; git clone --recursive https://github.com/hungnguyenm/dotfiles"
+alias reload="echo 'reload help:\n\r\n\rreload_zsh: reload zsh\n\rreload_dotfiles: git pull dotfiles\n\rreclone_dotfiles: rm and redownload dotfiles'"
+alias reload_zsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
+alias reclone_dotfiles="rm -rf ~/dotfiles; git clone --recursive https://github.com/hungnguyenm/dotfiles"
+alias reload_dotfiles="git pull -C ~/dotfiles"
 
 alias tcc="tmux -CC"
 alias tlk="tmux list-keys"
