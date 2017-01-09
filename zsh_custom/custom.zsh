@@ -17,8 +17,9 @@ function xcopy() { xsel --clipboard < "$*"; }
 function xover() { xsel --clipboard > "$*"; }
 function xpaste() { xsel --clipboard >> "$*"; }
 
+[ -r ~/.ssh/config ] && _ssh_config=($(cat ~/.ssh/config | sed -ne 's/Host[=/t ]\([^\*]\)/\1/p')) || _ssh_config=()
 function fs() {
-  if [[ -n "$1" ]] ; then
+  if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     mkdir -p ~/remote/"$1"
     if [[ -n "$2" ]] ; then
       sshfs "$1":"$2" ~/remote/"$1"
@@ -31,7 +32,7 @@ function fs() {
 }
 
 function fsu() {
-  if [[ -n "$1" ]] ; then
+  if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     case `uname` in
       Darwin) umount ~/remote/"$1"
         ;;
@@ -43,8 +44,15 @@ function fsu() {
   fi
 }
 
-compdef fs=ssh
-compdef fsu=ssh
+function fsc() {
+  if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+    cd ~/remote/"$1"
+  else
+    echo "fatal: fsc only works with hosts defined in ~/.ssh/config"
+  fi
+}
+
+compctl -k "($_ssh_config)" fs fsu fsc
 
 # Environment
 # - update tmux environment variables
