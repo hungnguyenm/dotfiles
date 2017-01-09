@@ -23,6 +23,7 @@ function xpaste() { xsel --clipboard >> "$*"; }
 function fs() {
   if [[ -r ~/.ssh/config ]]; then
   	if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+      echo "Mounting remote host "$1":"$2""
       mkdir -p ~/remote/"$1"
       if [[ -n "$2" ]] ; then
         sshfs "$1":"$2" ~/remote/"$1"
@@ -40,6 +41,7 @@ function fs() {
 function fsu() {
   if [[ -r ~/.ssh/config ]]; then
   	if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+      echo "Unmounting remote host "$1""
       case `uname` in
         Darwin) umount ~/remote/"$1"
           ;;
@@ -66,7 +68,35 @@ function fsc() {
   fi
 }
 
-compctl -k "($_ssh_config)" fs fsu fsc
+function fsl() {
+  mount | sed -ne 's/\(\/remote\/\)/\1/p'
+}
+
+function fso() {
+  if [[ -n "$1" ]]; then
+    if ! (mount | grep remote/"$1" > /dev/null); then
+      echo "Mounting remote host "$1":"$2""
+      if [[ -n "$2" ]]; then
+        fs "$1" "$2"
+      else
+        fs "$1"
+      fi
+    fi
+
+    case `uname` in
+      Darwin)
+        ofd ~/remote/"$1"
+        ;;
+      Linux) 
+        echo "Linux Host: will not open file manager"
+        ;;
+    esac
+  else
+    echo "Usage: fso host OR fso host path"
+  fi
+}
+
+compctl -k "($_ssh_config)" fs fsu fsc fso
 
 # Environment
 # - update tmux environment variables
