@@ -9,6 +9,8 @@ alias tlk="tmux list-keys"
 
 alias emacs="emacs -nw"
 
+alias catc="colorize"
+
 # Additional alias functions
 function xcopy() { xsel --clipboard < "$*"; }
 function xover() { xsel --clipboard > "$*"; }
