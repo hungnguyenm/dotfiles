@@ -19,36 +19,48 @@ function xpaste() { xsel --clipboard >> "$*"; }
 
 [ -r ~/.ssh/config ] && _ssh_config=($(cat ~/.ssh/config | sed -ne 's/Host[=/t ]\([^\*]\)/\1/p')) || _ssh_config=()
 function fs() {
-  if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
-    mkdir -p ~/remote/"$1"
-    if [[ -n "$2" ]] ; then
-      sshfs "$1":"$2" ~/remote/"$1"
+  if [[ -r ~/.ssh/config ]]; then
+  	if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+      mkdir -p ~/remote/"$1"
+      if [[ -n "$2" ]] ; then
+        sshfs "$1":"$2" ~/remote/"$1"
+      else
+        sshfs "$1": ~/remote/"$1"
+      fi
     else
-      sshfs "$1": ~/remote/"$1"
+      echo "fatal: fs only works with hosts defined in ~/.ssh/config\n\rUsage: fs host OR fs host path"
     fi
   else
-    echo "fatal: fs only works with hosts defined in ~/.ssh/config\n\rUsage: fs host OR fs host path"
+  	echo "fatal: ~/.ssh/config doesn't exist"
   fi
 }
 
 function fsu() {
-  if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
-    case `uname` in
-      Darwin) umount ~/remote/"$1"
-        ;;
-      Linux) fusermount -u ~/remote/"$1"
-        ;;
-    esac
+  if [[ -r ~/.ssh/config ]]; then
+  	if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+      case `uname` in
+        Darwin) umount ~/remote/"$1"
+          ;;
+        Linux) fusermount -u ~/remote/"$1"
+          ;;
+      esac
+    else
+      echo "fatal: fsu only works with hosts defined in ~/.ssh/config\n\rUsage: fsu host"
+    fi
   else
-    echo "fatal: fsu only works with hosts defined in ~/.ssh/config"
+  	echo "fatal: ~/.ssh/config doesn't exist"
   fi
 }
 
 function fsc() {
-  if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
-    cd ~/remote/"$1"
+  if [[ -r ~/.ssh/config ]]; then
+  	if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+      cd ~/remote/"$1"
+    else
+      echo "fatal: fsc only works with hosts defined in ~/.ssh/config\n\rUsage: fsc host"
+    fi
   else
-    echo "fatal: fsc only works with hosts defined in ~/.ssh/config"
+  	echo "fatal: ~/.ssh/config doesn't exist"
   fi
 }
 
