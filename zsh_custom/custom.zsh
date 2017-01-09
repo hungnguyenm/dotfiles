@@ -96,19 +96,19 @@ function fso() {
   fi
 }
 
-function sshc() {
-  if [[ -r ~/.ssh/config ]]; then
-  	if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
-      ssh -t "$1" "SSH_CLIENT_SHORT_HOST="$SHORT_HOST" '$SHELL'"
-    else
-      echo "fatal: sshc only works with hosts defined in ~/.ssh/config"
-    fi
+function ssh() {
+  if (( ${#} == 1 )); then
+  	if [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  	  command ssh -t "$1" "SSH_CLIENT_SHORT_HOST="$SHORT_HOST" '$SHELL'"
+  	else
+  	  command ssh "$@"
+  	fi
   else
-  	echo "fatal: ~/.ssh/config doesn't exist"
+  	command ssh "$@"
   fi
 }
 
-compctl -k "($_ssh_config)" fs fsu fsc fso sshc
+compctl -k "($_ssh_config)" fs fsu fsc fso
 
 # Environment
 # - update tmux environment variables
