@@ -1,6 +1,14 @@
 # Path to oh-my-zsh configuration
-ZSH=$HOME/.oh-my-zsh
+ZSH=$HOME/dotfiles/oh-my-zsh
 ZSH_CUSTOM=$HOME/dotfiles/zsh_custom
+
+# Cache paths
+mkdir -p ~/.zsh
+ZSH_CACHE=$HOME/.zsh
+ZSH_CACHE_DIR=$ZSH_CACHE
+ZDOTDIR=$ZSH_CACHE
+_Z_DATA=$ZSH_CACHE/.z
+HISTFILE=$ZSH_CACHE/.zsh_history
 
 # ROS
 if [[ -f /opt/ros/indigo/setup.zsh && -r /opt/ros/indigo/setup.zsh ]]; then

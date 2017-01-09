@@ -12,6 +12,8 @@ alias emacs="emacs -nw"
 
 alias catc="colorize"
 
+alias rmf="rm -rf"
+
 # Additional alias functions
 function xcopy() { xsel --clipboard < "$*"; }
 function xover() { xsel --clipboard > "$*"; }
