@@ -1,8 +1,9 @@
 # Aliases
 alias reload="echo 'reload help:\n\r\n\rrelzsh: reload zsh\n\rreldotfiles: git pull dotfiles\n\rrecdotfiles: rm and redownload dotfiles'"
 alias relzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
-alias recdotfiles="rm -rf ~/dotfiles; git clone --recursive https://github.com/hungnguyenm/dotfiles"
 alias reldotfiles="git -C ~/dotfiles pull"
+alias recdotfiles="rm -rf ~/dotfiles; git clone --recursive https://github.com/hungnguyenm/dotfiles"
+alias reccdotfiles="rm -rf ~/dotfiles; git clone --recursive git@github.com:hungnguyenm/dotfiles.git"
 
 alias tcc="tmux -CC"
 alias tlk="tmux list-keys"
