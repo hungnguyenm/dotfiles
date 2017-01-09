@@ -76,7 +76,11 @@ function git_prompt() {
 
 # prompt
 if [ -n "$SSH_CLIENT" ]; then
-	PROMPT='[%{$fg[blue]%}%B%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)%{$reset_color%}%(!.#.$) '
+	if [ -n "$SSH_CLIENT_SHORT_HOST" ]; then
+		PROMPT='[%{$fg[$NCOLOR]%}$SSH_CLIENT_SHORT_HOST$fg[blue]%}%B@%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)%{$reset_color%}%(!.#.$) '
+	else
+		PROMPT='[%{$fg[blue]%}%B%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)%{$reset_color%}%(!.#.$) '
+	fi
 else
 	PROMPT='[%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)%{$reset_color%}%(!.#.$) '
 fi
