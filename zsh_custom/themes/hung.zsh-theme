@@ -75,6 +75,9 @@ function git_prompt() {
 }
 
 # prompt
+# - if superuser make the username green
+if [ $UID -eq 0 ]; then NCOLOR="green"; else NCOLOR="white"; fi
+
 if [ -n "$SSH_CLIENT" ]; then
 	if [ -n "$SSH_CLIENT_SHORT_HOST" ]; then
 		PROMPT='[%{$fg[$NCOLOR]%}$SSH_CLIENT_SHORT_HOST$fg[blue]%}%B@%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)%{$reset_color%}%(!.#.$) '

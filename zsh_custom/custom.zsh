@@ -108,7 +108,7 @@ function sshc() {
   fi
 }
 
-compctl -k "($_ssh_config)" fs fsu fsc fso
+compctl -k "($_ssh_config)" fs fsu fsc fso sshc
 
 # Environment
 # - update tmux environment variables
