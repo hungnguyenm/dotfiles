@@ -42,8 +42,8 @@ function fsu() {
   fi
 }
 
-compdef _hosts fs
-compdef _hosts fsu
+compdef fs=ssh
+compdef fsu=ssh
 
 # Environment
 # - update tmux environment variables
