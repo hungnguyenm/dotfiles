@@ -64,7 +64,7 @@ autoload -U add-zsh-hook
 GIT_AUTO_FETCH_INTERVAL=3600 #in seconds
 
 # Plugins
-plugins=(common-aliases ssh-agent git git-auto-fetch osx debian tmux z extract gradle docker sublime personal zsh-syntax-highlighting)
+plugins=(common-aliases ssh-agent git git-auto-fetch osx debian tmux z extract gradle docker sublime personal colorize zsh-syntax-highlighting)
 
 
 # Finally, source OMZ and update styles
