@@ -32,7 +32,7 @@ if [ "$TERM" = "xterm" ]; then
 fi
 
 # Path
-PATH="/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin:$HOME/bin:$PATH"
+PATH="$HOME/bin:/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 
 # - OSX
 PATH="$PATH:/opt/X11/bin"
