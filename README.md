@@ -5,7 +5,7 @@ This repository includes all of my custom dotfiles.  They should be cloned to yo
 ## Installation
 ``` bash
 git clone git://github.com/hungnguyenm/dotfiles ~/dotfiles
-cd ~/dotfiles
+cd ~/dotfiles/scripts
 ./setup.sh
 ```
 
