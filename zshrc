@@ -1,5 +1,11 @@
 # Re-source zshenv in case values were overwritten (in arch and macOS)
-source ~/.zshenv
+if [[ -f ~/.zshenv ]]; then
+  source ~/.zshenv
+elif [[ -f ~/dotfiles/zshenv ]]
+  source ~/dotfiles/zshenv
+else
+  echo "Cannot find zshenv, environment may not be setup correctly."
+fi
 
 # Prepare directories
 mkdir -p $ZSH_CACHE_DIR $ZSH_VIM_BACKUPS $ZSH_VIM_SWAPS $ZSH_VIM_UNDO
