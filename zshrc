@@ -13,13 +13,14 @@ mkdir -p $ZSH_CACHE_DIR $ZSH_VIM_BACKUPS $ZSH_VIM_SWAPS $ZSH_VIM_UNDO
 # Path to oh-my-zsh configuration
 ZSH=$DOTFILES_DIR/oh-my-zsh
 ZSH_CUSTOM=$DOTFILES_DIR/zsh_custom
+ZDOTDIR=$ZSH_CACHE_DIR
 
 # Cache paths
 _Z_DATA=$ZSH_CACHE_DIR/.z
 HISTFILE=$ZSH_CACHE_DIR/.zsh_history
 
 # Additional completions
-#fpath=($ZSH_CUSTOM/completions $fpath)
+fpath=($ZSH_CUSTOM/completions $fpath)
 
 # ROS
 if [[ -f /opt/ros/indigo/setup.zsh ]]; then
