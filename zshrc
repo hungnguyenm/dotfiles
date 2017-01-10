@@ -11,6 +11,11 @@ ZDOTDIR=$ZSH_CACHE
 _Z_DATA=$ZSH_CACHE/.z
 HISTFILE=$ZSH_CACHE/.zsh_history
 
+ZSH_VIM_BACKUPS=$ZSH_CACHE_DIR/vim_backups
+ZSH_VIM_SWAPS=$ZSH_CACHE_DIR/vim_swaps
+ZSH_VIM_UNDO=$ZSH_CACHE_DIR/vim_undo
+mkdir -p $ZSH_VIM_BACKUPS $ZSH_VIM_SWAPS $ZSH_VIM_UNDO
+
 # ROS
 if [[ -f /opt/ros/indigo/setup.zsh && -r /opt/ros/indigo/setup.zsh ]]; then
   source /opt/ros/indigo/setup.zsh
@@ -45,7 +50,7 @@ PATH="$PATH:/Applications/sage"
 PATH="$PATH:$HOME/opt/android-studio/bin"
 PATH="$PATH:$HOME/Android/Sdk/platform-tools"
 
-export PATH
+export PATH ZSH_VIM_BACKUPS ZSH_VIM_SWAPS ZSH_VIM_UNDO
 export EDITOR=vim
 
 # Configs
@@ -59,8 +64,17 @@ setopt interactivecomments
 autoload -U compinit
 compinit
 
+# - Enable spelling correction
+setopt correct
+
 # - Display dots while waiting for completion
 COMPLETION_WAITING_DOTS="true"
+
+# - Prevent accidentally overwriting an existing file. Use >! to force overwrite
+setopt noclobber
+
+# - History optimization
+setopt histignoredups
 
 # ssh-agent
 zstyle :omz:plugins:ssh-agent agent-forwarding on
