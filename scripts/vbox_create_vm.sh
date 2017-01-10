@@ -4,12 +4,21 @@
 # - 4GB memory
 # - 40GB same name vdi
 # - cert folder: ../certs
-# - iso: ~/iso/ubuntu-14.04.5-desktop-amd64.iso
+# - iso: ~/iso/ubuntu-16.04.1-desktop-amd64.iso
 
 VM_MEM=4096
 VM_HDD=40000
 CERT_DIR="../certs"
-ISO_FILE="~/iso/ubuntu-14.04.5-desktop-amd64.iso"
+ISO_FILE="~/iso/ubuntu-16.04.1-desktop-amd64.iso"
+
+if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
+  echo "fatal: bad arguments\r\nUsage: command vmname ssh_port rdp_port"
+  exit
+fi
+
+VM_NAME="$1"
+VM_SSH_PORT=$2
+VM_RDP_PORT=$3
 
 while [[ $# -gt 1 ]]
 do
@@ -38,14 +47,6 @@ esac
 shift # past argument or value
 done
 
-if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
-  echo "fatal: bad arguments\r\nUsage: command vmname ssh_port rdp_port"
-  exit
-fi
-
-VM_NAME="$1"
-VM_SSH_PORT=$2
-VM_RDP_PORT=$3
 
 # Basic configuration
 VBoxManage createvm --name "$VM_NAME" --ostype Linux_64 --register
