@@ -26,6 +26,7 @@ alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 alias catc="colorize"
 alias path='echo -e ${PATH//:/\\n}'
+alias zsh_debug="/bin/zsh -i -x -c exit; set +xv;"
 
 # virtualbox
 alias vbm="VBoxManage"

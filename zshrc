@@ -52,9 +52,9 @@ DEFAULT_USER=hung
 # - Turn on interactive comments
 setopt interactivecomments
 
-# - Enable autocompletion
-autoload -U compinit
-compinit
+# - Enable autocompletion - no need, oh-my-zsh will call this anw
+#autoload -U compinit
+#compinit
 
 # - Enable spelling correction
 setopt correct
