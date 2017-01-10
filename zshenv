@@ -25,3 +25,6 @@ PATH="$PATH:$HOME/opt/android-studio/bin"
 PATH="$PATH:$HOME/Android/Sdk/platform-tools"
 
 export PATH
+
+# Ignore some system global files
+skip_global_compinit=1
