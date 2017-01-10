@@ -95,3 +95,25 @@ function ssh() {
 }
 
 compctl -k "($_ssh_config)" fs fsu fsc fso
+
+# virtualbox functions
+function vbm-poweroff() {
+  VBoxManage controlvm "$1" poweroff
+}
+
+function vbm-reset() {
+  VBoxManage controlvm "$1" reset
+}
+
+function vbm-shutdown() {
+  VBoxManage controlvm "$1" shutdown
+}
+
+function vbm-start-headless() {
+  VBoxManage startvm "$1" --type headless
+}
+
+compdef _vboxmachines vbm-poweroff
+compdef _vboxmachines vbm-reset
+compdef _vboxmachines vbm-shutdown
+compdef _vboxmachines vbm-start-headless
