@@ -112,8 +112,3 @@ function vbm-shutdown() {
 function vbm-start-headless() {
   VBoxManage startvm "$1" --type headless
 }
-
-compdef _vboxmachines vbm-poweroff
-compdef _vboxmachines vbm-reset
-compdef _vboxmachines vbm-shutdown
-compdef _vboxmachines vbm-start-headless
