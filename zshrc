@@ -16,6 +16,9 @@ ZSH_VIM_SWAPS=$ZSH_CACHE_DIR/vim_swaps
 ZSH_VIM_UNDO=$ZSH_CACHE_DIR/vim_undo
 mkdir -p $ZSH_VIM_BACKUPS $ZSH_VIM_SWAPS $ZSH_VIM_UNDO
 
+# Additional completions
+fpath=($ZSH_CUSTOM/completions $fpath)
+
 # ROS
 if [[ -f /opt/ros/indigo/setup.zsh && -r /opt/ros/indigo/setup.zsh ]]; then
   source /opt/ros/indigo/setup.zsh

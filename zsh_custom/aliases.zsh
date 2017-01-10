@@ -27,6 +27,10 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 alias catc="colorize"
 alias path='echo -e ${PATH//:/\\n}'
 
+# virtualbox
+alias vbm="VboxManage"
+compdef _vboxmanage vbm
+
 # macOS aliases
 alias clean_dsfile="find . -type f -name '*.DS_Store' -ls -delete"
 
