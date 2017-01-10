@@ -1,7 +1,7 @@
 # Re-source zshenv in case values were overwritten (in arch and macOS)
 if [[ -f ~/.zshenv ]]; then
   source ~/.zshenv
-elif [[ -f ~/dotfiles/zshenv ]]
+elif [[ -f ~/dotfiles/zshenv ]]; then
   source ~/dotfiles/zshenv
 else
   echo "Cannot find zshenv, environment may not be setup correctly."
