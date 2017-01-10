@@ -51,19 +51,19 @@ VM_RDP_PORT=$3
 VBoxManage createvm --name "$VM_NAME" --ostype Linux_64 --register
 VBoxManage modifyvm "$VM_NAME" --memory $VM_MEM --acpi on --boot1 dvd --nic1 nat
 cd "$VM_NAME"
-VBoxManage createhd --filename "VM_NAME.vdi" --size $VM_HDD
+VBoxManage createhd --filename "$VM_NAME.vdi" --size $VM_HDD
 VBoxManage storagectl "$VM_NAME" --name "IDE Controller" --add ide --controller PIIX4
-VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium "VM_NAME.vdi"
+VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium "$VM_NAME.vdi"
 VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 1 --type dvddrive --medium "$ISO_FILE"
 
 # Network
-VBoxManage modifyvm "$VM_NAME" --natpf1 "guestssh,tcp,,$3,,22"
+VBoxManage modifyvm "$VM_NAME" --natpf1 "guestssh,tcp,,$VM_SSH_PORT,,22"
 
 # Remote desktop
 VBoxManage setproperty vrdeauthlibrary "VBoxAuthSimple"
 VBoxManage modifyvm "$VM_NAME" --vrde on
 VBoxManage modifyvm "$VM_NAME" --vrdemulticon on
-VBoxManage modifyvm "$VM_NAME" --vrdeport $4
+VBoxManage modifyvm "$VM_NAME" --vrdeport $VM_RDP_PORT
 VBoxManage modifyvm "$VM_NAME" --vrdeauthtype external
 VBoxManage setextradata "$VM_NAME" "VBoxAuthSimple/users/hung" 60ba7ff9cb21414f8a23de131b2cb8a41fc4d64b2c0b8855dfea797da9bd5a6e
 
