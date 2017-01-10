@@ -19,7 +19,7 @@ _Z_DATA=$ZSH_CACHE_DIR/.z
 HISTFILE=$ZSH_CACHE_DIR/.zsh_history
 
 # Additional completions
-fpath=($ZSH_CUSTOM/completions $fpath)
+#fpath=($ZSH_CUSTOM/completions $fpath)
 
 # ROS
 if [[ -f /opt/ros/indigo/setup.zsh ]]; then
