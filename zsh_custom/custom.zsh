@@ -6,6 +6,8 @@ alias reldotfiles="git -C "$DOTFILES_DIR" pull; . ~/.zshrc && echo 'ZSH config r
 alias recdotfiles="rm -rf "$DOTFILES_DIR"; git clone --recursive https://github.com/hungnguyenm/dotfiles "$DOTFILES_DIR"; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias recsdotfiles="rm -rf "$DOTFILES_DIR"; git clone --recursive git@github.com:hungnguyenm/dotfiles.git "$DOTFILES_DIR"; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 
+alias cls="clear"
+
 alias gsui="git submodule update --init --recursive --remote"
 
 alias tcc="tmux -CC"
@@ -110,7 +112,7 @@ function fso() {
       Darwin)
         ofd ~/remote/"$1"
         ;;
-      Linux) 
+      Linux)
         nautilus ~/remote/"$1"
         ;;
     esac
