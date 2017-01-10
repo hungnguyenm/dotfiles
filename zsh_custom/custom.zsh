@@ -1,5 +1,5 @@
 # Aliases
-alias reload="echo 'reload help:\n\r\n\rrelzsh: reload zsh\n\rreldotfiles: git pull dotfiles\n\rrecdotfiles: rm and redownload dotfiles'"
+alias reload="echo 'reload help:\n\r\n\rrelzsh: reload zsh\n\rreldotfiles: git pull dotfiles\n\rrecdotfiles: rm and redownload dotfiles\n\rrecsdotfiles: rm and secure redownload dotfiles'"
 alias relzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias reldotfiles="git -C "$DOTFILES_DIR" pull; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias recdotfiles="rm -rf "$DOTFILES_DIR"; git clone --recursive https://github.com/hungnguyenm/dotfiles "$DOTFILES_DIR"; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
@@ -75,7 +75,6 @@ function fsl() {
 function fso() {
   if [[ -n "$1" ]]; then
     if ! (mount | grep remote/"$1" > /dev/null); then
-      echo "Mounting remote host "$1":"$2""
       if [[ -n "$2" ]]; then
         fs "$1" "$2"
       else
@@ -88,7 +87,7 @@ function fso() {
         ofd ~/remote/"$1"
         ;;
       Linux) 
-        echo "Linux Host: will not open file manager"
+        nautilus ~/remote/"$1"
         ;;
     esac
   else
