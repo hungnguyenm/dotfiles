@@ -11,13 +11,6 @@ TMUX_DIR=$HOME/opt/tmux
 TMUX_BIN_DIR=$HOME/bin
 TMUX_TEMP_DIR=$HOME/temp/tmux
 
-if [ `getconf LONG_BIT` = "64" ]
-then
-    TMUX_LIB="lib64"
-else
-    TMUX_LIB="lib"
-fi
-
 # create our directories
 rm -rf $TMUX_DIR $TMUX_TEMP_DIR
 mkdir -p $TMUX_BIN_DIR $TMUX_DIR $TMUX_TEMP_DIR
@@ -51,8 +44,8 @@ cd $TMUX_TEMP_DIR
 wget -O tmux-${TMUX_VERSION}.tar.gz https://github.com/tmux/tmux/releases/download/${TMUX_VERSION}/tmux-${TMUX_VERSION}.tar.gz
 tar xvzf tmux-${TMUX_VERSION}.tar.gz
 cd tmux-${TMUX_VERSION}
-./configure --prefix=$TMUX_DIR --enable-static CFLAGS="-I$TMUX_DIR/include -I$TMUX_DIR/include/ncurses" LDFLAGS="-static -L$TMUX_DIR/$TMUX_LIB -L$TMUX_DIR/include/ncurses -L$TMUX_DIR/include" PKG_CONFIG=/bin/false
-CPPFLAGS="-I$TMUX_DIR/include -I$TMUX_DIR/include/ncurses" LDFLAGS="-static -L$TMUX_DIR/include -L$TMUX_DIR/include/ncurses -L$TMUX_DIR/$TMUX_LIB" make
+./configure --prefix=$TMUX_DIR --enable-static CFLAGS="-I$TMUX_DIR/include -I$TMUX_DIR/include/ncurses" LDFLAGS="-static -L$TMUX_DIR/lib -L$TMUX_DIR/lib64 -L$TMUX_DIR/include/ncurses -L$TMUX_DIR/include" PKG_CONFIG=/bin/false
+CPPFLAGS="-I$TMUX_DIR/include -I$TMUX_DIR/include/ncurses" LDFLAGS="-static -L$TMUX_DIR/include -L$TMUX_DIR/include/ncurses -L$TMUX_DIR/lib -L$TMUX_DIR/lib64" make
 cp tmux $TMUX_BIN_DIR
 cd ~/
 
