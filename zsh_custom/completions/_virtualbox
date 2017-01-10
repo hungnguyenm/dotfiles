@@ -1,4 +1,4 @@
-#compdef VBoxManage=vboxmanage VBoxHeadless=vboxheadless
+#compdef VBoxManage=vboxmanage vbm=vboxmanage VBoxHeadless=vboxheadless vbh=vboxheadless vbm-poweroff=vboxmachines vbm-reset=vboxmachines vbm-shutdown=vboxmachines vbm-start-headless=vboxmachines
 # ------------------------------------------------------------------------------
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:

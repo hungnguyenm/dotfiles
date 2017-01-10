@@ -31,8 +31,6 @@ alias zsh_debug="/bin/zsh -i -x -c exit; set +xv;"
 # virtualbox
 alias vbm="VBoxManage"
 alias vbh="VBoxHeadless"
-compdef _vboxmanage vbm
-compdef _vboxmanage vbh
 
 # macOS aliases
 alias clean_dsfile="find . -type f -name '*.DS_Store' -ls -delete"
