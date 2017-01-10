@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # This script creates a new Virtualbox VM in current folder with following default settings:
 # - 4GB memory
