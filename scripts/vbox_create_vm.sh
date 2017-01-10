@@ -54,7 +54,7 @@ cd "$VM_NAME"
 VBoxManage createhd --filename "VM_NAME.vdi" --size $VM_HDD
 VBoxManage storagectl "$VM_NAME" --name "IDE Controller" --add ide --controller PIIX4
 VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium "VM_NAME.vdi"
-VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 1 --type dvddrive --medium "ISO_FILE"
+VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 1 --type dvddrive --medium "$ISO_FILE"
 
 # Network
 VBoxManage modifyvm "$VM_NAME" --natpf1 "guestssh,tcp,,$3,,22"

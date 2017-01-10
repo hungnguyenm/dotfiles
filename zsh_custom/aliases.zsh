@@ -28,7 +28,7 @@ alias catc="colorize"
 alias path='echo -e ${PATH//:/\\n}'
 
 # virtualbox
-alias vbm="VboxManage"
+alias vbm="VBoxManage"
 compdef _vboxmanage vbm
 
 # macOS aliases
