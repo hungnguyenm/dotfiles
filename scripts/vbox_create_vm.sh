@@ -4,12 +4,12 @@
 # - 4GB memory
 # - 40GB same name vdi
 # - cert folder: ../certs
-# - iso: ~/iso/ubuntu-16.04.1-desktop-amd64.iso
+# - iso: ../../iso/ubuntu-16.04.1-desktop-amd64.iso
 
 VM_MEM=4096
 VM_HDD=40000
 CERT_DIR="../certs"
-ISO_FILE="~/iso/ubuntu-16.04.1-desktop-amd64.iso"
+ISO_FILE="../../iso/ubuntu-16.04.1-desktop-amd64.iso"
 
 if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
   echo "fatal: bad arguments\r\nUsage: command vmname ssh_port rdp_port"
@@ -17,8 +17,11 @@ if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]]; then
 fi
 
 VM_NAME="$1"
-VM_SSH_PORT=$2
-VM_RDP_PORT=$3
+shift
+VM_SSH_PORT=$1
+shift
+VM_RDP_PORT=$1
+shift
 
 while [[ $# -gt 1 ]]
 do
@@ -55,7 +58,7 @@ cd "$VM_NAME"
 VBoxManage createhd --filename "$VM_NAME.vdi" --size $VM_HDD
 VBoxManage storagectl "$VM_NAME" --name "IDE Controller" --add ide --controller PIIX4
 VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium "$VM_NAME.vdi"
-VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 1 --type dvddrive --medium $ISO_FILE
+VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 1 --type dvddrive --medium "$ISO_FILE"
 
 # Network
 VBoxManage modifyvm "$VM_NAME" --natpf1 "guestssh,tcp,,$VM_SSH_PORT,,22"
