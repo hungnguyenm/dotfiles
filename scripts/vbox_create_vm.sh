@@ -58,7 +58,7 @@ VBoxManage createvm --name "$VM_NAME" --ostype Linux_64 --register
 VBoxManage modifyvm "$VM_NAME" --memory $VM_MEM --acpi on --boot1 dvd --nic1 nat
 VBoxManage createhd --filename "$VM_NAME/$VM_NAME.vdi" --size $VM_HDD
 VBoxManage storagectl "$VM_NAME" --name "IDE Controller" --add ide --controller PIIX4
-VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium "$VM_NAME.vdi"
+VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 0 --type hdd --medium "$VM_NAME/$VM_NAME.vdi"
 VBoxManage storageattach "$VM_NAME" --storagectl "IDE Controller" --port 0 --device 1 --type dvddrive --medium "$ISO_FILE"
 
 # Network
