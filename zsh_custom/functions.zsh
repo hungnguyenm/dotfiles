@@ -112,3 +112,63 @@ function vbm-shutdown() {
 function vbm-start-headless() {
   VBoxManage startvm "$1" --type headless
 }
+
+function vbm-delete() {
+  if [[ -n "$1" ]]; then
+    if [[ $(vbm list runningvms | egrep -c "$1") -gt 0 ]]; then
+      VBoxManage controlvm "$1" poweroff
+    fi
+    VBoxManage unregistervm "$1" --delete
+  else
+    echo "Usage: vbm-delete vmname"
+  fi
+}
+
+# private configuration
+_config_profile="ubuntu-desktop ubuntu-server debian-embedded"
+
+function config-test() {
+  git_clone_private
+  source $PRIVATE_FOLDER/echo.sh
+  git_remove_private
+}
+
+function config-ssh() {
+  if [[ -n "$1" ]] && [[ $_config_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+    git_clone_private
+    source $PRIVATE_FOLDER/ssh/"$1".sh
+    git_remove_private
+  else
+    echo "fatal: invalid profile"
+  fi
+}
+
+function config-ssh-restart() {
+  if [[ strings /sbin/init | grep -q "/lib/systemd" ]]; then
+    sudo systemctl restart ssh
+  else
+    sudo /etc/init.d/ssh restart
+  fi
+}
+
+function config-firewall() {
+  if [[ -n "$1" ]] && [[ $_config_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+    git_clone_private
+    source $PRIVATE_FOLDER/firewall/"$1".sh
+    git_remove_private
+  else
+    echo "fatal: invalid profile"
+  fi
+}
+
+compctl -k "($_config_profile)" config-ssh
+
+# helper functions
+function git_clone_private() {
+  rm -rf $PRIVATE_FOLDER
+  git clone $PRIVATE_GIT $PRIVATE_FOLDER
+}
+
+function git_remove_private() {
+  rm -rf $PRIVATE_FOLDER
+}

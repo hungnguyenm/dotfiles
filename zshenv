@@ -7,6 +7,8 @@ export ZSH_VIM_SWAPS=$ZSH_CACHE_DIR/vim_swaps
 export ZSH_VIM_UNDO=$ZSH_CACHE_DIR/vim_undo
 
 export EDITOR=vim
+export PRIVATE_FOLDER=$ZSH_CACHE_DIR/private
+export PRIVATE_GIT="git@github.com:hungnguyenm/dotfiles_private.git"
 
 # Path
 PATH="$HOME/bin:/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
