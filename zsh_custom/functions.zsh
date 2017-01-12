@@ -181,9 +181,9 @@ function config-firewall() {
 function config-firewall-nat-add() {
   if [[ -n "$1" ]] && [[ -n "$2" ]] && [[ -n "$3" ]]; then
     # backup
-    mkdir -p $DOTFILES_DIR/local/iptables
-    sudo iptables-save >! $DOTFILES_DIR/local/iptables/rules.old.v4
-    sudo ip6tables-save >! $DOTFILES_DIR/local/iptables/rules.old.v6
+    mkdir -p $DOTFILES_DIR/backup/iptables
+    sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v4
+    sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v6
 
     sudo iptables -t nat -D PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3 2> /dev/null
     sudo iptables -t nat -A PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3
@@ -191,8 +191,8 @@ function config-firewall-nat-add() {
     sudo iptables -I FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT
 
     # backup
-    sudo iptables-save >! $DOTFILES_DIR/local/iptables/rules.v4
-    sudo ip6tables-save >! $DOTFILES_DIR/local/iptables/rules.v6
+    sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.v4
+    sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.v6
   else
     echo "fatal: bad arguments"
   fi
@@ -201,16 +201,16 @@ function config-firewall-nat-add() {
 function config-firewall-nat-delete() {
   if [[ -n "$1" ]] && [[ -n "$2" ]] && [[ -n "$3" ]]; then
     # backup
-    mkdir -p $DOTFILES_DIR/local/iptables
-    sudo iptables-save >! $DOTFILES_DIR/local/iptables/rules.old.v4
-    sudo ip6tables-save >! $DOTFILES_DIR/local/iptables/rules.old.v6
+    mkdir -p $DOTFILES_DIR/backup/iptables
+    sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v4
+    sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v6
 
     sudo iptables -t nat -D PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3
     sudo iptables -I FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT
 
     # backup
-    sudo iptables-save >! $DOTFILES_DIR/local/iptables/rules.v4
-    sudo ip6tables-save >! $DOTFILES_DIR/local/iptables/rules.v6
+    sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.v4
+    sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.v6
   else
     echo "fatal: bad arguments"
   fi
@@ -231,9 +231,9 @@ function config-show() {
         sudo ip6tables -L -v
 
         # backup
-        mkdir -p $DOTFILES_DIR/local/iptables
-        sudo iptables-save >! $DOTFILES_DIR/local/iptables/rules.v4
-        sudo ip6tables-save >! $DOTFILES_DIR/local/iptables/rules.v6
+        mkdir -p $DOTFILES_DIR/backup/iptables
+        sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.v4
+        sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.v6
         ;;
       *) echo "nah"
         ;;
@@ -248,6 +248,20 @@ compctl -k "($_firewall_profile)" config-firewall
 compctl -k "($_config_profile)" config-show
 
 # backup
+function backup-backup() {
+  git_clone_private
+  _now=`date +%Y-%m-%d_%H-%M-%S`
+  mkdir -p "$PRIVATE_FOLDER/backup/backup/$SHORT_HOST/$_now"
+  cp -r $DOTFILES_DIR/backup/* $PRIVATE_FOLDER/backup/backup/$SHORT_HOST/$_now
+  cd $PRIVATE_FOLDER/backup/backup/$SHORT_HOST/$_now
+  git add --all --force
+  cd $PRIVATE_FOLDER
+  git commit -a -m "back up backup from $SHORT_HOST"
+  git push
+  cd -2
+  git_remove_private
+}
+
 function backup-local() {
   git_clone_private
   _now=`date +%Y-%m-%d_%H-%M-%S`
