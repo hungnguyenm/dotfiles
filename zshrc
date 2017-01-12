@@ -83,7 +83,7 @@ plugins=(common-aliases ssh-agent git git-auto-fetch osx debian sudo tmux z extr
 
 
 # Finally, source local files
-for local_file ($DOTFILES_DIR/local/*.zsh); do
+for local_file ($DOTFILES_DIR/local/*.zsh(.N)); do
   source $local_file
 done
 
