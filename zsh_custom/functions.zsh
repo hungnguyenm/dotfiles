@@ -137,7 +137,7 @@ function config-test() {
 function config-ssh() {
   if [[ -n "$1" ]] && [[ $_ssh_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     git_clone_private
-    sudo $PRIVATE_FOLDER/ssh/"$1".sh
+    $PRIVATE_FOLDER/ssh/"$1".sh
     git_remove_private
   else
     echo "fatal: invalid profile"
