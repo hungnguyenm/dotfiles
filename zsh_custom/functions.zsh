@@ -125,15 +125,13 @@ function vbm-delete() {
 }
 
 # private configuration
-_ssh_profile="ubuntu-desktop ubuntu-server debian-embedded"
-_firewall_profile="default server erx-local"
-
 function config-test() {
   git_clone_private
   $PRIVATE_FOLDER/echo.sh
   git_remove_private
 }
 
+_ssh_profile="ubuntu-desktop ubuntu-server debian-embedded"
 function config-ssh() {
   if [[ -n "$1" ]] && [[ $_ssh_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     git_clone_private
@@ -152,6 +150,7 @@ function config-ssh-restart() {
   fi
 }
 
+_firewall_profile="default server erx-local"
 function config-firewall() {
   if [[ -n "$1" ]] && [[ $_firewall_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     git_clone_private
@@ -162,15 +161,27 @@ function config-firewall() {
   fi
 }
 
-function config-firewall-show() {
-  echo "IPv4 Configuration:\n\r"
-  sudo iptables -L -v
-  echo "\n\rIPv6 Configuration:\n\r"
-  sudo ip6tables -L -v
+_config_profile="firewall"
+function config-show() {
+  if [[ -n "$1" ]] && [[ $_firewall_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+    case "$1" in
+      firewall)
+        echo "IPv4 Configuration:\n\r"
+        sudo iptables -L -v
+        echo "\n\rIPv6 Configuration:\n\r"
+        sudo ip6tables -L -v
+        ;;
+      *) echo "nah"
+        ;;
+    esac
+  else
+    echo "fatal: invalid profile"
+  fi
 }
 
 compctl -k "($_ssh_profile)" config-ssh
 compctl -k "($_firewall_profile)" config-firewall
+compctl -k "($_config_profile)" config-show
 
 # helper functions
 function git_clone_private() {
