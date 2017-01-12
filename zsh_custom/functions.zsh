@@ -162,6 +162,13 @@ function config-firewall() {
   fi
 }
 
+function config-firewall-show() {
+  echo "IPv4 Configuration:\n\r"
+  sudo iptables -L -v
+  echo "\n\rIPv6 Configuration:\n\r"
+  sudo ip6tables -L -v
+}
+
 compctl -k "($_ssh_profile)" config-ssh
 compctl -k "($_firewall_profile)" config-firewall
 
