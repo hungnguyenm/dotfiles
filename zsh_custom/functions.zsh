@@ -125,7 +125,8 @@ function vbm-delete() {
 }
 
 # private configuration
-_config_profile="ubuntu-desktop ubuntu-server debian-embedded"
+_ssh_profile="ubuntu-desktop ubuntu-server debian-embedded"
+_firewall_profile="default server erx-local"
 
 function config-test() {
   git_clone_private
@@ -134,7 +135,7 @@ function config-test() {
 }
 
 function config-ssh() {
-  if [[ -n "$1" ]] && [[ $_config_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  if [[ -n "$1" ]] && [[ $_ssh_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     git_clone_private
     source $PRIVATE_FOLDER/ssh/"$1".sh
     git_remove_private
@@ -152,7 +153,7 @@ function config-ssh-restart() {
 }
 
 function config-firewall() {
-  if [[ -n "$1" ]] && [[ $_config_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  if [[ -n "$1" ]] && [[ $_firewall_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     git_clone_private
     source $PRIVATE_FOLDER/firewall/"$1".sh
     git_remove_private
@@ -161,7 +162,8 @@ function config-firewall() {
   fi
 }
 
-compctl -k "($_config_profile)" config-ssh config-firewall
+compctl -k "($_ssh_profile)" config-ssh
+compctl -k "($_firewall_profile)" config-firewall
 
 # helper functions
 function git_clone_private() {
