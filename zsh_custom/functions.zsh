@@ -130,14 +130,14 @@ _firewall_profile="default server erx-local"
 
 function config-test() {
   git_clone_private
-  source $PRIVATE_FOLDER/echo.sh
+  $PRIVATE_FOLDER/echo.sh
   git_remove_private
 }
 
 function config-ssh() {
   if [[ -n "$1" ]] && [[ $_ssh_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     git_clone_private
-    source $PRIVATE_FOLDER/ssh/"$1".sh
+    sudo $PRIVATE_FOLDER/ssh/"$1".sh
     git_remove_private
   else
     echo "fatal: invalid profile"
