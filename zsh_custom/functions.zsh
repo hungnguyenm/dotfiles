@@ -124,6 +124,11 @@ function vbm-delete() {
   fi
 }
 
+# virsh functions
+function virsh-wget-iso() {
+  sudo wget "$1" --directory-prefix="/var/lib/libvirt/boot/"
+}
+
 # private configuration
 function config-test() {
   git_clone_private
@@ -154,10 +159,30 @@ _firewall_profile="default server erx-local"
 function config-firewall() {
   if [[ -n "$1" ]] && [[ $_firewall_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     git_clone_private
-    source $PRIVATE_FOLDER/scripts/firewall/"$1".zsh
+    $PRIVATE_FOLDER/scripts/firewall/"$1".zsh
     git_remove_private
   else
     echo "fatal: invalid profile"
+  fi
+}
+
+function config-firewall-nat-add() {
+  if [[ -n "$1" ]] && [[ -n "$2" ]] && [[ -n "$3" ]]; then
+    sudo iptables -t nat -D PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3 2> /dev/null
+    sudo iptables -t nat -A PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3
+    sudo iptables -D FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT 2> /dev/null
+    sudo iptables -I FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT
+  else
+    echo "fatal: bad arguments"
+  fi
+}
+
+function config-firewall-nat-delete() {
+  if [[ -n "$1" ]] && [[ -n "$2" ]] && [[ -n "$3" ]]; then
+    sudo iptables -t nat -D PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3
+    sudo iptables -I FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT
+  else
+    echo "fatal: bad arguments"
   fi
 }
 
@@ -166,9 +191,13 @@ function config-show() {
   if [[ -n "$1" ]] && [[ $_config_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     case "$1" in
       firewall)
-        echo "IPv4 Configuration:\n\r"
+        echo "IPv4 CONFIG:\n\r"
         sudo iptables -L -v
-        echo "\n\rIPv6 Configuration:\n\r"
+
+        echo "\n\rIPv4 NAT CONFIG:\n\r"
+        sudo iptables -L -vt nat
+
+        echo "\n\rIPv6 CONFIG:\n\r"
         sudo ip6tables -L -v
         ;;
       *) echo "nah"

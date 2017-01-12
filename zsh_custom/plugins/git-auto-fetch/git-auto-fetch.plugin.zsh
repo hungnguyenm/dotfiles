@@ -22,6 +22,6 @@ eval "original-$(declare -f zle-line-init)"
 
 function zle-line-init () {
   git-fetch-all
-  original-zle-line-init
+  declare -f original-zle-line-init > /dev/null || original-zle-line-init
 }
 zle -N zle-line-init

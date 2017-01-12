@@ -78,9 +78,9 @@ if [ $UID -eq 0 ]; then NCOLOR="green"; else NCOLOR="white"; fi
 
 if [ -n "$SSH_CLIENT" ] && ! [ -n "$TMUX" ]; then
 	if [ -n "$SSH_CLIENT_SHORT_HOST" ]; then
-		PROMPT='[%{$fg[$NCOLOR]%}%{$SSH_CLIENT_SHORT_HOST%${#SSH_CLIENT_SHORT_HOST}G%}%{$fg[blue]%}%B@%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)%{$reset_color%}%(!.#.$) '
+		PROMPT='[%{$fg[$NCOLOR]%}%{$SSH_CLIENT_SHORT_HOST%${#SSH_CLIENT_SHORT_HOST}G%}%{$fg[blue]%}%B@%{$PROMPT_HOST_NAME%${#PROMPT_HOST_NAME}G%}%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)%{$reset_color%}%(!.#.$) '
 	else
-		PROMPT='[%{$fg[blue]%}%B%m%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)%{$reset_color%}%(!.#.$) '
+		PROMPT='[%{$fg[blue]%}%B%{$PROMPT_HOST_NAME%${#PROMPT_HOST_NAME}G%}%b%{$reset_color%}:%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)%{$reset_color%}%(!.#.$) '
 	fi
 else
 	PROMPT='[%{$fg[red]%}%25<...<%~%<<%{$reset_color%}]$(git_prompt)%{$reset_color%}%(!.#.$) '

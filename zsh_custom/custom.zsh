@@ -15,3 +15,6 @@ fi
 function preexec {
     tmux_refresh
 }
+
+# zsh promp to use PREFER_HOST_NAME if it's set
+PROMPT_HOST_NAME="${PREFER_HOST_NAME:-${SHORT_HOST}}"
