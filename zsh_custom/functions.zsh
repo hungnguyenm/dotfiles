@@ -129,6 +129,10 @@ function virsh-wget-iso() {
   sudo wget "$1" --directory-prefix="/var/lib/libvirt/boot/"
 }
 
+function virsh-restart() {
+  sudo /etc/init.d/libvirt-bin restart
+}
+
 function virsh-network-restart() {
   _net_names=$(sudo virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " ")
   for i in "$_net_names"; do
@@ -176,10 +180,19 @@ function config-firewall() {
 
 function config-firewall-nat-add() {
   if [[ -n "$1" ]] && [[ -n "$2" ]] && [[ -n "$3" ]]; then
+    # backup
+    mkdir -p $DOTFILES_DIR/local/iptables
+    sudo iptables-save >! $DOTFILES_DIR/local/iptables/rules.old.v4
+    sudo ip6tables-save >! $DOTFILES_DIR/local/iptables/rules.old.v6
+
     sudo iptables -t nat -D PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3 2> /dev/null
     sudo iptables -t nat -A PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3
     sudo iptables -D FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT 2> /dev/null
     sudo iptables -I FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT
+
+    # backup
+    sudo iptables-save >! $DOTFILES_DIR/local/iptables/rules.v4
+    sudo ip6tables-save >! $DOTFILES_DIR/local/iptables/rules.v6
   else
     echo "fatal: bad arguments"
   fi
@@ -187,8 +200,17 @@ function config-firewall-nat-add() {
 
 function config-firewall-nat-delete() {
   if [[ -n "$1" ]] && [[ -n "$2" ]] && [[ -n "$3" ]]; then
+    # backup
+    mkdir -p $DOTFILES_DIR/local/iptables
+    sudo iptables-save >! $DOTFILES_DIR/local/iptables/rules.old.v4
+    sudo ip6tables-save >! $DOTFILES_DIR/local/iptables/rules.old.v6
+
     sudo iptables -t nat -D PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3
     sudo iptables -I FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT
+
+    # backup
+    sudo iptables-save >! $DOTFILES_DIR/local/iptables/rules.v4
+    sudo ip6tables-save >! $DOTFILES_DIR/local/iptables/rules.v6
   else
     echo "fatal: bad arguments"
   fi
@@ -207,6 +229,11 @@ function config-show() {
 
         echo "\n\rIPv6 CONFIG:\n\r"
         sudo ip6tables -L -v
+
+        # backup
+        mkdir -p $DOTFILES_DIR/local/iptables
+        sudo iptables-save >! $DOTFILES_DIR/local/iptables/rules.v4
+        sudo ip6tables-save >! $DOTFILES_DIR/local/iptables/rules.v6
         ;;
       *) echo "nah"
         ;;
@@ -219,6 +246,21 @@ function config-show() {
 compctl -k "($_ssh_profile)" config-ssh
 compctl -k "($_firewall_profile)" config-firewall
 compctl -k "($_config_profile)" config-show
+
+# backup
+function backup-local() {
+  git_clone_private
+  _now=`date +%Y-%m-%d_%H-%M-%S`
+  mkdir -p "$PRIVATE_FOLDER/backup/local/$SHORT_HOST/$_now"
+  cp -r $DOTFILES_DIR/local/* $PRIVATE_FOLDER/backup/local/$SHORT_HOST/$_now
+  cd $PRIVATE_FOLDER/backup/local/$SHORT_HOST/$_now
+  git add --all --force
+  cd $PRIVATE_FOLDER
+  git commit -a -m "back up local from $SHORT_HOST"
+  git push
+  cd -2
+  git_remove_private
+}
 
 # helper functions
 function git_clone_private() {
