@@ -137,7 +137,7 @@ function config-test() {
 function config-ssh() {
   if [[ -n "$1" ]] && [[ $_ssh_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     git_clone_private
-    $PRIVATE_FOLDER/ssh/"$1".sh
+    $PRIVATE_FOLDER/ssh/"$1".zsh
     git_remove_private
   else
     echo "fatal: invalid profile"
@@ -155,7 +155,7 @@ function config-ssh-restart() {
 function config-firewall() {
   if [[ -n "$1" ]] && [[ $_firewall_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     git_clone_private
-    source $PRIVATE_FOLDER/firewall/"$1".sh
+    source $PRIVATE_FOLDER/firewall/"$1".zsh
     git_remove_private
   else
     echo "fatal: invalid profile"
