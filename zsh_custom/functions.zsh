@@ -161,7 +161,7 @@ function config-firewall() {
   fi
 }
 
-compctl -k "($_config_profile)" config-ssh
+compctl -k "($_config_profile)" config-ssh config-firewall
 
 # helper functions
 function git_clone_private() {
