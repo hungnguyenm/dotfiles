@@ -1,10 +1,10 @@
 # dotfiles
-alias reload="echo 'reload help:\n\r\n\rrels: reload shell\n\rrelzsh: reload zsh\n\rreldotfiles: git pull dotfiles\n\rrecdotfiles: rm and redownload dotfiles\n\rrecsdotfiles: rm and secure redownload dotfiles'"
-alias rels="exec $SHELL -l"
-alias relzsh=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
-alias reldotfiles="git -C "$DOTFILES_DIR" pull; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
-alias recdotfiles="rm -rf "$DOTFILES_DIR"; git clone --recursive https://github.com/hungnguyenm/dotfiles "$DOTFILES_DIR"; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
-alias recsdotfiles="rm -rf "$DOTFILES_DIR"; git clone --recursive git@github.com:hungnguyenm/dotfiles.git "$DOTFILES_DIR"; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
+alias reload="echo 'rls: reload shell\n\rrlz: reload zsh\n\rrldot: git pull dotfiles\n\rrcdot: rm and redownload dotfiles\n\rrcsdot: rm and secure redownload dotfiles'"
+alias rls="exec $SHELL -l"
+alias rlz=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
+alias rldot="git -C "$DOTFILES_DIR" pull; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
+alias rcdot="rm -rf "$DOTFILES_DIR"; git clone --recursive https://github.com/hungnguyenm/dotfiles "$DOTFILES_DIR"; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
+alias rcsdot="rm -rf "$DOTFILES_DIR"; git clone --recursive git@github.com:hungnguyenm/dotfiles.git "$DOTFILES_DIR"; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 
 # short commands
 alias cls="clear"
