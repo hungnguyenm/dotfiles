@@ -150,7 +150,7 @@ case $state in
         return 1
       ;;
       --network)
-        values=( $(_call_program networks "noglob virsh $conn_opt net-list ${net_opts[$cmd]:-"--all"} --name") )
+        values=( $(_call_program networks "noglob virsh $conn_opt net-list ${net_opts[$cmd]:-"--all"} | grep -Eo '^ [^ ]*' | grep -v 'Name'") )
         [[ -n $values ]] && _wanted networks expl network compadd ${=values} && return 0
         return 1
       ;;

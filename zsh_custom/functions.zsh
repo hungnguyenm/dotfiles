@@ -129,6 +129,14 @@ function virsh-wget-iso() {
   sudo wget "$1" --directory-prefix="/var/lib/libvirt/boot/"
 }
 
+function virsh-network-restart() {
+  _net_names=$(sudo virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " ")
+  for i in "$_net_names"; do
+    sudo virsh net-destroy $i 
+    sudo virsh net-start $i
+  done
+}
+
 # private configuration
 function config-test() {
   git_clone_private

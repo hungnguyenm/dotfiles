@@ -1,8 +1,9 @@
 # dotfiles
-alias reload="echo 'rls: reload shell\n\rrlz: reload zsh\n\rrldot: git pull dotfiles\n\rrcdot: rm and redownload dotfiles\n\rrcsdot: rm and secure redownload dotfiles'"
+alias reload="echo 'rls: reload shell\n\rrlz: reload zsh\n\rrldot: git pull dotfiles\n\rrlcomp: rebuild compdump\n\rrcdot: rm and redownload dotfiles\n\rrcsdot: rm and secure redownload dotfiles'"
 alias rls="exec $SHELL -l"
 alias rlz=". ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias rldot="git -C "$DOTFILES_DIR" pull; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
+alias rlcomp="rehash"
 alias rcdot="rm -rf "$DOTFILES_DIR"; git clone --recursive https://github.com/hungnguyenm/dotfiles "$DOTFILES_DIR"; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 alias rcsdot="rm -rf "$DOTFILES_DIR"; git clone --recursive git@github.com:hungnguyenm/dotfiles.git "$DOTFILES_DIR"; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 

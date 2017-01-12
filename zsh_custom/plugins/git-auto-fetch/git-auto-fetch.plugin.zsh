@@ -18,8 +18,7 @@ function git-auto-fetch {
     echo "${fg_bold[red]}disabled${reset_color}")
 }
 
-eval "original-$(declare -f zle-line-init)"
-declare -f original-zle-line-init > /dev/null
+declare -f zle-line-init > /dev/null
 _function_not_exists=$?
 
 if (( $_function_not_exists > 0 )); then
@@ -27,6 +26,7 @@ if (( $_function_not_exists > 0 )); then
     git-fetch-all
   }
 else
+  eval "original-$(declare -f zle-line-init)"
   function zle-line-init () {
     git-fetch-all
     original-zle-line-init
