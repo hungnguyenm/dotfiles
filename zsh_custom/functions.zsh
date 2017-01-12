@@ -163,7 +163,7 @@ function config-firewall() {
 
 _config_profile="firewall"
 function config-show() {
-  if [[ -n "$1" ]] && [[ $_firewall_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  if [[ -n "$1" ]] && [[ $_config_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     case "$1" in
       firewall)
         echo "IPv4 Configuration:\n\r"
