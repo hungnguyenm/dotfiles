@@ -144,7 +144,7 @@ function config-ssh() {
 }
 
 function config-ssh-restart() {
-  if [[ strings /sbin/init | grep -q "/lib/systemd" ]]; then
+  if [[ -n $(strings /sbin/init | grep "/lib/systemd" 2> /dev/null) ]]; then
     sudo systemctl restart ssh
   else
     sudo /etc/init.d/ssh restart
