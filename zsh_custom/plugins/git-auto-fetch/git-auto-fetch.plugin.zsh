@@ -19,9 +19,18 @@ function git-auto-fetch {
 }
 
 eval "original-$(declare -f zle-line-init)"
+declare -f original-zle-line-init > /dev/null
+_function_not_exists=$?
 
-function zle-line-init () {
-  git-fetch-all
-  declare -f original-zle-line-init > /dev/null || original-zle-line-init
-}
+if (( $_function_not_exists > 0 )); then
+  function zle-line-init () {
+    git-fetch-all
+  }
+else
+  function zle-line-init () {
+    git-fetch-all
+    original-zle-line-init
+  }
+fi
+
 zle -N zle-line-init
