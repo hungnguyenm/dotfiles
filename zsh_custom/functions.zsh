@@ -85,7 +85,7 @@ function fso() {
 function ssh() {
   if (( ${#} == 1 )); then
   	if [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
-  	  command ssh -t "$1" "SSH_CLIENT_SHORT_HOST="$SHORT_HOST" '$SHELL'"
+  	  command ssh -t "$1" "SSH_CLIENT_SHORT_HOST="${PREFER_HOST_NAME:-${SHORT_HOST}}" '$SHELL'"
   	else
   	  command ssh "$@"
   	fi
@@ -137,7 +137,7 @@ function config-test() {
 function config-ssh() {
   if [[ -n "$1" ]] && [[ $_ssh_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     git_clone_private
-    $PRIVATE_FOLDER/ssh/"$1".zsh
+    $PRIVATE_FOLDER/scripts/ssh/"$1".zsh
     git_remove_private
   else
     echo "fatal: invalid profile"
@@ -155,7 +155,7 @@ function config-ssh-restart() {
 function config-firewall() {
   if [[ -n "$1" ]] && [[ $_firewall_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     git_clone_private
-    source $PRIVATE_FOLDER/firewall/"$1".zsh
+    source $PRIVATE_FOLDER/scripts/firewall/"$1".zsh
     git_remove_private
   else
     echo "fatal: invalid profile"
@@ -174,6 +174,7 @@ compctl -k "($_firewall_profile)" config-firewall
 
 # helper functions
 function git_clone_private() {
+  mkdir -p $PRIVATE_FOLDER
   rm -rf $PRIVATE_FOLDER
   git clone $PRIVATE_GIT $PRIVATE_FOLDER
 }

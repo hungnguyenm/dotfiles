@@ -82,10 +82,10 @@ GIT_AUTO_FETCH_INTERVAL=3600 #in seconds
 plugins=(common-aliases ssh-agent git git-auto-fetch osx debian sudo tmux z extract gradle docker sublime colorize zsh-syntax-highlighting)
 
 
-# Finally, source OMZ
-source $ZSH/oh-my-zsh.sh
-
-# and local files
-for file in $DOTFILES_DIR/local; do
-    source "$file"
+# Finally, source local files
+for local_file ($DOTFILES_DIR/local/*.zsh); do
+  source $local_file
 done
+
+# and source OMZ
+source $ZSH/oh-my-zsh.sh
