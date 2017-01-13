@@ -255,7 +255,7 @@ function virsh-config-nat-delete() {
   fi
 }
 
-_virsh_config_profile="network"
+_virsh_config_profile="network nat"
 function virsh-config-show() {
   if [[ -n "$1" ]] && [[ $_virsh_config_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
     case "$1" in
@@ -265,6 +265,17 @@ function virsh-config-show() {
           virsh net-dumpxml --network $i >! $DOTFILES_DIR/backup/libvirt/network_$i.xml
           virsh net-dumpxml --network $i
           echo "\r\n"
+        done
+        ;;
+      nat)
+        _vm_list=$(virsh list --all --name)
+        for i in "$_vm_list"; do
+          echo "$i:"
+          _ip_addr=$(virsh_get_ip "$i")
+          sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | \
+              sed -ne "s/.*\(\(tcp\|udp\)\ dpt.*$_ip_addr.*\)/\1/p" | while read ii; do
+            echo $ii
+          done
         done
         ;;
       *) echo "nah"
