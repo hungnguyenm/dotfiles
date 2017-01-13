@@ -293,22 +293,22 @@ compctl -k "($_virsh_config_profile)" virsh-config-show
 
 function virsh-config-backup() {
   _now=`date +%Y-%m-%d_%H-%M-%S`
-  echo "$SHORT_HOST -- $_now" >! $DOTFILES_DIR/backup/libvirt/config.txt
+  echo "$SHORT_HOST -- $_now" | tee $DOTFILES_DIR/backup/libvirt/config.txt
 
   _vm_list=$(virsh list --all --name)
   for i in "$_vm_list"; do
     _ip_addr=$(virsh_get_ip "$i")
-    echo "$i: $_ip_addr" >> $DOTFILES_DIR/backup/libvirt/config.txt
+    echo "$i: $_ip_addr" | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
     sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | \
         sed -ne "s/.*\(\(tcp\|udp\)\ dpt.*$_ip_addr.*\)/\1/p" | while read ii; do
-      echo $ii >> $DOTFILES_DIR/backup/libvirt/config.txt
+      echo $ii | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
     done
   done
 
-  echo "\n\r\n\r" >> $DOTFILES_DIR/backup/libvirt/config.txt
+  echo "\n\r" | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
   _net_names=$(virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " ")
   for i in "$_net_names"; do
-    virsh net-dumpxml --network $i >> $DOTFILES_DIR/backup/libvirt/config.txt
+    virsh net-dumpxml --network $i | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
     echo "\r\n"
   done
 }
