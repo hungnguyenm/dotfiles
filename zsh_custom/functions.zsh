@@ -160,7 +160,7 @@ function virsh-config-network() {
 function virsh-config-staticip() {
   _vm_list=$(virsh list --all --name)
   if [[ -n "$1" ]] && [[ $_vm_list =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
-    _mac_addr=$(virsh dumpxml --domain "$1" | sed -ne "s/.*\([0-9a-fA-F:]\{17\}\).*/\1/p" 2> /dev/null)
+    _mac_addr=$(virsh_get_mac "$1")
 
     # Export file to edit
     mkdir -p $DOTFILES_DIR/backup/libvirt
@@ -192,12 +192,11 @@ function virsh-config-staticip() {
   fi
 }
 
-function virsh-config-nat() {
+function virsh-config-nat-add() {
   _vm_list=$(virsh list --all --name)
   if [[ -n "$2" ]] && [[ -n "$3" ]]; then
     if [[ -n "$1" ]] && [[ $_vm_list =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
-      _mac_addr=$(virsh dumpxml --domain "$1" | sed -ne "s/.*\([0-9a-fA-F:]\{17\}\).*/\1/p" 2> /dev/null)
-      _ip_addr=$(virsh net-dumpxml --network default | sed -ne "s/.*$_mac_addr.*\([0-9]\{3\}\.[0-9]\{3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\).*/\1/p")
+      _ip_addr=$(virsh_get_ip "$1")
 
       if [[ -n "$_ip_addr" ]]; then
         config-firewall-nat-add "$_ip_addr" "$2" "$3"
@@ -207,11 +206,52 @@ function virsh-config-nat() {
       fi
     else
       echo "fatal: vm name is not valid"
-      echo "Usage: virsh-config-nat vmname hostport guestport"
+      echo "Usage: virsh-config-nat vmname-add hostport guestport"
     fi
   else
     echo "fatal: bad arguments"
-    echo "Usage: virsh-config-nat vmname hostport guestport"
+    echo "Usage: virsh-config-nat-add vmname hostport guestport"
+  fi
+}
+
+function virsh-config-nat-delete() {
+  _vm_list=$(virsh list --all --name)
+  if [[ -n "$2" ]]; then
+    if [[ -n "$1" ]] && [[ $_vm_list =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+      _ip_addr=$(virsh_get_ip "$1")
+
+      if [[ -n "$_ip_addr" ]]; then
+        _preroute_line=$(sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | sed -ne "s/^\([0-9]\)*\ .*$_ip_addr:$2/\1/p")
+        _map_port=$(iptables_dpt_map $2)
+        _forward_line=$(sudo iptables -L FORWARD --line-numbers | sed -ne "s/^\([0-9]\)*\ .*$_ip_addr.*dpt:$_map_port.*/\1/p")
+
+        if [[ -n "$_preroute_line" ]] && ! [[ "$_preroute_line" =~ ( |\') ]]; then
+          _host_port=$(sudo iptables -L PREROUTING -t nat --line-numbers | sed -ne "s/^\([0-9]\)*\ .*dpt:\([^\ ]*\).*$_ip_addr:$2/\2/p")
+
+          mkdir -p $DOTFILES_DIR/backup/iptables
+          sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v4
+
+          sudo iptables -t nat -D PREROUTING $_preroute_line && echo "Deleted NAT PREROUTING from port $_host_port to $_ip_addr:$2"
+
+          # Might missed FORWARD chain here, but it's okay
+          if [[ -n "$_forward_line" ]] && ! [[ "$_forward_line" =~ ( |\') ]]; then
+            sudo iptables -D FORWARD $_forward_line && echo "Deleted FORWARDING to $_ip_addr:$2"
+          fi
+
+          sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.v4
+        else
+          echo "No matched rule to delete!"
+        fi
+      else
+        echo "fatal: vm doesn't have static ip"
+      fi
+    else
+      echo "fatal: vm name is not valid"
+      echo "Usage: virsh-config-nat-remove vmname guestport"
+    fi
+  else
+    echo "fatal: bad arguments"
+    echo "Usage: virsh-config-nat-remove vmname guestport"
   fi
 }
 
@@ -393,4 +433,22 @@ function git_clone_private() {
 
 function git_remove_private() {
   rm -rf $PRIVATE_FOLDER
+}
+
+function virsh_get_mac() {
+  echo $(virsh dumpxml --domain "$1" | sed -ne "s/.*\([0-9a-fA-F:]\{17\}\).*/\1/p" 2> /dev/null)
+}
+
+function virsh_get_ip() {
+  _mac_addr=$(virsh_get_mac "$1")
+  echo $(virsh net-dumpxml --network default | sed -ne "s/.*$_mac_addr.*\([0-9]\{3\}\.[0-9]\{3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\).*/\1/p")
+}
+
+function iptables_dpt_map() {
+  case "$1" in
+    22) echo "ssh"
+      ;;
+    *) echo "$1"
+      ;;
+  esac
 }

@@ -1,4 +1,4 @@
-#compdef virsh-config-staticip virsh-config-nat
+#compdef virsh-config-staticip virsh-config-nat-add virsh-config-nat-remove
 
 _virsh_machines() {
 	virsh list --all --name | while read machine; do

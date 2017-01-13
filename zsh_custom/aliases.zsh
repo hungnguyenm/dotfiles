@@ -23,6 +23,7 @@ alias rmf="rm -rf"
 # network
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
+alias restart_network="sudo ifdown --exclude=lo -a && sudo ifup --exclude=lo -a"
 
 # utility
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
