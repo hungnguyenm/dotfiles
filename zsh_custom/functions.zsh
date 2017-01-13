@@ -133,12 +133,97 @@ function virsh-restart() {
   sudo /etc/init.d/libvirt-bin restart
 }
 
+_virsh_network_profile="default"
+function virsh-config-default-network() {
+  if [[ -n "$1" ]] && [[ $_virsh_network_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+    git_clone_private
+    sudo virsh net-define $PRIVATE_FOLDER/libvirt/network_"$1".xml
+    sudo virsh net-autostart --network "$1"
+    sudo virsh net-destroy "$1"
+    sudo virsh net-start "$1"
+    git_remove_private
+  else
+    echo "fatal: invalid profile"
+  fi
+}
+compctl -k "($_virsh_network_profile)" virsh-config-default-network
+
+function virsh-config-network() {
+  if [[ -n "$1" ]]; then
+    sudo virsh net-define "$1"
+    virsh-network-restart
+  else
+    echo "fatal: bad argument"
+  fi
+}
+
+function virsh-config-staticip() {
+  _vm_list=$(virsh list --all --name)
+  if [[ -n "$1" ]] && [[ $_vm_list =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+    _mac_addr=$(virsh dumpxml --domain "$1" | sed -ne "s/.*\([0-9a-fA-F:]\{17\}\).*/\1/p" 2> /dev/null)
+
+    # Export file to edit
+    mkdir -p $DOTFILES_DIR/backup/libvirt
+    virsh net-dumpxml --network default >! $DOTFILES_DIR/backup/libvirt/network_default.xml
+    /bin/cp -rf $DOTFILES_DIR/backup/libvirt/network_default.xml $DOTFILES_DIR/backup/libvirt/network_default.old.xml
+
+    # Check if IP is already assigned
+    if sed -e "/$_mac_addr/d" $DOTFILES_DIR/backup/libvirt/network_default.xml | grep -Fq "$2"; then
+      echo "fatal: IP is already assigned"
+    else
+      # Update config
+      if grep -Fq "$_mac_addr" $DOTFILES_DIR/backup/libvirt/network_default.xml; then
+        # MAC address exists
+        sed -i "/$_mac_addr/d" $DOTFILES_DIR/backup/libvirt/network_default.xml
+      fi
+      sed -i "/range start/a \ \ \ \ \ \ <host mac='$_mac_addr' name='$1' ip='$2'\/>" $DOTFILES_DIR/backup/libvirt/network_default.xml
+
+      # Load config
+      sudo virsh net-define $DOTFILES_DIR/backup/libvirt/network_default.xml
+      sudo virsh net-autostart --network default
+      sudo virsh net-destroy default
+      sudo virsh net-start default
+
+      echo "Static IP $2 is assigned for $1!"
+    fi
+  else
+    echo "fatal: vm name is not valid"
+    echo "Usage: virsh-config-staticip vmname staticip"
+  fi
+}
+
+_virsh_config_profile="network"
+function virsh-config-show() {
+  if [[ -n "$1" ]] && [[ $_virsh_config_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+    case "$1" in
+      network)
+        _net_names=$(virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " ")
+        for i in "$_net_names"; do
+          virsh net-dumpxml --network $i >! $DOTFILES_DIR/backup/libvirt/network_$i.xml
+          virsh net-dumpxml --network $i
+          echo "\r\n"
+        done
+        ;;
+      *) echo "nah"
+        ;;
+    esac
+  else
+    echo "fatal: invalid profile"
+  fi
+}
+compctl -k "($_virsh_config_profile)" virsh-config-show
+
 function virsh-network-restart() {
   _net_names=$(sudo virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " ")
   for i in "$_net_names"; do
     sudo virsh net-destroy $i 
     sudo virsh net-start $i
   done
+}
+
+function virsh-dev() {
+  _vm_list=$(virsh list --all --name)
+  _mac_addr=$(virsh dumpxml --domain $_vm_list | sed -ne "s/.*\([0-9a-fA-F:]\{17\}\).*/\1/p" 2> /dev/null)
 }
 
 # private configuration
@@ -158,6 +243,7 @@ function config-ssh() {
     echo "fatal: invalid profile"
   fi
 }
+compctl -k "($_ssh_profile)" config-ssh
 
 function config-ssh-restart() {
   if [[ -n $(strings /sbin/init | grep "/lib/systemd" 2> /dev/null) ]]; then
@@ -177,6 +263,7 @@ function config-firewall() {
     echo "fatal: invalid profile"
   fi
 }
+compctl -k "($_firewall_profile)" config-firewall
 
 function config-firewall-nat-add() {
   if [[ -n "$1" ]] && [[ -n "$2" ]] && [[ -n "$3" ]]; then
@@ -242,9 +329,6 @@ function config-show() {
     echo "fatal: invalid profile"
   fi
 }
-
-compctl -k "($_ssh_profile)" config-ssh
-compctl -k "($_firewall_profile)" config-firewall
 compctl -k "($_config_profile)" config-show
 
 # backup
@@ -254,7 +338,7 @@ function backup-backup() {
   mkdir -p "$PRIVATE_FOLDER/backup/backup/$SHORT_HOST/$_now"
   cp -r $DOTFILES_DIR/backup/* $PRIVATE_FOLDER/backup/backup/$SHORT_HOST/$_now
   cd $PRIVATE_FOLDER/backup/backup/$SHORT_HOST/$_now
-  git add --all --force
+  git add --all --force .
   cd $PRIVATE_FOLDER
   git commit -a -m "back up backup from $SHORT_HOST"
   git push
@@ -268,7 +352,7 @@ function backup-local() {
   mkdir -p "$PRIVATE_FOLDER/backup/local/$SHORT_HOST/$_now"
   cp -r $DOTFILES_DIR/local/* $PRIVATE_FOLDER/backup/local/$SHORT_HOST/$_now
   cd $PRIVATE_FOLDER/backup/local/$SHORT_HOST/$_now
-  git add --all --force
+  git add --all --force .
   cd $PRIVATE_FOLDER
   git commit -a -m "back up local from $SHORT_HOST"
   git push

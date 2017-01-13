@@ -1,0 +1,7 @@
+#compdef virsh-config-staticip
+
+_virsh_machines() {
+	virsh list --all --name | while read machine; do
+		_wanted 'machine' expl 'machine' compadd $machine
+	done
+}
