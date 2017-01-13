@@ -136,7 +136,11 @@ function virsh-restart() {
 _virsh_network_profile="default"
 function virsh-config-default-network() {
   if [[ -n "$1" ]] && [[ $_virsh_network_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+    _old_uuid=$(virsh net-dumpxml --network "$1" | sed -ne "s/.*<uuid>\(.*\)<\/uuid>.*/\1/p")
     git_clone_private
+    if [[ -n $_old_uuid ]]; then
+      sed -i "/<name>/a \ \ <uuid>$_old_uuid<\/uuid>" $PRIVATE_FOLDER/libvirt/network_"$1".xml
+    fi
     sudo virsh net-define $PRIVATE_FOLDER/libvirt/network_"$1".xml
     sudo virsh net-autostart --network "$1"
     sudo virsh net-destroy "$1"
