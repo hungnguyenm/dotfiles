@@ -94,7 +94,29 @@ function ssh() {
   fi
 }
 
-compctl -k "($_ssh_config)" fs fsu fsc fso
+function ssh-tunnel() {
+  if [[ -r ~/.ssh/config ]]; then
+    if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+      _port_list=$(ssh "$1" 'bash -s' < $DOTFILES_DIR/scripts/get_tunnel_ports.sh)
+      if [[ -n "_port_list" ]]; then
+        echo "Tunneling..."
+        command ssh "$1" 'bash -s' < $DOTFILES_DIR/scripts/get_tunnel_info.sh | sed -e "s/\(spice - \|vnc - \).*\(127.0.0.1:\)\([0-9]*\)/\1950\3 forward to \2590\3/g"
+        _ssh_options="$1"
+        for i in "$_port_list"; do
+          _ssh_options="$_ssh_options -L 95${i: -2}:localhost:$i"
+        done
+        command ssh $=_ssh_options -t "SSH_CLIENT_SHORT_HOST="${PREFER_HOST_NAME:-${SHORT_HOST}}-tunnel" '$SHELL'"
+      else
+        echo "No VNC port available!"
+      fi
+    else
+      echo "fatal: ssh-tunnel only works with hosts defined in ~/.ssh/config\n\rUsage: ssh-tunnel host"
+    fi
+  else
+    echo "fatal: ~/.ssh/config doesn't exist"
+  fi
+}
+compctl -k "($_ssh_config)" fs fsu fsc fso ssh-tunnel
 
 # virtualbox functions
 function vbm-poweroff() {
@@ -319,11 +341,6 @@ function virsh-network-restart() {
     sudo virsh net-destroy $i 
     sudo virsh net-start $i
   done
-}
-
-function virsh-dev() {
-  _vm_list=$(virsh list --all --name)
-  _mac_addr=$(virsh dumpxml --domain $_vm_list | sed -ne "s/.*\([0-9a-fA-F:]\{17\}\).*/\1/p" 2> /dev/null)
 }
 
 # private configuration
