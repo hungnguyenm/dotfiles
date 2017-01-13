@@ -291,6 +291,28 @@ function virsh-config-show() {
 }
 compctl -k "($_virsh_config_profile)" virsh-config-show
 
+function virsh-config-backup() {
+  _now=`date +%Y-%m-%d_%H-%M-%S`
+  echo "$SHORT_HOST -- $_now" >! $DOTFILES_DIR/backup/libvirt/config.txt
+
+  _vm_list=$(virsh list --all --name)
+  for i in "$_vm_list"; do
+    _ip_addr=$(virsh_get_ip "$i")
+    echo "$i: $_ip_addr" >> $DOTFILES_DIR/backup/libvirt/config.txt
+    sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | \
+        sed -ne "s/.*\(\(tcp\|udp\)\ dpt.*$_ip_addr.*\)/\1/p" | while read ii; do
+      echo $ii >> $DOTFILES_DIR/backup/libvirt/config.txt
+    done
+  done
+
+  echo "\n\r\n\r" >> $DOTFILES_DIR/backup/libvirt/config.txt
+  _net_names=$(virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " ")
+  for i in "$_net_names"; do
+    virsh net-dumpxml --network $i >> $DOTFILES_DIR/backup/libvirt/config.txt
+    echo "\r\n"
+  done
+}
+
 function virsh-network-restart() {
   _net_names=$(sudo virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " ")
   for i in "$_net_names"; do
@@ -351,7 +373,7 @@ function config-firewall-nat-add() {
     sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v6
 
     sudo iptables -t nat -D PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3 2> /dev/null
-    sudo iptables -t nat -A PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3
+    sudo iptables -t nat -I PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3
     sudo iptables -D FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT 2> /dev/null
     sudo iptables -I FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT
 
