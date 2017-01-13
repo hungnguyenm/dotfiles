@@ -11,7 +11,7 @@ alias rcsdot="rm -rf "$DOTFILES_DIR"; git clone --recursive git@github.com:hungn
 alias cls="clear"
 
 alias gsui="git submodule update --init --recursive --remote"
-alias grc1="git reset --soft HEAD^"
+alias grc1="git reset --soft HEAD^;git push origin +master"
 
 alias tcc="tmux -CC"
 alias tlk="tmux list-keys"
