@@ -192,6 +192,29 @@ function virsh-config-staticip() {
   fi
 }
 
+function virsh-config-nat() {
+  _vm_list=$(virsh list --all --name)
+  if [[ -n "$2" ]] && [[ -n "$3" ]]; then
+    if [[ -n "$1" ]] && [[ $_vm_list =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+      _mac_addr=$(virsh dumpxml --domain "$1" | sed -ne "s/.*\([0-9a-fA-F:]\{17\}\).*/\1/p" 2> /dev/null)
+      _ip_addr=$(virsh net-dumpxml --network default | sed -ne "s/.*$_mac_addr.*\([0-9]\{3\}\.[0-9]\{3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\).*/\1/p")
+
+      if [[ -n "$_ip_addr" ]]; then
+        config-firewall-nat-add "$_ip_addr" "$2" "$3"
+        echo "Added NAT from port $2 to $_ip_addr:$3"
+      else
+        echo "fatal: vm doesn't have static ip"
+      fi
+    else
+      echo "fatal: vm name is not valid"
+      echo "Usage: virsh-config-nat vmname hostport guestport"
+    fi
+  else
+    echo "fatal: bad arguments"
+    echo "Usage: virsh-config-nat vmname hostport guestport"
+  fi
+}
+
 _virsh_config_profile="network"
 function virsh-config-show() {
   if [[ -n "$1" ]] && [[ $_virsh_config_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
@@ -282,6 +305,7 @@ function config-firewall-nat-add() {
     sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.v6
   else
     echo "fatal: bad arguments"
+    echo "Usage: config-firewall-nat-add new_ip old_port new_port"
   fi
 }
 
