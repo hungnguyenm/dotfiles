@@ -100,7 +100,8 @@ function ssh-tunnel() {
       _port_list=$(ssh "$1" 'bash -s' < $DOTFILES_DIR/scripts/get_tunnel_ports.sh)
       if [[ -n "_port_list" ]]; then
         echo "Tunneling..."
-        command ssh "$1" 'bash -s' < $DOTFILES_DIR/scripts/get_tunnel_info.sh | sed -e "s/\(spice\ -\ \|vnc\ -\ \).*\(127.0.0.1:\)\([0-9]*\)/\1950\3 forward to \2590\3/g"
+        command ssh "$1" 'bash -s' < $DOTFILES_DIR/scripts/get_tunnel_info.sh | \
+            sed -e "s/\(spice - \).*\(127.0.0.1:\)\([0-9]*\)/\1950\3 forward to \2590\3/g;s/\(vnc - \).*\(127.0.0.1:\)\([0-9]*\)/\1950\3 forward to \2590\3/g"
         _ssh_options="$1"
         for i in "$_port_list"; do
           _ssh_options="$_ssh_options -L 95${i: -2}:localhost:$i"
