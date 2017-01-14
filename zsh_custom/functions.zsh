@@ -339,15 +339,15 @@ function virsh-config-show() {
         _vm_list=$(virsh list --all --name)
         while read i; do
           [[ -z $i ]] && continue
-          echo "$i:"
           _ip_addr=$(virsh_get_ip "$i")
           if [[ -n $_ip_addr ]]; then
+            echo "$i:"
             sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | \
                 sed -ne "s/.*\(\(tcp\|udp\)\ dpt.*$_ip_addr.*\)/\1/p" | while read ii; do
               echo "$ii"
             done
           else
-            echo "No NAT rule!"
+            echo "$i: no static IP assigned."
           fi
         done <<< "$_vm_list"
         ;;
