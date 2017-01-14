@@ -221,12 +221,16 @@ function virsh-config-staticip() {
 }
 
 function virsh-config-staticip-delete() {
-  if [[ $1 != ${1#*[0-9].[0-9]} ]]; then
-    # Export file to edit
-    mkdir -p $DOTFILES_DIR/backup/libvirt
-    virsh net-dumpxml --network default >! $DOTFILES_DIR/backup/libvirt/network_default.xml
-    /bin/cp -rf $DOTFILES_DIR/backup/libvirt/network_default.xml $DOTFILES_DIR/backup/libvirt/network_default.old.xml
+  # Export file to edit
+  mkdir -p $DOTFILES_DIR/backup/libvirt
+  virsh net-dumpxml --network default >! $DOTFILES_DIR/backup/libvirt/network_default.xml
+  /bin/cp -rf $DOTFILES_DIR/backup/libvirt/network_default.xml $DOTFILES_DIR/backup/libvirt/network_default.old.xml
 
+  echo "Current config:"
+  virsh net-dumpxml --network default
+  
+  read "_ip?What IP do you want to delete: "
+  if [[ $_ip != ${1#*[0-9].[0-9]} ]]; then
     # Check if IP is already assigned
     if sed -ne "s/\(.*<host>.*\)\($1\)\(.*\)/\1\2\3/p" $DOTFILES_DIR/backup/libvirt/network_default.xml; then
       echo "Current host:"
@@ -251,7 +255,6 @@ function virsh-config-staticip-delete() {
     fi
   else
     echo "fatal: invalid IP"
-    echo "Usage: virsh-config-staticip-delete staticip"
   fi
 }
 
