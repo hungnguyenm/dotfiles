@@ -302,10 +302,14 @@ function virsh-config-show() {
           [[ -z $i ]] && continue
           echo "$i:"
           _ip_addr=$(virsh_get_ip "$i")
-          sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | \
-              sed -ne "s/.*\(\(tcp\|udp\)\ dpt.*$_ip_addr.*\)/\1/p" | while read ii; do
-            echo "$ii"
-          done
+          if [[ -n $_ip_addr ]]; then
+            sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | \
+                sed -ne "s/.*\(\(tcp\|udp\)\ dpt.*$_ip_addr.*\)/\1/p" | while read ii; do
+              echo "$ii"
+            done
+          else
+            echo "No NAT rule!"
+          fi
         done <<< "$_vm_list"
         ;;
       *) echo "nah"
@@ -324,11 +328,15 @@ function virsh-config-backup() {
   virsh list --all --name | while read i; do
     [[ -z $i ]] && continue
     _ip_addr=$(virsh_get_ip "$i")
-    echo "$i: $_ip_addr" | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
-    sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | \
-        sed -ne "s/.*\(\(tcp\|udp\)\ dpt.*$_ip_addr.*\)/\1/p" | while read ii; do
-      echo "$ii" | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
-    done
+    if [[ -n $_ip_addr ]]; then
+      echo "$i: $_ip_addr" | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
+      sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | \
+          sed -ne "s/.*\(\(tcp\|udp\)\ dpt.*$_ip_addr.*\)/\1/p" | while read ii; do
+        echo "$ii" | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
+      done
+    else
+      echo "$i: no static IP\r\nNo NAT rule!" | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
+    fi
   done
 
   echo "\n\r" | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
@@ -423,7 +431,7 @@ function config-firewall-nat-delete() {
   fi
 }
 
-_config_profile="firewall"
+_config_profile="firewall firewall-nat"
 function config-show() {
   if [[ -n $1 ]] && [[ $_config_profile =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
     case "$1" in
@@ -441,6 +449,13 @@ function config-show() {
         mkdir -p $DOTFILES_DIR/backup/iptables
         sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.v4
         sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.v6
+        ;;
+      firewall-nat)
+        echo "NAT CONFIG:\n\r"
+        sudo iptables -L PREROUTING -vt nat
+
+        echo "\n\rINPUT CONFIG:\n\r"
+        sudo iptables -L FORWARD -v
         ;;
       *) echo "nah"
         ;;
