@@ -228,17 +228,17 @@ function virsh-config-staticip-delete() {
 
   echo "Current config:"
   virsh net-dumpxml --network default
-  
+
   read "_ip?What IP do you want to delete: "
-  if [[ $_ip != ${1#*[0-9].[0-9]} ]]; then
+  if [[ $_ip != ${_ip#*[0-9].[0-9]} ]]; then
     # Check if IP is already assigned
-    if sed -ne "s/\(.*<host>.*\)\($1\)\(.*\)/\1\2\3/p" $DOTFILES_DIR/backup/libvirt/network_default.xml; then
+    if sed -ne "s/\(.*<host>.*\)\($_ip\)\(.*\)/\1\2\3/p" $DOTFILES_DIR/backup/libvirt/network_default.xml; then
       echo "Current host:"
-      grep ".*<host.*$1.*" $DOTFILES_DIR/backup/libvirt/network_default.xml
+      grep ".*<host.*$_ip.*" $DOTFILES_DIR/backup/libvirt/network_default.xml
       read -q "_confirm?Are you sure [yn]? "
       if [[ "$_confirm" =~ ^[Yy]$ ]]; then
         # Update config
-        sed -i "/.*<host.*$1.*/d" $DOTFILES_DIR/backup/libvirt/network_default.xml
+        sed -i "/.*<host.*$_ip.*/d" $DOTFILES_DIR/backup/libvirt/network_default.xml
 
         # Load config
         sudo virsh net-define $DOTFILES_DIR/backup/libvirt/network_default.xml
@@ -246,7 +246,7 @@ function virsh-config-staticip-delete() {
         sudo virsh net-destroy default
         sudo virsh net-start default
 
-        echo "Static IP $1 is removed!"  
+        echo "Static IP $_ip is removed!"  
       else
         echo "\r\nAborted!"
       fi
