@@ -398,11 +398,11 @@ function config-firewall-delete() {
     case "$1" in
       nat-prerouting)
         sudo iptables -L PREROUTING -vt nat --line-numbers
-        read "_line?What line do you want to delete:"
+        read "_line?\r\nWhat line do you want to delete: "
         if [[ "$_line" =~ ^[0-9]+$ ]] && \
-            [[ -n $(sudo iptables -L PREROUTING -vt nat --line-numbers | grep "^$_line.*") ]]; then
+            [[ -n $(sudo iptables -L PREROUTING -vt nat --line-numbers | grep "^$_line\ .*") ]]; then
           echo "\r\nSelected line:"
-          sudo iptables -L PREROUTING -vt nat --line-numbers | grep "^$_line.*"
+          sudo iptables -L PREROUTING -vt nat --line-numbers | grep "^$_line\ .*"
           read "_confirm?Are you sure [yn]? " -k 1
           if [[ "$_confirm" =~ ^[Yy]$ ]]; then
             sudo iptables -t nat -D PREROUTING $_line && echo "Deleted!"
@@ -415,11 +415,11 @@ function config-firewall-delete() {
         ;;
       input-forward)
         sudo iptables -L FORWARD -v --line-numbers
-        read "line?What line do you want to delete:"
+        read "line?\r\nWhat line do you want to delete: "
         if [[ "$_line" =~ ^[0-9]+$ ]] && \
-            [[ -n $(sudo iptables -L FORWARD -v --line-numbers | grep "^$_line.*") ]]; then
+            [[ -n $(sudo iptables -L FORWARD -v --line-numbers | grep "^$_line\ .*") ]]; then
           echo "\r\nSelected line:"
-          sudo iptables -L FORWARD -v --line-numbers | grep "^$_line.*"
+          sudo iptables -L FORWARD -v --line-numbers | grep "^$_line\ .*"
           read "_confirm?Are you sure [yn]? " -k 1
           if [[ "$_confirm" =~ ^[Yy]$ ]]; then
             sudo iptables -D FORWARD $_line && echo "Deleted!"
