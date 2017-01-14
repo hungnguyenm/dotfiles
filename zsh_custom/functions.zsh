@@ -163,7 +163,7 @@ function virsh-convert-vmdk-qcow2() {
   if [[ -n $1 ]]; then
     for i in *.vmdk; do qemu-img convert -f vmdk $i -O raw $i.raw; done
     cat *.raw > tmpImage.raw
-    qemu-img convert tmpImage.raw "$2.qcow2"
+    qemu-img convert tmpImage.raw "$1.qcow2"
     rm *.raw
   else
     echo "fatal: please provide output file name without extension"
