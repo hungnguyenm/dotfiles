@@ -241,6 +241,7 @@ function virsh-config-staticip-delete() {
         sed -i "/.*<host.*$_ip.*/d" $DOTFILES_DIR/backup/libvirt/network_default.xml
 
         # Load config
+        echo "\r\n"
         sudo virsh net-define $DOTFILES_DIR/backup/libvirt/network_default.xml
         sudo virsh net-autostart --network default
         sudo virsh net-destroy default
