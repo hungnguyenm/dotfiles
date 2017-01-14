@@ -312,7 +312,7 @@ function virsh-config-show() {
           fi
         done <<< "$_vm_list"
         ;;
-      *) echo "nah"
+      *) echo "oops!not implemented!"
         ;;
     esac
   else
@@ -392,6 +392,53 @@ function config-firewall() {
 }
 compctl -k "($_firewall_profile)" config-firewall
 
+_firewall_delete_profile="nat-prerouting input-forward"
+function config-firewall-delete() {
+  if [[ -n $1 ]] && [[ $_firewall_delete_profile =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
+    case "$1" in
+      nat-prerouting)
+        sudo iptables -L PREROUTING -vt nat --line-numbers
+        read "_line?What line do you want to delete:"
+        if [[ "$_line" =~ ^[0-9]+$ ]] && \
+            [[ -n $(sudo iptables -L PREROUTING -vt nat --line-numbers | grep "^$_line.*") ]]; then
+          echo "\r\nSelected line:"
+          sudo iptables -L PREROUTING -vt nat --line-numbers | grep "^$_line.*"
+          read "_confirm?Are you sure [yn]? " -k 1
+          if [[ "$_confirm" =~ ^[Yy]$ ]]; then
+            sudo iptables -t nat -D PREROUTING $_line && echo "Deleted!"
+          else
+            echo "Aborted!"
+          fi
+        else
+          echo "Invalid line selection"
+        fi
+        ;;
+      input-forward)
+        sudo iptables -L FORWARD -v --line-numbers
+        read "line?What line do you want to delete:"
+        if [[ "$_line" =~ ^[0-9]+$ ]] && \
+            [[ -n $(sudo iptables -L FORWARD -v --line-numbers | grep "^$_line.*") ]]; then
+          echo "\r\nSelected line:"
+          sudo iptables -L FORWARD -v --line-numbers | grep "^$_line.*"
+          read "_confirm?Are you sure [yn]? " -k 1
+          if [[ "$_confirm" =~ ^[Yy]$ ]]; then
+            sudo iptables -D FORWARD $_line && echo "Deleted!"
+          else
+            echo "Aborted!"
+          fi
+        else
+          echo "Invalid line selection"
+        fi
+        ;;
+      *) echo "oops!not implemented!"
+        ;;
+    esac
+  else
+    echo "fatal: invalid profile"
+  fi
+}
+compctl -k "($_firewall_delete_profile)" config-firewall-delete
+
 function config-firewall-nat-add() {
   if [[ -n $1 ]] && [[ -n $2 ]] && [[ -n $3 ]]; then
     # backup
@@ -428,6 +475,7 @@ function config-firewall-nat-delete() {
     sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.v6
   else
     echo "fatal: bad arguments"
+    echo "Usage: config-firewall-nat-delete new_ip old_port new_port"
   fi
 }
 
@@ -457,7 +505,7 @@ function config-show() {
         echo "\n\rINPUT CONFIG:\n\r"
         sudo iptables -L FORWARD -v
         ;;
-      *) echo "nah"
+      *) echo "oops!not implemented!"
         ;;
     esac
   else
