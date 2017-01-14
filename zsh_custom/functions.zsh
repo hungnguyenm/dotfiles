@@ -204,7 +204,7 @@ function virsh-config-staticip() {
         # MAC address exists
         sed -i "/$_mac_addr/d" $DOTFILES_DIR/backup/libvirt/network_default.xml
       fi
-      sed -i "/range start/a \ \ \ \ \ \ <host mac=$_mac_addr name=$1 ip=$2\/>" $DOTFILES_DIR/backup/libvirt/network_default.xml
+      sed -i "/range start/a \ \ \ \ \ \ <host mac='$_mac_addr' name='$1' ip='$2'\/>" $DOTFILES_DIR/backup/libvirt/network_default.xml
 
       # Load config
       sudo virsh net-define $DOTFILES_DIR/backup/libvirt/network_default.xml
