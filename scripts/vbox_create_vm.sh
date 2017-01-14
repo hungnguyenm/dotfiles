@@ -11,12 +11,12 @@ VM_HDD=40000
 CERT_DIR="certs"
 ISO_FILE="iso/ubuntu-16.04.1-desktop-amd64.iso"
 
-if [[ -z "$1" ]] || [[ -z "$2" ]] || [[ -z "$3" ]] || [[ -z "$4" ]]; then
+if [[ -z $1 ]] || [[ -z $2 ]] || [[ -z $3 ]] || [[ -z $4 ]]; then
   echo "fatal: bad arguments\r\nUsage: command vmname ssh_port rdp_port rdp_pass"
   exit
 fi
 
-VM_NAME="$1"
+VM_NAME=$1
 shift
 VM_SSH_PORT=$1
 shift
@@ -27,7 +27,7 @@ shift
 
 while [[ $# -gt 1 ]]
 do
-key="$1"
+key=$1
 
 case $key in
     -m|--memory)
@@ -39,11 +39,11 @@ case $key in
     shift # past argument
     ;;
     -c|--cert)
-    CERT_DIR="$2"
+    CERT_DIR=$2
     shift # past argument
     ;;
     -i|--iso)
-    ISO_FILE="$2"
+    ISO_FILE=$2
     ;;
     *)
     # unknown option

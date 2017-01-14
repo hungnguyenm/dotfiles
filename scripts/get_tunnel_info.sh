@@ -6,9 +6,9 @@ type virsh > /dev/null
 _function_not_exists=$?
 
 if (( $_function_not_exists == 0 )); then
-  _vm_list=$(virsh list --state-running --name)
-  for i in "$_vm_list"; do
+  virsh list --state-running --name | while read i; do
+  	[[ -z $i ]] && continue
   	echo "$i:"
-    virsh vncdisplay --domain $i | sed -e "s/\(127.0.0.1\)/vnc - \1/g"
+    virsh vncdisplay --domain "$i" | sed -e "s/\(127.0.0.1\)/vnc - \1/g"
   done
 fi

@@ -8,10 +8,10 @@ function xpaste() { xsel --clipboard >> "$*"; }
 # sshfs functions
 function fs() {
   if [[ -r ~/.ssh/config ]]; then
-  	if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  	if [[ -n $1 ]] && [[ $_ssh_config =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
       echo "Mounting remote host "$1":"$2""
       mkdir -p ~/remote/"$1"
-      if [[ -n "$2" ]] ; then
+      if [[ -n $2 ]] ; then
         sshfs "$1":"$2" ~/remote/"$1"
       else
         sshfs "$1": ~/remote/"$1"
@@ -26,7 +26,7 @@ function fs() {
 
 function fsu() {
   if [[ -r ~/.ssh/config ]]; then
-  	if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  	if [[ -n $1 ]] && [[ $_ssh_config =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
       echo "Unmounting remote host "$1""
       case `uname` in
         Darwin) umount ~/remote/"$1"
@@ -44,7 +44,7 @@ function fsu() {
 
 function fsc() {
   if [[ -r ~/.ssh/config ]]; then
-  	if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  	if [[ -n $1 ]] && [[ $_ssh_config =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
       cd ~/remote/"$1"
     else
       echo "fatal: fsc only works with hosts defined in ~/.ssh/config\n\rUsage: fsc host"
@@ -59,9 +59,9 @@ function fsl() {
 }
 
 function fso() {
-  if [[ -n "$1" ]]; then
+  if [[ -n $1 ]]; then
     if ! (mount | grep remote/"$1" > /dev/null); then
-      if [[ -n "$2" ]]; then
+      if [[ -n $2 ]]; then
         fs "$1" "$2"
       else
         fs "$1"
@@ -84,7 +84,7 @@ function fso() {
 # improved ssh to send client host name env variable
 function ssh() {
   if (( ${#} == 1 )); then
-  	if [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  	if [[ $_ssh_config =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
   	  command ssh -t "$1" "SSH_CLIENT_SHORT_HOST="${PREFER_HOST_NAME:-${SHORT_HOST}}" '$SHELL'"
   	else
   	  command ssh "$@"
@@ -96,16 +96,17 @@ function ssh() {
 
 function ssh-tunnel() {
   if [[ -r ~/.ssh/config ]]; then
-    if [[ -n "$1" ]] && [[ $_ssh_config =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+    if [[ -n $1 ]] && [[ $_ssh_config =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
       _port_list=$(ssh "$1" 'bash -s' < $DOTFILES_DIR/scripts/get_tunnel_ports.sh)
       if [[ -n "_port_list" ]]; then
         echo "Tunneling..."
         command ssh "$1" 'bash -s' < $DOTFILES_DIR/scripts/get_tunnel_info.sh | \
             sed -e "s/\(spice - \).*\(127.0.0.1:\)\([0-9]*\)/\1950\3 forward to \2590\3/g;s/\(vnc - \).*\(127.0.0.1:\)\([0-9]*\)/\1950\3 forward to \2590\3/g"
-        _ssh_options="$1"
-        for i in "$_port_list"; do
+        _ssh_options=$1
+        while read i; do
+          [[ -z $i ]] && continue
           _ssh_options="$_ssh_options -L 95${i: -2}:localhost:$i"
-        done
+        done <<< "$_port_list"
         command ssh $=_ssh_options -t "SSH_CLIENT_SHORT_HOST="${PREFER_HOST_NAME:-${SHORT_HOST}}-tunnel" '$SHELL'"
       else
         echo "No VNC port available!"
@@ -137,7 +138,7 @@ function vbm-start-headless() {
 }
 
 function vbm-delete() {
-  if [[ -n "$1" ]]; then
+  if [[ -n $1 ]]; then
     if [[ $(vbm list runningvms | egrep -c "$1") -gt 0 ]]; then
       VBoxManage controlvm "$1" poweroff
     fi
@@ -158,7 +159,7 @@ function virsh-restart() {
 
 _virsh_network_profile="default"
 function virsh-config-default-network() {
-  if [[ -n "$1" ]] && [[ $_virsh_network_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  if [[ -n $1 ]] && [[ $_virsh_network_profile =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
     _old_uuid=$(virsh net-dumpxml --network "$1" | sed -ne "s/.*<uuid>\(.*\)<\/uuid>.*/\1/p")
     git_clone_private
     if [[ -n $_old_uuid ]]; then
@@ -176,7 +177,7 @@ function virsh-config-default-network() {
 compctl -k "($_virsh_network_profile)" virsh-config-default-network
 
 function virsh-config-network() {
-  if [[ -n "$1" ]]; then
+  if [[ -n $1 ]]; then
     sudo virsh net-define "$1"
     virsh-network-restart
   else
@@ -186,7 +187,7 @@ function virsh-config-network() {
 
 function virsh-config-staticip() {
   _vm_list=$(virsh list --all --name)
-  if [[ -n "$1" ]] && [[ $_vm_list =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  if [[ -n $1 ]] && [[ $_vm_list =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
     _mac_addr=$(virsh_get_mac "$1")
 
     # Export file to edit
@@ -203,7 +204,7 @@ function virsh-config-staticip() {
         # MAC address exists
         sed -i "/$_mac_addr/d" $DOTFILES_DIR/backup/libvirt/network_default.xml
       fi
-      sed -i "/range start/a \ \ \ \ \ \ <host mac='$_mac_addr' name='$1' ip='$2'\/>" $DOTFILES_DIR/backup/libvirt/network_default.xml
+      sed -i "/range start/a \ \ \ \ \ \ <host mac=$_mac_addr name=$1 ip=$2\/>" $DOTFILES_DIR/backup/libvirt/network_default.xml
 
       # Load config
       sudo virsh net-define $DOTFILES_DIR/backup/libvirt/network_default.xml
@@ -221,11 +222,11 @@ function virsh-config-staticip() {
 
 function virsh-config-nat-add() {
   _vm_list=$(virsh list --all --name)
-  if [[ -n "$2" ]] && [[ -n "$3" ]]; then
-    if [[ -n "$1" ]] && [[ $_vm_list =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  if [[ -n $2 ]] && [[ -n $3 ]]; then
+    if [[ -n $1 ]] && [[ $_vm_list =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
       _ip_addr=$(virsh_get_ip "$1")
 
-      if [[ -n "$_ip_addr" ]]; then
+      if [[ -n $_ip_addr ]]; then
         config-firewall-nat-add "$_ip_addr" "$2" "$3"
         echo "Added NAT from port $2 to $_ip_addr:$3"
       else
@@ -243,16 +244,16 @@ function virsh-config-nat-add() {
 
 function virsh-config-nat-delete() {
   _vm_list=$(virsh list --all --name)
-  if [[ -n "$2" ]]; then
-    if [[ -n "$1" ]] && [[ $_vm_list =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  if [[ -n $2 ]]; then
+    if [[ -n $1 ]] && [[ $_vm_list =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
       _ip_addr=$(virsh_get_ip "$1")
 
-      if [[ -n "$_ip_addr" ]]; then
+      if [[ -n $_ip_addr ]]; then
         _preroute_line=$(sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | sed -ne "s/^\([0-9]\)*\ .*$_ip_addr:$2/\1/p")
         _map_port=$(iptables_dpt_map $2)
         _forward_line=$(sudo iptables -L FORWARD --line-numbers | sed -ne "s/^\([0-9]\)*\ .*$_ip_addr.*dpt:$_map_port.*/\1/p")
 
-        if [[ -n "$_preroute_line" ]] && ! [[ "$_preroute_line" =~ ( |\') ]]; then
+        if [[ -n $_preroute_line ]] && ! [[ $_preroute_line =~ ( |\') ]]; then
           _host_port=$(sudo iptables -L PREROUTING -t nat --line-numbers | sed -ne "s/^\([0-9]\)*\ .*dpt:\([^\ ]*\).*$_ip_addr:$2/\2/p")
 
           mkdir -p $DOTFILES_DIR/backup/iptables
@@ -261,7 +262,7 @@ function virsh-config-nat-delete() {
           sudo iptables -t nat -D PREROUTING $_preroute_line && echo "Deleted NAT PREROUTING from port $_host_port to $_ip_addr:$2"
 
           # Might missed FORWARD chain here, but it's okay
-          if [[ -n "$_forward_line" ]] && ! [[ "$_forward_line" =~ ( |\') ]]; then
+          if [[ -n $_forward_line ]] && ! [[ $_forward_line =~ ( |\') ]]; then
             sudo iptables -D FORWARD $_forward_line && echo "Deleted FORWARDING to $_ip_addr:$2"
           fi
 
@@ -284,26 +285,28 @@ function virsh-config-nat-delete() {
 
 _virsh_config_profile="network nat"
 function virsh-config-show() {
-  if [[ -n "$1" ]] && [[ $_virsh_config_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  if [[ -n $1 ]] && [[ $_virsh_config_profile =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
     case "$1" in
       network)
         _net_names=$(virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " ")
-        for i in "$_net_names"; do
-          virsh net-dumpxml --network $i >! $DOTFILES_DIR/backup/libvirt/network_$i.xml
-          virsh net-dumpxml --network $i
+        while read i; do
+          [[ -z $i ]] && continue
+          virsh net-dumpxml --network "$i" >! $DOTFILES_DIR/backup/libvirt/network_"$i".xml
+          virsh net-dumpxml --network "$i"
           echo "\r\n"
-        done
+        done <<< "$_net_names"
         ;;
       nat)
         _vm_list=$(virsh list --all --name)
-        for i in "$_vm_list"; do
+        while read i; do
+          [[ -z $i ]] && continue
           echo "$i:"
           _ip_addr=$(virsh_get_ip "$i")
           sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | \
               sed -ne "s/.*\(\(tcp\|udp\)\ dpt.*$_ip_addr.*\)/\1/p" | while read ii; do
-            echo $ii
+            echo "$ii"
           done
-        done
+        done <<< "$_vm_list"
         ;;
       *) echo "nah"
         ;;
@@ -318,29 +321,27 @@ function virsh-config-backup() {
   _now=`date +%Y-%m-%d_%H-%M-%S`
   echo "$SHORT_HOST -- $_now" | tee $DOTFILES_DIR/backup/libvirt/config.txt
 
-  _vm_list=$(virsh list --all --name)
-  for i in "$_vm_list"; do
+  virsh list --all --name | while read i; do
+    [[ -z $i ]] && continue
     _ip_addr=$(virsh_get_ip "$i")
     echo "$i: $_ip_addr" | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
     sudo iptables -L PREROUTING -t nat --line-numbers > /dev/null | \
         sed -ne "s/.*\(\(tcp\|udp\)\ dpt.*$_ip_addr.*\)/\1/p" | while read ii; do
-      echo $ii | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
+      echo "$ii" | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
     done
   done
 
   echo "\n\r" | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
-  _net_names=$(virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " ")
-  for i in "$_net_names"; do
+  virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " " | while read i; do
     virsh net-dumpxml --network $i | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
     echo "\r\n"
   done
 }
 
 function virsh-network-restart() {
-  _net_names=$(sudo virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " ")
-  for i in "$_net_names"; do
-    sudo virsh net-destroy $i 
-    sudo virsh net-start $i
+  sudo virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " " | while read i; do
+    sudo virsh net-destroy "$i"
+    sudo virsh net-start "$i"
   done
 }
 
@@ -353,7 +354,7 @@ function config-test() {
 
 _ssh_profile="ubuntu-desktop ubuntu-server debian-embedded"
 function config-ssh() {
-  if [[ -n "$1" ]] && [[ $_ssh_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  if [[ -n $1 ]] && [[ $_ssh_profile =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
     git_clone_private
     $PRIVATE_FOLDER/scripts/ssh/"$1".zsh
     git_remove_private
@@ -373,7 +374,7 @@ function config-ssh-restart() {
 
 _firewall_profile="default server erx-local"
 function config-firewall() {
-  if [[ -n "$1" ]] && [[ $_firewall_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  if [[ -n $1 ]] && [[ $_firewall_profile =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
     git_clone_private
     $PRIVATE_FOLDER/scripts/firewall/"$1".zsh
     git_remove_private
@@ -384,16 +385,16 @@ function config-firewall() {
 compctl -k "($_firewall_profile)" config-firewall
 
 function config-firewall-nat-add() {
-  if [[ -n "$1" ]] && [[ -n "$2" ]] && [[ -n "$3" ]]; then
+  if [[ -n $1 ]] && [[ -n $2 ]] && [[ -n $3 ]]; then
     # backup
     mkdir -p $DOTFILES_DIR/backup/iptables
     sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v4
     sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v6
 
-    sudo iptables -t nat -D PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3 2> /dev/null
-    sudo iptables -t nat -I PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3
-    sudo iptables -D FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT 2> /dev/null
-    sudo iptables -I FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT
+    sudo iptables -t nat -D PREROUTING -p tcp --dport "$2" -j DNAT --to-destination "$1":"$3" 2> /dev/null
+    sudo iptables -t nat -I PREROUTING -p tcp --dport "$2" -j DNAT --to-destination "$1":"$3"
+    sudo iptables -D FORWARD -d "$1" -p tcp -m state --state NEW -m tcp --dport "$3" -j ACCEPT 2> /dev/null
+    sudo iptables -I FORWARD -d "$1" -p tcp -m state --state NEW -m tcp --dport "$3" -j ACCEPT
 
     # backup
     sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.v4
@@ -405,14 +406,14 @@ function config-firewall-nat-add() {
 }
 
 function config-firewall-nat-delete() {
-  if [[ -n "$1" ]] && [[ -n "$2" ]] && [[ -n "$3" ]]; then
+  if [[ -n $1 ]] && [[ -n $2 ]] && [[ -n $3 ]]; then
     # backup
     mkdir -p $DOTFILES_DIR/backup/iptables
     sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v4
     sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v6
 
-    sudo iptables -t nat -D PREROUTING -p tcp --dport $2 -j DNAT --to-destination $1:$3
-    sudo iptables -I FORWARD -d $1 -p tcp -m state --state NEW -m tcp --dport $3 -j ACCEPT
+    sudo iptables -t nat -D PREROUTING -p tcp --dport "$2" -j DNAT --to-destination "$1":"$3"
+    sudo iptables -I FORWARD -d "$1" -p tcp -m state --state NEW -m tcp --dport "$3" -j ACCEPT
 
     # backup
     sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.v4
@@ -424,7 +425,7 @@ function config-firewall-nat-delete() {
 
 _config_profile="firewall"
 function config-show() {
-  if [[ -n "$1" ]] && [[ $_config_profile =~ (^|[[:space:]])"$1"($|[[:space:]]) ]]; then
+  if [[ -n $1 ]] && [[ $_config_profile =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
     case "$1" in
       firewall)
         echo "IPv4 CONFIG:\n\r"
@@ -455,8 +456,8 @@ function backup-backup() {
   git_clone_private
   _now=`date +%Y-%m-%d_%H-%M-%S`
   mkdir -p "$PRIVATE_FOLDER/backup/backup/$SHORT_HOST/$_now"
-  cp -r $DOTFILES_DIR/backup/* $PRIVATE_FOLDER/backup/backup/$SHORT_HOST/$_now
-  cd $PRIVATE_FOLDER/backup/backup/$SHORT_HOST/$_now
+  cp -r $DOTFILES_DIR/backup/* $PRIVATE_FOLDER/backup/backup/$SHORT_HOST/"$_now"
+  cd $PRIVATE_FOLDER/backup/backup/$SHORT_HOST/"$_now"
   git add --all --force .
   cd $PRIVATE_FOLDER
   git commit -a -m "back up backup from $SHORT_HOST"
@@ -469,8 +470,8 @@ function backup-local() {
   git_clone_private
   _now=`date +%Y-%m-%d_%H-%M-%S`
   mkdir -p "$PRIVATE_FOLDER/backup/local/$SHORT_HOST/$_now"
-  cp -r $DOTFILES_DIR/local/* $PRIVATE_FOLDER/backup/local/$SHORT_HOST/$_now
-  cd $PRIVATE_FOLDER/backup/local/$SHORT_HOST/$_now
+  cp -r $DOTFILES_DIR/local/* $PRIVATE_FOLDER/backup/local/$SHORT_HOST/"$_now"
+  cd $PRIVATE_FOLDER/backup/local/$SHORT_HOST/"$_now"
   git add --all --force .
   cd $PRIVATE_FOLDER
   git commit -a -m "back up local from $SHORT_HOST"
