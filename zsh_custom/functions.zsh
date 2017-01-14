@@ -222,32 +222,33 @@ function virsh-config-staticip() {
 
 function virsh-config-staticip-delete() {
   if [[ $1 != ${1#*[0-9].[0-9]} ]]; then
-  # Export file to edit
-  mkdir -p $DOTFILES_DIR/backup/libvirt
-  virsh net-dumpxml --network default >! $DOTFILES_DIR/backup/libvirt/network_default.xml
-  /bin/cp -rf $DOTFILES_DIR/backup/libvirt/network_default.xml $DOTFILES_DIR/backup/libvirt/network_default.old.xml
+    # Export file to edit
+    mkdir -p $DOTFILES_DIR/backup/libvirt
+    virsh net-dumpxml --network default >! $DOTFILES_DIR/backup/libvirt/network_default.xml
+    /bin/cp -rf $DOTFILES_DIR/backup/libvirt/network_default.xml $DOTFILES_DIR/backup/libvirt/network_default.old.xml
 
-  # Check if IP is already assigned
-  if sed -ne "s/\(.*<host>.*\)\($1\)\(.*\)/\1\2\3/p" $DOTFILES_DIR/backup/libvirt/network_default.xml; then
-    echo "Current host:"
-    grep ".*<host.*$1.*" $DOTFILES_DIR/backup/libvirt/network_default.xml
-    read -q "_confirm?Are you sure [yn]? "
-    if [[ "$_confirm" =~ ^[Yy]$ ]]; then
-      # Update config
-      sed -i "/.*<host.*$1.*/d" $DOTFILES_DIR/backup/libvirt/network_default.xml
+    # Check if IP is already assigned
+    if sed -ne "s/\(.*<host>.*\)\($1\)\(.*\)/\1\2\3/p" $DOTFILES_DIR/backup/libvirt/network_default.xml; then
+      echo "Current host:"
+      grep ".*<host.*$1.*" $DOTFILES_DIR/backup/libvirt/network_default.xml
+      read -q "_confirm?Are you sure [yn]? "
+      if [[ "$_confirm" =~ ^[Yy]$ ]]; then
+        # Update config
+        sed -i "/.*<host.*$1.*/d" $DOTFILES_DIR/backup/libvirt/network_default.xml
 
-      # Load config
-      sudo virsh net-define $DOTFILES_DIR/backup/libvirt/network_default.xml
-      sudo virsh net-autostart --network default
-      sudo virsh net-destroy default
-      sudo virsh net-start default
+        # Load config
+        sudo virsh net-define $DOTFILES_DIR/backup/libvirt/network_default.xml
+        sudo virsh net-autostart --network default
+        sudo virsh net-destroy default
+        sudo virsh net-start default
 
-      echo "Static IP $1 is removed!"  
+        echo "Static IP $1 is removed!"  
+      else
+        echo "\r\nAborted!"
+      fi
     else
-      echo "\r\nAborted!"
+      echo "Static IP is not assigned!"
     fi
-  else
-    echo "Static IP is not assigned!"
   else
     echo "fatal: invalid IP"
     echo "Usage: virsh-config-staticip-delete staticip"
