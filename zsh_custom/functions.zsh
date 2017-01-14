@@ -105,6 +105,7 @@ function ssh-tunnel() {
         _ssh_options=$1
         while read i; do
           [[ -z $i ]] && continue
+          nc -z localhost "95${i: -2}" 2> /dev/null && echo "Port 95${i: -2} is in used!" && return 1
           _ssh_options="$_ssh_options -L 95${i: -2}:localhost:$i"
         done <<< "$_port_list"
         command ssh $=_ssh_options -t "SSH_CLIENT_SHORT_HOST="${PREFER_HOST_NAME:-${SHORT_HOST}}-tunnel" '$SHELL'"
