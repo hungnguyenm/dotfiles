@@ -19,10 +19,10 @@ set encoding=utf-8 nobomb
 set binary
 set noeol
 " Centralize backups, swapfiles and undo history
-set backupdir=$ZSH_VIM_BACKUPS//
-set directory=$ZSH_VIM_SWAPS//
+set backupdir=$ZSH_VIM_BACKUPS//,.,/tmp
+set directory=$ZSH_VIM_SWAPS//,.,/tmp
 if exists("&undodir")
-	set undodir=$ZSH_VIM_UNDO//
+	set undodir=$ZSH_VIM_UNDO//,.,/tmp
 endif
 
 " Respect modeline in files
