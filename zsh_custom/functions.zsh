@@ -95,7 +95,7 @@ function ssh() {
 }
 
 function ssh-dotfiles() {
-  ssh -t "$@" "sudo apt-get install -y git;rm -rf ~/dotfiles;git clone https://github.com/hungnguyenm/dotfiles ~/dotfiles"
+  ssh -t "$@" "sudo apt-get install -y git;rm -rf ~/dotfiles;git clone --recursive https://github.com/hungnguyenm/dotfiles ~/dotfiles"
   ssh "$@"
 }
 
