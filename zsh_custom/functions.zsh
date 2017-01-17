@@ -374,6 +374,8 @@ function virsh-config-show() {
 compctl -k "($_virsh_config_profile)" virsh-config-show
 
 function virsh-config-backup() {
+  mkdir -p $DOTFILES_DIR/backup/libvirt/qemu
+
   _now=`date +%Y-%m-%d_%H-%M-%S`
   echo "$SHORT_HOST -- $_now" | tee $DOTFILES_DIR/backup/libvirt/config.txt
 
@@ -395,6 +397,11 @@ function virsh-config-backup() {
   virsh net-list --all | grep -Eo '^ [^ ]*' | grep -v 'Name' | tr -d " " | while read i; do
     virsh net-dumpxml --network $i | tee -a $DOTFILES_DIR/backup/libvirt/config.txt
     echo "\r\n"
+  done
+
+  virsh list --all --name | while read i; do
+    [[ -z $i ]] && continue
+    virsh dumpxml --domain "$i" > "$DOTFILES_DIR/backup/libvirt/qemu/$i.txt"
   done
 }
 
