@@ -94,6 +94,10 @@ function ssh() {
   fi
 }
 
+function ssh-dotfiles() {
+  ssh -t "$@" "sudo apt-get install -y git;rm -rf ~/dotfiles;git clone https://github.com/hungnguyenm/dotfiles ~/dotfiles"
+}
+
 function ssh-tunnel() {
   if [[ -r ~/.ssh/config ]]; then
     if [[ -n $1 ]] && [[ $_ssh_config =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
