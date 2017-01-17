@@ -639,5 +639,5 @@ function iptables_dpt_map() {
 }
 
 function guest_clear_cache() {
-  sync; sudo echo 3 >! /proc/sys/vm/drop_caches
+  sync; echo 3 | sudo tee /proc/sys/vm/drop_caches
 }
