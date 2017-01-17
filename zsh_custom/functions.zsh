@@ -401,7 +401,7 @@ function virsh-config-backup() {
 
   virsh list --all --name | while read i; do
     [[ -z $i ]] && continue
-    virsh dumpxml --domain "$i" > "$DOTFILES_DIR/backup/libvirt/qemu/$i.txt"
+    virsh dumpxml --domain "$i" > "$DOTFILES_DIR/backup/libvirt/qemu/$i.xml"
   done
 }
 
