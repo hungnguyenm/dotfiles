@@ -26,6 +26,10 @@ PATH="$PATH:/Applications/sage"
 PATH="$PATH:$HOME/opt/android-studio/bin"
 PATH="$PATH:$HOME/Android/Sdk/platform-tools"
 
+# - Ubuntu - sdkman
+export SDKMAN_DIR="$HOME/.sdkman"
+[[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
 export PATH
 
 # Ignore some system global files
