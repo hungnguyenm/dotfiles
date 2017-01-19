@@ -324,6 +324,7 @@ function virsh-config-nat-delete() {
           fi
 
           sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.v4
+          sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
         else
           echo "No matched rule to delete!"
         fi
@@ -471,6 +472,9 @@ function config-firewall-delete() {
           read -q "_confirm?Are you sure [yn]? "
           if [[ "$_confirm" =~ ^[Yy]$ ]]; then
             sudo iptables -t nat -D PREROUTING $_line && echo "\r\nDeleted!"
+
+            # update persistent
+            sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
           else
             echo "Aborted!"
           fi
@@ -489,6 +493,9 @@ function config-firewall-delete() {
           read -q "_confirm?Are you sure [yn]? "
           if [[ "$_confirm" =~ ^[Yy]$ ]]; then
             sudo iptables -D FORWARD $_line && echo "\r\nDeleted!"
+
+            # update persistent
+            sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
           else
             echo "\r\nAborted!"
           fi
@@ -520,6 +527,10 @@ function config-firewall-nat-add() {
     # backup
     sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.v4
     sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.v6
+
+    # update persistent
+    sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
+    sudo sh -c 'ip6tables-save > /etc/iptables/rules.v6'
   else
     echo "fatal: bad arguments"
     echo "Usage: config-firewall-nat-add new_ip old_port new_port"
@@ -539,6 +550,10 @@ function config-firewall-nat-delete() {
     # backup
     sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.v4
     sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.v6
+
+    # update persistent
+    sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
+    sudo sh -c 'ip6tables-save > /etc/iptables/rules.v6'
   else
     echo "fatal: bad arguments"
     echo "Usage: config-firewall-nat-delete new_ip old_port new_port"
@@ -632,6 +647,8 @@ function virsh_get_ip() {
 function iptables_dpt_map() {
   case "$1" in
     22) echo "ssh"
+      ;;
+    80) echo "http"
       ;;
     *) echo "$1"
       ;;
