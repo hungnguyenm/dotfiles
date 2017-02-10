@@ -1,5 +1,5 @@
 set nocompatible
-set shell=zsh\ -i
+set shell=zsh
 
 " Some key maps
 " This unsets the "last search pattern" register by hitting return
