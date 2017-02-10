@@ -2,6 +2,7 @@
 nvim/.netrwhist
 vim/.netrwhist
 vim/tmp
+vim/bundle/
 
 # Mutt files
 mutt/certificates
