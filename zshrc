@@ -68,6 +68,9 @@ setopt noclobber
 # - History optimization
 setopt histignoredups
 
+# - Extended globbing
+setopt extended_glob
+
 # ssh-agent
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 
