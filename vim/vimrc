@@ -59,6 +59,9 @@ set softtabstop=2
 " Show “invisible” characters
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set list
+" Highlight 80 column
+set colorcolumn=80
+highlight ColorColumn ctermbg=darkgray
 " Highlight searches
 set hlsearch
 " Ignore case of searches ...
