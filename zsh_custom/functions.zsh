@@ -650,6 +650,8 @@ function iptables_dpt_map() {
       ;;
     80) echo "http"
       ;;
+    443) echo "https"
+      ;;
     *) echo "$1"
       ;;
   esac
