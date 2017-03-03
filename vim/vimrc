@@ -107,6 +107,16 @@ Plugin 'tomtom/tcomment_vim'
 Plugin 'AndrewRadev/splitjoin.vim'
 Plugin 'terryma/vim-multiple-cursors'
 
+if has("unix")
+  let s:uname = system("echo -n \"$(uname)\"")
+  if !v:shell_error && s:uname == "Linux"
+    Plugin 'valloric/youcompleteme'
+    " Need to install YouCompleteMe
+    " cd ~/.vim/bundle/YouCompleteMe
+    " ./install.py --clang-completer
+  endif
+endif
+
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
