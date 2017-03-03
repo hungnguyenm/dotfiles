@@ -42,6 +42,7 @@ else:
 def DirectoryOfThisScript():
   return os.path.dirname( os.path.abspath( __file__ ) )
 
+
 def MakeRelativePathsInFlagsAbsolute( flags, working_directory ):
   if not working_directory:
     return list( flags )
