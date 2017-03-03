@@ -59,9 +59,11 @@ set softtabstop=2
 " Show “invisible” characters
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set list
-" Highlight 80 column
-set colorcolumn=80
-highlight ColorColumn ctermbg=darkgray
+" Highlight 81st chars onward
+augroup vimrc_autocmds
+  autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#111111
+  autocmd BufEnter * match OverLength /\%81v.*/
+augroup END
 " Highlight searches
 set hlsearch
 " Ignore case of searches ...
@@ -94,6 +96,27 @@ endif
 " Start scrolling 5 lines before the horizontal window border
 set scrolloff=5
 
+" ---- Key map
+" build & run
+noremap <F5> :w <CR> :!g++ % -o %< && ./%< <CR>
+noremap! <F5> <Esc> :w <CR> :!g++ % -o %< && ./%< <CR>
+" build & debug
+noremap <F9> :w <CR> :!g++ % -DDEBUG -g -o %< <CR> :ConqueGdb %< <CR>
+noremap! <F9> <Esc> :w <CR> :!g++ % -DDEBUG -g -o %< <CR> :ConqueGdb %< <CR>
+" save
+noremap <F2> :w <CR>
+noremap! <F2> <Esc> :w <CR>
+" close
+noremap <F10> :q <CR>
+noremap! <F10> <Esc> :q <CR>
+
+" quit Conque Gdb
+nnoremap <silent> <Leader>q :ConqueGdbCommand q<CR>
+" toogle NERDTree
+nnoremap <F3> :NERDTreeToggle<CR>
+" toogle Tagbar
+nmap <F4> :TagbarToggle<CR>
+
 " ---- Vundle config
 filetype off
 " set the runtime path to include Vundle and initialize
@@ -104,14 +127,19 @@ Plugin 'gmarik/Vundle.vim'
 
 " Additional plugin
 Plugin 'tomtom/tcomment_vim'
-Plugin 'AndrewRadev/splitjoin.vim'
+Plugin 'andrewradev/splitjoin.vim'
 Plugin 'terryma/vim-multiple-cursors'
+Plugin 'scrooloose/nerdtree'
+Plugin 'christoomey/vim-tmux-navigator'
+" Need to install ctags for tagbar
+Plugin 'majutsushi/tagbar'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'vim-scripts/conque-gdb'
 
 if has("unix")
   let s:uname = system("echo -n \"$(uname)\"")
   if !v:shell_error && s:uname == "Linux"
     Plugin 'valloric/youcompleteme'
-    let g:ycm_global_ycm_extra_conf = "~/.vim/ycm_extra_conf.py"
     " Need to install YouCompleteMe
     " cd ~/.vim/bundle/YouCompleteMe
     " ./install.py --clang-completer
@@ -132,3 +160,29 @@ filetype plugin indent on    " required
 "
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
+
+" Additional config for YCM
+let g:ycm_global_ycm_extra_conf = "~/.vim/ycm_extra_conf.py"
+let g:ycm_show_diagnostics_ui = 0
+
+" Additional config for Syntastic
+let g:syntastic_cpp_compiler_options = ' -std=c++14'
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_mode_map = {
+  \ "mode": "passive",
+  \ "active_filetypes": ["cpp","c"],
+  \ "passive_filetypes": [] }
+
+" Additional config for Conque Gdb
+let g:ConqueGdb_Leader = ','
+let g:ConqueTerm_StartMessages = 0
+let g:ConqueTerm_CloseOnEnd = 1
+let g:ConqueTerm_ReadUnfocused = 1
+let g:ConqueTerm_Color = 2
+
+" Additional config for NERDtree
+" autocmd VimEnter * if !argc() | NERDTree | endif
+" autocmd VimEnter * wincmd w
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
