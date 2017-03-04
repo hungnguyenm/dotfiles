@@ -114,11 +114,11 @@ function! BuildDebugCpp()
 endfunction
 
 function! ToogleSyntasticCheck()
-  if &runsyntastic
-    set runsyntastic=0
+  if &g:runsyntastic
+    set g:runsyntastic=0
     execute(":SyntasticCheck")
   else
-    set runsyntastic=1
+    set g:runsyntastic=1
     execute(":SyntasticReset")
   endif
 endfunction
