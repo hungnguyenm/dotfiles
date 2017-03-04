@@ -117,10 +117,10 @@ let g:runsyntastic = 0
 function! ToogleSyntasticCheck()
   if g:runsyntastic
     let g:runsyntastic=0
-    execute(":SyntasticCheck")
+    execute(":SyntasticReset")
   else
     let g:runsyntastic=1
-    execute(":SyntasticReset")
+    execute(":SyntasticCheck")
   endif
 endfunction
 
