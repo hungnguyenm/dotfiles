@@ -126,6 +126,8 @@ noremap! <F2> <Esc> :w <CR>
 noremap <F10> :q <CR>
 noremap! <F10> <Esc> :q <CR>
 
+" Syntastic
+nnoremap <silent> <F1> :SyntasticCheck<CR>
 " Conque Gdb
 nnoremap <silent> <Leader>q :ConqueGdbCommand q<CR>
 nnoremap <silent> <F6> :ConqueGdbCommand continue<CR>
@@ -187,6 +189,7 @@ let g:ycm_show_diagnostics_ui = 0
 " Additional config for Syntastic
 let g:syntastic_cpp_compiler_options = ' -std=c++14'
 let g:syntastic_cpp_check_header = 1
+let g:syntastic_check_on_wq = 0
 let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_mode_map = {
