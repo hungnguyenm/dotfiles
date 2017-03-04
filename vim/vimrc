@@ -97,12 +97,28 @@ endif
 set scrolloff=5
 
 " ---- Key map
+function! BuildCpp()
+  if filereadable("./Makefile")
+    make
+  else
+    execute("!g++ % -o %<")
+  endif
+endfunction
+
+function! BuildDebugCpp()
+  if filereadable("./Makefile")
+    make debug
+  else
+    execute("!g++ % -DDEBUG -g -o %<")
+  endif
+endfunction
+
 " build & run
-noremap <F5> :w <CR> :!g++ % -o %< && ./%< <CR>
-noremap! <F5> <Esc> :w <CR> :!g++ % -o %< && ./%< <CR>
+noremap <F5> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
+noremap! <F5> <Esc> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
 " build & debug
-noremap <F9> :w <CR> :!g++ % -DDEBUG -g -o %< <CR> :ConqueGdb %< <CR>
-noremap! <F9> <Esc> :w <CR> :!g++ % -DDEBUG -g -o %< <CR> :ConqueGdb %< <CR>
+noremap <F9> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
+noremap! <F9> <Esc> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
 " save
 noremap <F2> :w <CR>
 noremap! <F2> <Esc> :w <CR>
