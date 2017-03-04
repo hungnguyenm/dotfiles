@@ -142,8 +142,8 @@ nnoremap <silent> <F1> :call ToogleSyntasticCheck()<CR>
 " Conque Gdb
 nnoremap <silent> <Leader>q :ConqueGdbCommand q<CR>
 nnoremap <silent> <F6> :ConqueGdbCommand continue<CR>
-nnoremap <silent> <F7> :ConqueGdbCommand next<CR>
-nnoremap <silent> <F8> :ConqueGdbCommand step<CR>
+nnoremap <silent> <F7> :ConqueGdbCommand step<CR>
+nnoremap <silent> <F8> :ConqueGdbCommand next<CR>
 " toogle NERDTree
 nnoremap <F3> :NERDTreeToggle<CR>
 " toogle Tagbar
@@ -210,6 +210,7 @@ let g:syntastic_mode_map = {
 
 " Additional config for Conque Gdb
 let g:ConqueGdb_Leader = ','
+let g:ConqueTerm_ToogleKey = ''
 let g:ConqueTerm_StartMessages = 0
 let g:ConqueTerm_CloseOnEnd = 1
 let g:ConqueTerm_ReadUnfocused = 1
