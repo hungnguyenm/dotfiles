@@ -101,7 +101,7 @@ function! BuildCpp()
   if filereadable("./Makefile")
     make
   else
-    execute("!g++ % -o %<")
+    execute("!g++ % -lcrypto -lpthread -o %<")
   endif
 endfunction
 
@@ -109,7 +109,7 @@ function! BuildDebugCpp()
   if filereadable("./Makefile")
     make debug
   else
-    execute("!g++ % -DDEBUG -g -o %<")
+    execute("!g++ % -DDEBUG -g -lcrypto -lpthread -o %<")
   endif
 endfunction
 
@@ -126,8 +126,11 @@ noremap! <F2> <Esc> :w <CR>
 noremap <F10> :q <CR>
 noremap! <F10> <Esc> :q <CR>
 
-" quit Conque Gdb
+" Conque Gdb
 nnoremap <silent> <Leader>q :ConqueGdbCommand q<CR>
+nnoremap <silent> <F6> :ConqueGdbCommand continue<CR>
+nnoremap <silent> <F7> :ConqueGdbCommand next<CR>
+nnoremap <silent> <F8> :ConqueGdbCommand step<CR>
 " toogle NERDTree
 nnoremap <F3> :NERDTreeToggle<CR>
 " toogle Tagbar
