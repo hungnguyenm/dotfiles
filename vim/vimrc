@@ -113,12 +113,13 @@ function! BuildDebugCpp()
   endif
 endfunction
 
+let g:runsyntastic = 0
 function! ToogleSyntasticCheck()
-  if &g:runsyntastic
-    set g:runsyntastic=0
+  if g:runsyntastic
+    let g:runsyntastic=0
     execute(":SyntasticCheck")
   else
-    set g:runsyntastic=1
+    let g:runsyntastic=1
     execute(":SyntasticReset")
   endif
 endfunction
@@ -137,7 +138,7 @@ noremap <F10> :q <CR>
 noremap! <F10> <Esc> :q <CR>
 
 " Syntastic
-nnoremap <F1> :call ToogleSyntasticCheck()<CR>
+nnoremap <silent> <F1> :call ToogleSyntasticCheck()<CR>
 " Conque Gdb
 nnoremap <silent> <Leader>q :ConqueGdbCommand q<CR>
 nnoremap <silent> <F6> :ConqueGdbCommand continue<CR>
