@@ -210,7 +210,7 @@ let g:syntastic_mode_map = {
 
 " Additional config for Conque Gdb
 let g:ConqueGdb_Leader = ','
-let g:ConqueTerm_ToogleKey = ''
+let g:ConqueTerm_ToogleKey = '<F11>'
 let g:ConqueTerm_StartMessages = 0
 let g:ConqueTerm_CloseOnEnd = 1
 let g:ConqueTerm_ReadUnfocused = 1
