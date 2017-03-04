@@ -113,6 +113,16 @@ function! BuildDebugCpp()
   endif
 endfunction
 
+function! ToogleSyntasticCheck()
+  if &runsyntastic
+    set runsyntastic=0
+    execute(":SyntasticCheck")
+  else
+    set runsyntastic=1
+    execute(":SyntasticReset")
+  endif
+endfunction
+
 " build & run
 noremap <F5> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
 noremap! <F5> <Esc> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
@@ -127,7 +137,7 @@ noremap <F10> :q <CR>
 noremap! <F10> <Esc> :q <CR>
 
 " Syntastic
-nnoremap <silent> <F1> :SyntasticCheck<CR>
+nnoremap <F1> :call ToogleSyntasticCheck()<CR>
 " Conque Gdb
 nnoremap <silent> <Leader>q :ConqueGdbCommand q<CR>
 nnoremap <silent> <F6> :ConqueGdbCommand continue<CR>
