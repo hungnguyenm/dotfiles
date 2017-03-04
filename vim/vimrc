@@ -125,11 +125,11 @@ function! ToogleSyntasticCheck()
 endfunction
 
 " build & run
-noremap <F5> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
-noremap! <F5> <Esc> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
+noremap <Leader><F5> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
+noremap! <Leader><F5> <Esc> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
 " build & debug
-noremap <F9> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
-noremap! <F9> <Esc> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
+noremap <F8> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
+noremap! <F8> <Esc> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
 " save
 noremap <F2> :w <CR>
 noremap! <F2> <Esc> :w <CR>
@@ -141,9 +141,9 @@ noremap! <F10> <Esc> :q <CR>
 nnoremap <silent> <F1> :call ToogleSyntasticCheck()<CR>
 " Conque Gdb
 nnoremap <silent> <Leader>q :ConqueGdbCommand q<CR>
+nnoremap <silent> <F5> :ConqueGdbCommand run<CR>
 nnoremap <silent> <F6> :ConqueGdbCommand continue<CR>
-nnoremap <silent> <F7> :ConqueGdbCommand step<CR>
-nnoremap <silent> <F8> :ConqueGdbCommand next<CR>
+nnoremap <silent> <F7> :ConqueGdbCommand next<CR>
 " toogle NERDTree
 nnoremap <F3> :NERDTreeToggle<CR>
 " toogle Tagbar
@@ -210,11 +210,10 @@ let g:syntastic_mode_map = {
 
 " Additional config for Conque Gdb
 let g:ConqueGdb_Leader = ','
-let g:ConqueTerm_ToogleKey = '<F11>'
 let g:ConqueTerm_StartMessages = 0
 let g:ConqueTerm_CloseOnEnd = 1
 let g:ConqueTerm_ReadUnfocused = 1
-let g:ConqueTerm_Color = 2
+let g:ConqueTerm_Color = 1
 
 " Additional config for NERDtree
 " autocmd VimEnter * if !argc() | NERDTree | endif
