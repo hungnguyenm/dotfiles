@@ -128,11 +128,11 @@ endfunction
 noremap <Leader><F5> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
 noremap! <Leader><F5> <Esc> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
 " build & debug
-noremap <F8> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
-noremap! <F8> <Esc> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
+noremap <F4> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
+noremap! <F4> <Esc> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
 " save
-noremap <F2> :w <CR>
-noremap! <F2> <Esc> :w <CR>
+noremap <F9> :w <CR>
+noremap! <F9> <Esc> :w <CR>
 " close
 noremap <F10> :q <CR>
 noremap! <F10> <Esc> :q <CR>
@@ -145,9 +145,9 @@ nnoremap <silent> <F5> :ConqueGdbCommand run<CR>
 nnoremap <silent> <F6> :ConqueGdbCommand continue<CR>
 nnoremap <silent> <F7> :ConqueGdbCommand next<CR>
 " toogle NERDTree
-nnoremap <F3> :NERDTreeToggle<CR>
+nnoremap <F2> :NERDTreeToggle<CR>
 " toogle Tagbar
-nmap <F4> :TagbarToggle<CR>
+nmap <F3> :TagbarToggle<CR>
 
 " ---- Vundle config
 filetype off
