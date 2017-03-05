@@ -101,7 +101,7 @@ function! BuildCpp()
   if filereadable("./Makefile")
     make
   else
-    execute("!g++ % -lcrypto -lpthread -o %<")
+    execute("!g++ % -lpthread -o %<")
   endif
 endfunction
 
@@ -109,7 +109,7 @@ function! BuildDebugCpp()
   if filereadable("./Makefile")
     make debug
   else
-    execute("!g++ % -DDEBUG -g -lcrypto -lpthread -o %<")
+    execute("!g++ % -DDEBUG -g -lpthread -o %<")
   endif
 endfunction
 
