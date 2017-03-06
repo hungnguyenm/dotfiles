@@ -1,3 +1,6 @@
+# sudo preserve LD_LIBRARY_PATH
+alias sudo="sudo env LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
+
 # dotfiles
 alias reload="echo 'rls: reload shell\n\rrlz: reload zsh\n\rrldot: git pull dotfiles\n\rrlcomp: rebuild compdump\n\rrcdot: rm and redownload dotfiles\n\rrcsdot: rm and secure redownload dotfiles'"
 alias rls="exec $SHELL -l"

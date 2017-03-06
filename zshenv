@@ -32,5 +32,10 @@ export SDKMAN_DIR="$HOME/.sdkman"
 
 export PATH
 
+# Libraries
+LD_LIBRARY_PATH=/usr/local/lib
+
+export LD_LIBRARY_PATH
+
 # Ignore some system global files
 skip_global_compinit=1
