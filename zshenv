@@ -35,6 +35,9 @@ export PATH
 # Libraries
 LD_LIBRARY_PATH=/usr/local/lib
 
+# - Embedded
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/lib/i386-linux-gnu"
+
 export LD_LIBRARY_PATH
 
 # Ignore some system global files
