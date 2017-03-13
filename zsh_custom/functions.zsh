@@ -648,6 +648,8 @@ function iptables_dpt_map() {
   case "$1" in
     22) echo "ssh"
       ;;
+    69) echo "tftp"
+      ;;
     80) echo "http"
       ;;
     443) echo "https"
