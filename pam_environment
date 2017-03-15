@@ -1,2 +1,0 @@
-LD_LIBRARY_PATH DEFAULT=${LD_LIBRARY_PATH}:/usr/local/cuda/lib64
-PATH DEFAULT=${PATH}:/usr/local/cuda/bin
