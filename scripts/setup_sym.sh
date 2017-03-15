@@ -22,6 +22,9 @@ echo -n "Changing to the $dir directory ..."
 cd $dir
 echo "done"
 
+# get the platform of the current machine
+platform=$(uname);
+
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks from the homedir to any files in the ~/dotfiles directory specified in $files
 for file in $files; do
     echo "Moving $file from ~ to $olddir"
