@@ -425,7 +425,7 @@ function config-test() {
   git_remove_private
 }
 
-_ssh_profile="ubuntu-desktop ubuntu-server debian-embedded"
+_ssh_profile="ubuntu-desktop ubuntu-server debian-embedded debian-embedded-defaultssh"
 function config-ssh() {
   if [[ -n $1 ]] && [[ $_ssh_profile =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
     git_clone_private
