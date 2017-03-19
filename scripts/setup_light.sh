@@ -75,6 +75,6 @@ if [[ $platform == 'Linux' ]]; then
         echo "Moving $linux_file from ~ to $olddir"
         mv ~/.$linux_file ~/dotfiles_old/
         echo "Creating symlink to $linux_file in home directory."
-        ln -s $dir/$linux_file ~/.$server_file
+        ln -s $dir/$linux_file ~/.$linux_file
     done
 fi
