@@ -92,3 +92,7 @@ done
 
 # and source OMZ
 source $ZSH/oh-my-zsh.sh
+
+#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+export SDKMAN_DIR="/home/hung/.sdkman"
+[[ -s "/home/hung/.sdkman/bin/sdkman-init.sh" ]] && source "/home/hung/.sdkman/bin/sdkman-init.sh"
