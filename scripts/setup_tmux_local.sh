@@ -6,7 +6,7 @@
 # exit on error
 set -e
 
-TMUX_VERSION=2.3
+TMUX_VERSION=2.4
 TMUX_DIR=$HOME/opt/tmux
 TMUX_BIN_DIR=$HOME/bin
 TMUX_TEMP_DIR=$HOME/temp/tmux
