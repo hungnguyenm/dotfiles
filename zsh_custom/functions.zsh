@@ -85,18 +85,13 @@ function fso() {
 function ssh() {
   if (( ${#} == 1 )); then
   	if [[ $_ssh_config =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
-  	  command ssh -t "$1" "SSH_CLIENT_SHORT_HOST="${PREFER_HOST_NAME:-${SHORT_HOST}}" '$SHELL'"
+  	  command ssh -t "$1" "if type $SHELL >/dev/null 2>&1; then SSH_CLIENT_SHORT_HOST="${PREFER_HOST_NAME:-${SHORT_HOST}}" $SHELL; elif type zsh >/dev/null 2>&1; then SSH_CLIENT_SHORT_HOST="${PREFER_HOST_NAME:-${SHORT_HOST}}" zsh; else bash; fi;"
   	else
   	  command ssh "$@"
   	fi
   else
   	command ssh "$@"
   fi
-}
-
-function ssh-dotfiles() {
-  ssh -t "$@" "sudo apt-get install -y git;rm -rf ~/dotfiles;git clone --recursive https://github.com/hungnguyenm/dotfiles ~/dotfiles"
-  ssh "$@" -A
 }
 
 function ssh-tunnel() {
