@@ -12,15 +12,15 @@ export PRIVATE_GIT="git@github.com:hungnguyenm/dotfiles_private.git"
 
 # Path
 PATH="$HOME/bin:/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
-
 PATH="$PATH:$DOTFILES_DIR/scripts"
+
+# - anaconda
+PATH="$HOME/opt/anaconda3/bin:$PATH"
 
 # - OSX
 PATH="$PATH:/opt/X11/bin"
 # - OSX - LaTex
 PATH="$PATH:/Library/TeX/texbin"
-# - OSX - sage
-PATH="$PATH:/Applications/sage"
 
 # - Ubuntu - android-studio
 PATH="$PATH:$HOME/opt/android-studio/bin"
