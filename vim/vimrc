@@ -56,6 +56,17 @@ set smartindent
 set smarttab
 set shiftwidth=2
 set softtabstop=2
+
+" Different indentation for Python
+au BufNewFile,BufRead *.py
+  \ set tabstop=4 |
+  \ set softtabstop=4 |
+  \ set shiftwidth=4 |
+  \ set textwidth=79 |
+  \ set expandtab |
+  \ set autoindent |
+  \ set fileformat=unix
+
 " Show “invisible” characters
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set list
