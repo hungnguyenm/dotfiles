@@ -9,7 +9,7 @@ set -e
 TMUX_VERSION=2.4
 TMUX_DIR=$HOME/opt/tmux
 TMUX_BIN_DIR=$HOME/bin
-TMUX_TEMP_DIR=$HOME/temp/tmux
+TMUX_TEMP_DIR=$HOME/tmp/tmux
 
 # create our directories
 rm -rf $TMUX_DIR $TMUX_TEMP_DIR
