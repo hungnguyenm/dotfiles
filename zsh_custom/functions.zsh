@@ -555,6 +555,42 @@ function config-firewall-nat-delete() {
   fi
 }
 
+function config-firewall-reset() {
+  read -q "_confirm?Are you sure [yn]? "
+  if [[ "$_confirm" =~ ^[Yy]$ ]]; then
+    # backup
+    mkdir -p $DOTFILES_DIR/backup/iptables
+    sudo iptables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v4
+    sudo ip6tables-save >! $DOTFILES_DIR/backup/iptables/rules.old.v6
+
+    # reset IPv4
+    sudo iptables -P INPUT ACCEPT
+    sudo iptables -P FORWARD ACCEPT
+    sudo iptables -P OUTPUT ACCEPT
+    sudo iptables -t nat -F
+    sudo iptables -t mangle -F
+    sudo iptables -F
+    sudo iptables -X
+
+    # reset IPv6
+    sudo ip6tables -P INPUT ACCEPT
+    sudo ip6tables -P FORWARD ACCEPT
+    sudo ip6tables -P OUTPUT ACCEPT
+    sudo ip6tables -t nat -F
+    sudo ip6tables -t mangle -F
+    sudo ip6tables -F
+    sudo ip6tables -X
+
+    # update persistent
+    sudo sh -c 'iptables-save > /etc/iptables/rules.v4'
+    sudo sh -c 'ip6tables-save > /etc/iptables/rules.v6'
+
+    echo "\r\nDone!"
+  else
+    echo "\r\nAborted!"
+  fi
+}
+
 _config_profile="firewall firewall-nat"
 function config-show() {
   if [[ -n $1 ]] && [[ $_config_profile =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
