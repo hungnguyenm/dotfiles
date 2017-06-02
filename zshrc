@@ -82,8 +82,7 @@ autoload -U add-zsh-hook
 GIT_AUTO_FETCH_INTERVAL=3600 #in seconds
 
 # Plugins
-plugins=(common-aliases ssh-agent git git-auto-fetch osx debian systemd sudo tmux z extract gradle docker docker-compose sublime colorize zsh-syntax-highlighting)
-
+plugins=(common-aliases ssh-agent git git-auto-fetch debian osx systemd sudo docker docker-compose gradle rsync sublime tmux z colorize extract zsh-syntax-highlighting)
 
 # Finally, source local files
 for local_file ($DOTFILES_DIR/local/*.zsh(.N)); do
@@ -94,5 +93,5 @@ done
 source $ZSH/oh-my-zsh.sh
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
-export SDKMAN_DIR="/home/hung/.sdkman"
-[[ -s "/home/hung/.sdkman/bin/sdkman-init.sh" ]] && source "/home/hung/.sdkman/bin/sdkman-init.sh"
+export SDKMAN_DIR="/home/$USER/.sdkman"
+[[ -s "/home/$USER/.sdkman/bin/sdkman-init.sh" ]] && source "/home/$USER/.sdkman/bin/sdkman-init.sh"
