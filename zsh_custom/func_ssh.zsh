@@ -1,5 +1,11 @@
 [ -r ~/.ssh/config ] && _ssh_config=($(cat ~/.ssh/config | sed -ne 's/Host[=/t ]\([^\*]\)/\1/p')) || _ssh_config=()
 
+## rsync ##
+alias rsync-copy-sudo='rsync -avz --progress -h -e ssh --rsync-path="sudo rsync"'
+alias rsync-move-sudo='rsync -avz --progress -h --remove-source-files -e ssh --rsync-path="sudo rsync"'
+alias rsync-update-sudo='rsync -avzu --progress -h -e ssh --rsync-path="sudo rsync"'
+alias rsync-synchronize-sudo='rsync -avzu --delete --progress -h -e ssh --rsync-path="sudo rsync"'
+
 ## ssh ##
 # improved ssh to send client host name env variable
 function ssh() {
@@ -41,10 +47,6 @@ function ssh-tunnel() {
   fi
 }
 compctl -k "($_ssh_config)" fs fsu fsc fso ssh-tunnel
-
-## rsync ##
-alias rsync-copy-sudo='rsync -avz --progress -h -e ssh --rsync-path="sudo rsync"'
-alias rsync-move-sudo='rsync -avz --progress -h --remove-source-files -e ssh --rsync-path="sudo rsync"'
 
 ## sshfs ##
 # fs: mount remote ssh $HOST to ~/remote/$HOST folder
