@@ -55,4 +55,4 @@ dkclean(){
   docker rmi "${images[@]}" 2>/dev/null
 }
 
-compctl -K __docker_complete_containers_names dkbash
+compctl -K _docker dkbash
