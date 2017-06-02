@@ -8,15 +8,6 @@ function git_remove_private() {
   rm -rf $PRIVATE_FOLDER
 }
 
-function virsh_get_mac() {
-  echo $(virsh dumpxml --domain "$1" | sed -ne "s/.*\([0-9a-fA-F:]\{17\}\).*/\1/p" 2> /dev/null)
-}
-
-function virsh_get_ip() {
-  _mac_addr=$(virsh_get_mac "$1")
-  echo $(virsh net-dumpxml --network default | sed -ne "s/.*$_mac_addr.*\([0-9]\{3\}\.[0-9]\{3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\).*/\1/p")
-}
-
 function iptables_dpt_map() {
   case "$1" in
     22) echo "ssh"
