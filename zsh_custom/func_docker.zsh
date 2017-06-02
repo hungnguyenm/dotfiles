@@ -1,8 +1,10 @@
-# get latest container ID
-alias dkl="docker ps -l -q"
+alias dk="docker"
 
 # get container process
 alias dkps="docker ps"
+
+# get latest container ID
+alias dkpl="docker ps -l -q"
 
 # get process included stop container
 alias dkpa="docker ps -a"
