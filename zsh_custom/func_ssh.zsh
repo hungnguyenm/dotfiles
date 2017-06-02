@@ -42,6 +42,10 @@ function ssh-tunnel() {
 }
 compctl -k "($_ssh_config)" fs fsu fsc fso ssh-tunnel
 
+## rsync ##
+alias rsync-copy-sudo='rsync -avz --progress -h -e ssh --rsync-path="sudo rsync"'
+alias rsync-move-sudo='rsync -avz --progress -h --remove-source-files -e ssh --rsync-path="sudo rsync"'
+
 ## sshfs ##
 # fs: mount remote ssh $HOST to ~/remote/$HOST folder
 function fs() {
