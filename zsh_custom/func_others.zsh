@@ -5,14 +5,14 @@ function xpaste() { xsel --clipboard >> "$*"; }
 
 # fail-safe sudo commands
 function shutdown() {
-  read -q "_confirm? Do you want to shutdown $HOST [yn]? "
+  read -q "_confirm?Do you want to shutdown $HOST [yn]? "
   if [[ "$_confirm" =~ ^[Yy]$ ]]; then
     sudo shutdown now
   fi
 }
 
 function reboot() {
-  read -q "_confirm? Do you want to reboot $HOST [yn]? "
+  read -q "_confirm?Do you want to reboot $HOST [yn]? "
   if [[ "$_confirm" =~ ^[Yy]$ ]]; then
     sudo reboot
   fi
