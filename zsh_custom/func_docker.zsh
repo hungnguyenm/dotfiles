@@ -1,4 +1,6 @@
 alias dk="docker"
+alias dkc="docker-compose"
+alias dkm="docker-machine"
 
 # get container process
 alias dkps="docker ps"
