@@ -78,6 +78,9 @@ zstyle :omz:plugins:ssh-agent agent-forwarding on
 export GIT_PROMPT_EXECUTABLE=${GIT_PROMPT_EXECUTABLE:-"python"}
 autoload -U add-zsh-hook
 
+# zsh-mv
+autoload -U zmv
+
 # git-auto-fetch
 GIT_AUTO_FETCH_INTERVAL=3600 #in seconds
 
