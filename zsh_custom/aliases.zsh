@@ -22,6 +22,7 @@ alias tlk="tmux list-keys"
 alias emacs="emacs -nw"
 
 alias rmf="rm -rf"
+alias rmcrash="sudo rm /var/crash/*"
 
 # network
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
