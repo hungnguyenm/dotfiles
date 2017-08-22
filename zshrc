@@ -85,7 +85,7 @@ autoload -U zmv
 GIT_AUTO_FETCH_INTERVAL=3600 #in seconds
 
 # Plugins
-plugins=(common-aliases ssh-agent git git-auto-fetch debian osx systemd sudo docker docker-compose aws gradle rsync sublime tmux z colorize extract zsh-syntax-highlighting)
+plugins=(common-aliases ssh-agent git git-auto-fetch debian osx systemd sudo docker docker-compose gradle rsync sublime tmux z colorize extract zsh-syntax-highlighting)
 
 # Finally, source local files
 for local_file ($DOTFILES_DIR/local/*.zsh(.N)); do
