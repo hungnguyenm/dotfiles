@@ -28,6 +28,7 @@ PATH="$PATH:$HOME/Android/Sdk/platform-tools"
 
 # - Ubuntu - cuda
 PATH="/usr/local/cuda/bin/:$PATH"
+export CUDA_HOME=/usr/local/cuda
 
 # - Ubuntu - sdkman
 export SDKMAN_DIR="$HOME/.sdkman"
@@ -47,7 +48,6 @@ LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
 export LD_LIBRARY_PATH
 
 # Some additional parameters
-export CUDA_HOME=/usr/local/cuda
 # - enforce CUDA to support higher gcc version
 export EXTRA_NVCCFLAGS="-Xcompiler -std=c++98"
 
