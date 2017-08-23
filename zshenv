@@ -46,5 +46,9 @@ LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
 
 export LD_LIBRARY_PATH
 
+# Some additional parameters
+# - enforce CUDA to support higher gcc version
+export EXTRA_NVCCFLAGS="-Xcompiler -std=c++98"
+
 # Ignore some system global files
 skip_global_compinit=1
