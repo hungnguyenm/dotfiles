@@ -26,6 +26,9 @@ PATH="$PATH:/Library/TeX/texbin"
 PATH="$PATH:$HOME/opt/android-studio/bin"
 PATH="$PATH:$HOME/Android/Sdk/platform-tools"
 
+# - Ubuntu - cuda
+PATH="/usr/local/cuda/bin/:$PATH"
+
 # - Ubuntu - sdkman
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
@@ -37,6 +40,9 @@ LD_LIBRARY_PATH=/usr/local/lib
 
 # - Embedded
 LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/lib/i386-linux-gnu"
+
+# - Ubuntu - cuda
+LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
 
 export LD_LIBRARY_PATH
 
