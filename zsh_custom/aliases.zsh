@@ -34,6 +34,7 @@ alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date
 alias catc="colorize"
 alias path='echo -e ${PATH//:/\\n}'
 alias zsh_debug="/bin/zsh -i -x -c exit; set +xv;"
+alias w_nvidiasmi="watch -n 0.5 nvidia-smi"
 
 # virtualbox
 alias vbm="VBoxManage"
