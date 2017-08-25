@@ -29,15 +29,12 @@ ZSH_COMPDUMP="$ZSH_CACHE_DIR/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
 # Additional completions
 fpath=($ZSH_CUSTOM/completions $fpath)
 
-# ROS
-if [[ -f /opt/ros/indigo/setup.zsh ]]; then
-  source /opt/ros/indigo/setup.zsh
+# Google Cloud SDK
+if [[ -f ~/opt/google-cloud-sdk/completion.zsh.inc ]]; then
+  source ~/opt/google-cloud-sdk/completion.zsh.inc
 fi
-if [[ -f /opt/ros/kinetic/setup.zsh ]]; then
-  source /opt/ros/kinetic/setup.zsh
-fi
-if [[ -f ~/catkin_ws/devel/setup.zsh ]]; then
-  source ~/catkin_ws/devel/setup.zsh
+if [[ -f ~/opt/google-cloud-sdk/path.zsh.inc ]]; then
+  source ~/opt/google-cloud-sdk/path.zsh.inc
 fi
 
 # Enable 256-color
