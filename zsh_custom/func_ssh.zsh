@@ -11,7 +11,7 @@ alias rsync-synchronize-sudo='rsync -avzu --delete --progress -h -e ssh --rsync-
 function ssh() {
   if (( ${#} == 1 )); then
     if [[ $_ssh_config =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
-      command ssh -t "$1" "if type $SHELL >/dev/null 2>&1; then SSH_CLIENT_SHORT_HOST="${PREFER_HOST_NAME:-${SHORT_HOST}}" $SHELL; elif type zsh >/dev/null 2>&1; then SSH_CLIENT_SHORT_HOST="${PREFER_HOST_NAME:-${SHORT_HOST}}" zsh; else bash; fi;"
+      command ssh -t "$1" "if type zsh >/dev/null 2>&1; then SSH_CLIENT_SHORT_HOST="${PREFER_HOST_NAME:-${SHORT_HOST}}" zsh; elif type $SHELL >/dev/null 2>&1; then $SHELL; else bash; fi;"
     else
       command ssh "$@"
     fi
