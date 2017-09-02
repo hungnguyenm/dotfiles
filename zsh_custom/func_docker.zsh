@@ -20,7 +20,7 @@ alias dkip="docker inspect --format '{{ .NetworkSettings.IPAddress }}'"
 # run deamonized container, e.g., $dkd base /bin/echo hello
 alias dkd="docker run -d -P"
 
-# Run interactive container, e.g., $dki base /bin/bash
+# Run interactive container, e.g., $dkit base /bin/bash
 alias dkit="docker run -i -t -P"
 
 # execute interactive container, e.g., $dex base /bin/bash
@@ -42,7 +42,10 @@ dkrmi() { docker rmi $(docker images -q); }
 dkalias() { alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort; }
 
 # bash into running container
-dkbash() { docker exec -it $(docker ps -aqf "name=$1") bash; }
+dkbash() { docker exec -it $(docker ps -aqf "name=$1") /bin/bash; }
+
+# run interactive container with bash
+dkrbash() { docker run -it -P $1 /bin/bash; }
 
 # remove all container if possible, exited volumes, and dangling images
 dkclean(){
