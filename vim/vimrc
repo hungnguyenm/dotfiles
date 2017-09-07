@@ -1,7 +1,7 @@
 set nocompatible
 set shell=zsh
 
-" Some key maps
+" Some key maps (default leader is backspace)
 " This unsets the "last search pattern" register by hitting return
 nnoremap <CR> :noh<CR><CR>
 
