@@ -41,7 +41,7 @@ dkrmi() { docker rmi $(docker images -q); }
 # show all alias related docker
 dkalias() { alias | grep 'docker' | sed "s/^\([^=]*\)=\(.*\)/\1 => \2/"| sed "s/['|\']//g" | sort; }
 
-# bash into running container
+# bash into a running container
 dkbash() { docker exec -it $(docker ps -aqf "name=$1") /bin/bash; }
 
 # run interactive container with bash
@@ -59,5 +59,3 @@ dkclean(){
   images=( $(docker images --filter dangling=true -q 2>/dev/null) )
   docker rmi "${images[@]}" 2>/dev/null
 }
-
-compctl -K _docker dkbash
