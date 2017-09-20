@@ -20,6 +20,9 @@ PATH="$HOME/opt/anaconda3/bin:$HOME/opt/anaconda2/bin:$PATH"
 # - cmake
 PATH="$HOME/opt/cmake/bin:$PATH"
 
+# - SGXSDK
+[[ -s "$HOME/opt/sgxsdk/environment" ]] && source "$HOME/opt/sgxsdk/environment"
+
 # - OSX
 PATH="$PATH:/opt/X11/bin"
 # - OSX - LaTex
