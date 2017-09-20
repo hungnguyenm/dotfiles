@@ -15,7 +15,7 @@ PATH="$HOME/bin:/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr
 PATH="$PATH:$DOTFILES_DIR/scripts"
 
 # - anaconda
-PATH="$HOME/opt/anaconda3/bin:$PATH"
+PATH="$HOME/opt/anaconda3/bin:$HOME/opt/anaconda2/bin:$PATH"
 
 # - OSX
 PATH="$PATH:/opt/X11/bin"
