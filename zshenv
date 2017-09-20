@@ -17,14 +17,13 @@ PATH="$PATH:$DOTFILES_DIR/scripts"
 # - anaconda
 PATH="$HOME/opt/anaconda3/bin:$PATH"
 
+# - cmake
+PATH="$HOME/opt/cmake/bin:$PATH"
+
 # - OSX
 PATH="$PATH:/opt/X11/bin"
 # - OSX - LaTex
 PATH="$PATH:/Library/TeX/texbin"
-
-# - Ubuntu - android-studio
-PATH="$PATH:$HOME/opt/android-studio/bin"
-PATH="$PATH:$HOME/Android/Sdk/platform-tools"
 
 # - Ubuntu - cuda
 PATH="/usr/local/cuda/bin/:$PATH"
@@ -38,9 +37,6 @@ export PATH
 
 # Libraries
 LD_LIBRARY_PATH=/usr/local/lib
-
-# - Embedded
-LD_LIBRARY_PATH="$LD_LIBRARY_PATH:/usr/lib/i386-linux-gnu"
 
 # - Ubuntu - cuda
 LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
