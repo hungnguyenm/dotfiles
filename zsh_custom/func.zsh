@@ -38,7 +38,7 @@ function pcp() {
              for (i=0;i<=percent;i++)
                 printf "="
              printf ">"
-             for (i=percent;i<100;i++)
+             for (i=percent;i<10;i++)
                 printf " "
              printf "]\r"
           }
@@ -57,7 +57,7 @@ function pmv() {
              for (i=0;i<=percent;i++)
                 printf "="
              printf ">"
-             for (i=percent;i<100;i++)
+             for (i=percent;i<10;i++)
                 printf " "
              printf "]\r"
           }
