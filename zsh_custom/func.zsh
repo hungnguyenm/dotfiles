@@ -34,11 +34,12 @@ function pcp() {
       count += $NF
           if (count % 10 == 0) {
              percent = count / total_size * 100
+             mark = percent / 10 * 2
              printf "%3d%% [", percent
-             for (i=0;i<=percent;i++)
+             for (i=0;i<=mark;i++)
                 printf "="
              printf ">"
-             for (i=percent;i<20;i++)
+             for (i=mark;i<20;i++)
                 printf " "
              printf "]\r"
           }
@@ -53,11 +54,12 @@ function pmv() {
       count += $NF
           if (count % 10 == 0) {
              percent = count / total_size * 100
+             mark = percent / 10 * 2
              printf "%3d%% [", percent
-             for (i=0;i<=percent;i++)
+             for (i=0;i<=mark;i++)
                 printf "="
              printf ">"
-             for (i=percent;i<20;i++)
+             for (i=mark;i<20;i++)
                 printf " "
              printf "]\r"
           }
