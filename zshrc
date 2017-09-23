@@ -68,6 +68,9 @@ setopt histignoredups
 # - Extended globbing
 setopt extended_glob
 
+# - Enable preserve partial line (enabled by default, this is for eniac)
+setopt prompt_sp
+
 # ssh-agent
 zstyle :omz:plugins:ssh-agent agent-forwarding on
 
