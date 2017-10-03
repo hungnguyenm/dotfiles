@@ -41,6 +41,10 @@ alias vbm="VBoxManage"
 alias vbh="VBoxHeadless"
 alias vbg="VirtualBox"
 
+# sound
+alias sound_loop_on="pactl load-module module-loopback latency_msec=1"
+alias sound_loop_off="pactl unload-module module-loopback"
+
 # macOS aliases
 alias clean_dsfile="find . -type f -name '*.DS_Store' -ls -delete"
 
