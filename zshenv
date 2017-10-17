@@ -5,6 +5,7 @@ export ZSH_CACHE_DIR=$HOME/.zsh
 export ZSH_VIM_BACKUPS=$ZSH_CACHE_DIR/vim_backups
 export ZSH_VIM_SWAPS=$ZSH_CACHE_DIR/vim_swaps
 export ZSH_VIM_UNDO=$ZSH_CACHE_DIR/vim_undo
+export ZSH_VIM_TMP=$ZSH_CACHE_DIR/vim_tmp
 
 export EDITOR=vim
 export PRIVATE_FOLDER=$ZSH_CACHE_DIR/private

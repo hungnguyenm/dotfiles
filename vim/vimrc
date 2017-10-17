@@ -57,16 +57,6 @@ set smarttab
 set shiftwidth=2
 set softtabstop=2
 
-" Different indentation for Python
-au BufNewFile,BufRead *.py
-  \ set tabstop=4 |
-  \ set softtabstop=4 |
-  \ set shiftwidth=4 |
-  \ set textwidth=79 |
-  \ set expandtab |
-  \ set autoindent |
-  \ set fileformat=unix
-
 " Show “invisible” characters
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set list
@@ -107,23 +97,6 @@ endif
 " Start scrolling 5 lines before the horizontal window border
 set scrolloff=5
 
-" ---- Key map
-function! BuildCpp()
-  if filereadable("./Makefile")
-    make
-  else
-    execute("!g++ % -lpthread -o %<")
-  endif
-endfunction
-
-function! BuildDebugCpp()
-  if filereadable("./Makefile")
-    make debug
-  else
-    execute("!g++ % -DDEBUG -g -lpthread -o %<")
-  endif
-endfunction
-
 let g:runsyntastic = 0
 function! ToogleSyntasticCheck()
   if g:runsyntastic
@@ -135,12 +108,6 @@ function! ToogleSyntasticCheck()
   endif
 endfunction
 
-" build & run
-noremap <Leader><F5> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
-noremap! <Leader><F5> <Esc> :w <CR> :call BuildCpp() <CR> :!./%< <CR>
-" build & debug
-noremap <F4> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
-noremap! <F4> <Esc> :w <CR> :call BuildDebugCpp() <CR> :ConqueGdb %< <CR>
 " save
 noremap <F9> :w <CR>
 noremap! <F9> <Esc> :w <CR>
@@ -150,11 +117,6 @@ noremap! <F10> <Esc> :q <CR>
 
 " Syntastic
 nnoremap <silent> <F1> :call ToogleSyntasticCheck()<CR>
-" Conque Gdb
-nnoremap <silent> <Leader>q :ConqueGdbCommand q<CR>
-nnoremap <silent> <F5> :ConqueGdbCommand run<CR>
-nnoremap <silent> <F6> :ConqueGdbCommand continue<CR>
-nnoremap <silent> <F7> :ConqueGdbCommand next<CR>
 " toogle NERDTree
 nnoremap <F2> :NERDTreeToggle<CR>
 " toogle Tagbar
@@ -185,7 +147,7 @@ if has("unix")
     Plugin 'valloric/youcompleteme'
     " Need to install YouCompleteMe
     " cd ~/.vim/bundle/YouCompleteMe
-    " ./install.py --clang-completer
+    " ./install.py --all
   endif
 endif
 

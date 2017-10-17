@@ -8,7 +8,7 @@ else
 fi
 
 # Prepare directories
-mkdir -p $ZSH_CACHE_DIR $ZSH_VIM_BACKUPS $ZSH_VIM_SWAPS $ZSH_VIM_UNDO
+mkdir -p $ZSH_CACHE_DIR $ZSH_VIM_BACKUPS $ZSH_VIM_SWAPS $ZSH_VIM_UNDO $ZSH_VIM_TMP
 
 # Path to oh-my-zsh configuration
 ZSH=$DOTFILES_DIR/oh-my-zsh
