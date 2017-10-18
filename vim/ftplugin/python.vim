@@ -14,6 +14,6 @@ augroup vimrc_autocmds
 augroup END
 
 " run and show results on the top
-nmap <F4> :w<CR>:p<CR>:silent !python %:p 2>&1 \| tee $ZSH_VIM_TMP/py_out<CR>:sp $ZSH_VIM_TMP/py_out<CR>:redraw!<CR>
+nmap <F4> :w<CR>:p<CR>:silent !python -u %:p 2>&1 \| tee $ZSH_VIM_TMP/py_out<CR>:sp $ZSH_VIM_TMP/py_out<CR>:redraw!<CR>
 " run and show results on the right
-nmap <F5> :w<CR>:p<CR>:silent !python %:p 2>&1 \| tee $ZSH_VIM_TMP/py_out<CR>:set splitright<CR>:vsp $ZSH_VIM_TMP/py_out<CR>:set nosplitright<CR>:redraw!<CR>
+nmap <F5> :w<CR>:p<CR>:silent !python -u %:p 2>&1 \| tee $ZSH_VIM_TMP/py_out<CR>:set splitright<CR>:vsp $ZSH_VIM_TMP/py_out<CR>:set nosplitright<CR>:redraw!<CR>
