@@ -30,6 +30,7 @@ alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 alias restart_network="sudo ifdown --exclude=lo -a && sudo ifup --exclude=lo -a"
 
 # utility
+alias dus="du -sh"
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 alias catc="colorize"
 alias path='echo -e ${PATH//:/\\n}'

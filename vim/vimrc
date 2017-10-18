@@ -60,11 +60,6 @@ set softtabstop=2
 " Show “invisible” characters
 set lcs=tab:▸\ ,trail:·,eol:¬,nbsp:_
 set list
-" Highlight 81st chars onward
-augroup vimrc_autocmds
-  autocmd BufEnter * highlight OverLength ctermbg=darkgrey guibg=#111111
-  autocmd BufEnter * match OverLength /\%81v.*/
-augroup END
 " Highlight searches
 set hlsearch
 " Ignore case of searches ...
@@ -144,10 +139,12 @@ Plugin 'vim-scripts/conque-gdb'
 if has("unix")
   let s:uname = system("echo -n \"$(uname)\"")
   if !v:shell_error && s:uname == "Linux"
-    Plugin 'valloric/youcompleteme'
+    Plugin 'valloric/youcompleteme' 
     " Need to install YouCompleteMe
     " cd ~/.vim/bundle/YouCompleteMe
     " ./install.py --all
+    " Or
+    " ./install.py --clang-completer
   endif
 endif
 
@@ -168,6 +165,7 @@ filetype plugin indent on    " required
 
 " Additional config for YCM
 let g:ycm_global_ycm_extra_conf = "~/.vim/ycm_extra_conf.py"
+let g:ycm_autoclose_preview_window_after_insertion = 1
 let g:ycm_show_diagnostics_ui = 0
 
 " Additional config for Syntastic
