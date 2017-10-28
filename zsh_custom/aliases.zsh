@@ -31,6 +31,8 @@ alias restart_network="sudo ifdown --exclude=lo -a && sudo ifup --exclude=lo -a"
 
 # utility
 alias dus="du -sh"
+alias dfd="df . -h"
+alias dfh="df -h"
 alias timer='echo "Timer started. Stop with Ctrl-D." && date && time cat && date'
 alias catc="colorize"
 alias path='echo -e ${PATH//:/\\n}'
