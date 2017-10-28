@@ -56,6 +56,9 @@ setopt interactivecomments
 # - Enable spelling correction
 setopt correct
 
+# - Enable editor for command line
+autoload -U edit-command-line
+
 # - Display dots while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 
