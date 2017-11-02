@@ -11,6 +11,8 @@ alias rcdot="rm -rf "$DOTFILES_DIR"; git clone --recursive https://github.com/hu
 alias rcsdot="rm -rf "$DOTFILES_DIR"; git clone --recursive git@github.com:hungnguyenm/dotfiles.git "$DOTFILES_DIR"; . ~/.zshrc && echo 'ZSH config reloaded from ~/.zshrc'"
 
 # short commands
+alias agrep="alias | grep"
+
 alias cls="clear"
 
 alias gsui="git submodule update --init --recursive --remote"
