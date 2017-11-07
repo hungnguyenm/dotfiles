@@ -54,7 +54,7 @@ setopt interactivecomments
 #compinit
 
 # - Enable spelling correction
-setopt correct
+#setopt correct
 
 # - Enable editor for command line
 autoload -U edit-command-line
