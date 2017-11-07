@@ -106,8 +106,8 @@ endfunction
 " save
 noremap <F9> :w <CR>
 noremap! <F9> <Esc> :w <CR>
-noremap <C-F9> :w !sudo tee % >/dev/null <CR>
-noremap! <C-F9> <Esc> :w !sudo tee % >/dev/null <CR>
+noremap <S-F9> :w !sudo tee % >/dev/null <CR>
+noremap! <S-F9> <Esc> :w !sudo tee % >/dev/null <CR>
 " close
 noremap <F10> :q <CR>
 noremap! <F10> <Esc> :q <CR>
