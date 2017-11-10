@@ -46,7 +46,27 @@ function ssh-tunnel() {
     echo "fatal: ~/.ssh/config doesn't exist"
   fi
 }
-compctl -k "($_ssh_config)" fs fsu fsc fso ssh-tunnel
+
+# copy authorized keys to host
+_auth_profile="default"
+function ssh-copy-auth() {
+  if [[ -r ~/.ssh/config ]]; then
+    if [[ -n $1 ]] && [[ $_ssh_config =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
+      if [[ -n $2 ]] && [[ $_auth_profile =~ (^|[[:space:]])$2($|[[:space:]]) ]]; then
+        git_clone_private
+        command ssh "$1" 'mkdir -p ~/.ssh'
+        command $PRIVATE_FOLDER/data/"$2"/authorized_keys scp "$1":~/.ssh/
+        git_remove_private
+      else
+        echo "fatal: invalid profile\n\rAvailable profiles: default"
+      fi
+    else
+      echo "fatal: ssh-copy-auth only works with hosts defined in ~/.ssh/config\n\rUsage: ssh-copy-auth host"
+    fi
+  else
+    echo "fatal: ~/.ssh/config doesn't exist"
+  fi
+}
 
 ## sshfs ##
 # fs: mount remote ssh $HOST to ~/remote/$HOST folder
@@ -128,3 +148,5 @@ function fso() {
     echo "Usage: fso host OR fso host path"
   fi
 }
+
+compctl -k "($_ssh_config)" fs fsu fsc fso ssh-tunnel ssh-copy-auth
