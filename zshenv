@@ -11,6 +11,12 @@ export EDITOR=vim
 export PRIVATE_FOLDER=$ZSH_CACHE_DIR/private
 export PRIVATE_GIT="git@github.com:hungnguyenm/dotfiles_private.git"
 
+if [[ `uname` == 'Linux' ]]; then
+  # place holder
+elif [[ `uname` == 'Darwin' ]]; then
+  # place holder
+fi
+
 # Path
 PATH="$HOME/bin:/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 PATH="$PATH:$DOTFILES_DIR/scripts"
@@ -23,6 +29,10 @@ PATH="$HOME/opt/cmake/bin:$PATH"
 
 # - SGXSDK
 [[ -s "$HOME/opt/sgxsdk/environment" ]] && source "$HOME/opt/sgxsdk/environment"
+
+# - MATLAB runtime
+export MCR_ROOT="/usr/local/MATLAB/MATLAB_Runtime"
+export XAPPLRESDIR="$MCR_ROOT/v92/X11/app-defaults"
 
 # - OSX
 PATH="$PATH:/opt/X11/bin"
@@ -41,6 +51,9 @@ export PATH
 
 # Libraries
 LD_LIBRARY_PATH=/usr/local/lib
+
+# - MATLAB runtime
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$MCR_ROOT/v92/runtime/glnxa64:$MCR_ROOT/v92/bin/glnxa64:$MCR_ROOT/v92/sys/os/glnxa64:$MCR_ROOT/v92/sys/opengl/lib/glnxa64"
 
 # - Ubuntu - cuda
 LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
