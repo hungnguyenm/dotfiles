@@ -41,6 +41,7 @@ fi
 if [ "$TERM" = "xterm" ]; then
   export TERM="xterm-256color"
 fi
+[[ $TMUX != "" ]] && export TERM="screen-256color"
 
 # Configs
 ZSH_THEME="hung"
