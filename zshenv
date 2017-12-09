@@ -52,9 +52,6 @@ export PATH
 # Libraries
 LD_LIBRARY_PATH=/usr/local/lib
 
-# - MATLAB runtime
-LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$MCR_ROOT/v92/runtime/glnxa64:$MCR_ROOT/v92/bin/glnxa64:$MCR_ROOT/v92/sys/os/glnxa64:$MCR_ROOT/v92/sys/opengl/lib/glnxa64"
-
 # - Ubuntu - cuda
 LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
 

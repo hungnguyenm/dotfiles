@@ -1,6 +1,9 @@
 # sudo preserve LD_LIBRARY_PATH
 alias sudo="sudo env LD_LIBRARY_PATH=$LD_LIBRARY_PATH"
 
+# custom LD_LIBRARY_PATH for MATLAB Runtime (due to library conflicts)
+alias load_mcr="export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$MCR_ROOT/v92/runtime/glnxa64:$MCR_ROOT/v92/bin/glnxa64:$MCR_ROOT/v92/sys/os/glnxa64:$MCR_ROOT/v92/sys/opengl/lib/glnxa64"
+
 # dotfiles
 alias reload="echo 'rls: reload shell\n\rrlz: reload zsh\n\rrldot: git pull dotfiles\n\rrlcomp: rebuild compdump\n\rrcdot: rm and redownload dotfiles\n\rrcsdot: rm and secure redownload dotfiles'"
 alias rls="exec $SHELL -l"
