@@ -73,7 +73,7 @@ setopt histignoredups
 setopt extended_glob
 
 # - Disable error for null globbing
-setopt null_blob
+setopt null_glob
 
 # - Enable preserve partial line (enabled by default, this is for eniac)
 setopt prompt_cr
