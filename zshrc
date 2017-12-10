@@ -95,10 +95,6 @@ GIT_AUTO_FETCH_INTERVAL=3600 #in seconds
 # Plugins
 plugins=(common-aliases ssh-agent git git-auto-fetch debian osx systemd sudo docker docker-compose gradle pip rsync sublime tmux z colorize extract conda zsh-syntax-highlighting)
 
-# Binding keys (some overwritten)
-bindkey "^W" beginning-of-line
-bindkey "^L" backward-kill-word
-
 # Finally, source local files
 for local_file ($DOTFILES_DIR/local/*.zsh(.N)); do
   source $local_file
@@ -106,6 +102,10 @@ done
 
 # and source OMZ
 source $ZSH/oh-my-zsh.sh
+
+# Binding keys (some overwritten)
+bindkey "^W" beginning-of-line
+bindkey "^L" backward-kill-word
 
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
