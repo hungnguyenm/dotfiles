@@ -63,9 +63,6 @@ autoload -U edit-command-line
 # - Display dots while waiting for completion
 COMPLETION_WAITING_DOTS="true"
 
-# - Prevent accidentally overwriting an existing file. Use >! to force overwrite
-setopt noclobber
-
 # - History optimization
 setopt histignoredups
 
@@ -110,3 +107,7 @@ bindkey "^L" backward-kill-word
 #THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+
+# - Prevent accidentally overwriting an existing file. Use >! to force overwrite
+# ** Put at the end to avoid error during loading previous scripts
+setopt noclobber
