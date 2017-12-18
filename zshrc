@@ -104,10 +104,14 @@ source $ZSH/oh-my-zsh.sh
 bindkey "^W" beginning-of-line
 bindkey "^L" backward-kill-word
 
-#THIS MUST BE AT THE END OF THE FILE FOR SDKMAN TO WORK!!!
+## ** SDKMAN needs to be loaded at the end, also requires clobber to be enabled
+# -- Enable clobber
+setopt clobber
+
+# -- Load SDKMAN
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
 # - Prevent accidentally overwriting an existing file. Use >! to force overwrite
-# ** Put at the end to avoid error during loading previous scripts
+# -- Put at the end to avoid error during loading previous scripts
 setopt noclobber
