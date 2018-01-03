@@ -29,6 +29,10 @@ alias emacs="emacs -nw"
 alias rmf="rm -rf"
 alias rmcrash="sudo rm /var/crash/*"
 
+# mask for conda
+alias conda2="/home/hung/opt/anaconda2/bin/conda"
+alias conda3="/home/hung/opt/anaconda3/bin/conda"
+
 # network
 alias urlencode='python -c "import sys, urllib as ul; print ul.quote_plus(sys.argv[1]);"'
 alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
