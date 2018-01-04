@@ -1,10 +1,10 @@
 [filter "lfs"]
-	clean = git-lfs clean %f
-	smudge = git-lfs smudge %f
-	required = true
+    clean = git-lfs clean %f
+    smudge = git-lfs smudge %f
+    required = true
 [user]
-	name = Hung Nguyen
-	email = hungng@seas.upenn.edu
+    name = Hung Nguyen
+    email = hungng@seas.upenn.edu
 [color]
     ui = true
 [color "branch"]
@@ -28,3 +28,5 @@
     tool = vimdiff
 [push]
     default = simple
+[core]
+    excludesfile = ~/dotfiles/gitignore
