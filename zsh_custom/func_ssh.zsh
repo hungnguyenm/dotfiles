@@ -68,6 +68,20 @@ function ssh-copy-auth() {
   fi
 }
 
+## routers ##
+_routers="erxh erxw"
+function rb-vtun3() {
+  if [[ -r ~/.ssh/config ]]; then
+    if [[ -n $1 ]] && [[ $_routers =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
+      ssh $1 "sudo /config/scripts/restart_vtun3.sh"
+    else
+      echo "fatal: rb-vtun3 only works with erxh erxw"
+    fi
+  else
+    echo "fatal: ~/.ssh/config doesn't exist"
+  fi
+}
+
 ## sshfs ##
 # fs: mount remote ssh $HOST to ~/remote/$HOST folder
 function fs() {
@@ -149,4 +163,4 @@ function fso() {
   fi
 }
 
-compctl -k "($_ssh_config)" fs fsu fsc fso ssh-tunnel ssh-copy-auth
+compctl -k "($_ssh_config)" fs fsu fsc fso ssh-tunnel ssh-copy-auth rb-vtun3
