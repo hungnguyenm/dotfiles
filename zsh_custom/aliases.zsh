@@ -29,6 +29,8 @@ alias emacs="emacs -nw"
 alias rmf="rm -rf"
 alias rmcrash="sudo rm /var/crash/*"
 
+alias wine_steam="wine ~/.wine/drive_c/Program\ Files\ \(x86\)/Steam/Steam.exe -no-cef-sandbox"
+
 # mask for conda
 alias conda2="/home/hung/opt/anaconda2/bin/conda"
 alias conda3="/home/hung/opt/anaconda3/bin/conda"
