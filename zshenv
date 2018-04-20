@@ -47,6 +47,9 @@ export CUDA_HOME=/usr/local/cuda
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
+# - Ubuntu - rust
+PATH="$HOME/.cargo/bin:$PATH"
+
 export PATH
 
 # Libraries
