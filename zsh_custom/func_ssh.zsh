@@ -70,12 +70,12 @@ function ssh-copy-auth() {
 
 ## routers ##
 _routers="erxh erxw"
-function rb-vtun3() {
+function rb-vtun4() {
   if [[ -r ~/.ssh/config ]]; then
     if [[ -n $1 ]] && [[ $_routers =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
-      ssh $1 "sudo /config/scripts/restart_vtun3.sh"
+      ssh $1 "sudo /config/scripts/restart_vtun4.sh"
     else
-      echo "fatal: rb-vtun3 only works with erxh erxw"
+      echo "fatal: rb-vtun4 only works with erxh erxw"
     fi
   else
     echo "fatal: ~/.ssh/config doesn't exist"
