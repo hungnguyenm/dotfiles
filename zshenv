@@ -27,6 +27,10 @@ PATH="$HOME/opt/anaconda3/bin:$HOME/opt/anaconda2/bin:$PATH"
 # - cmake
 PATH="$HOME/opt/cmake/bin:$PATH"
 
+# - golang
+export GOROOT="$HOME/opt/go"
+PATH="$GOROOT/bin:$PATH"
+
 # - SGXSDK
 [[ -s "$HOME/opt/sgxsdk/environment" ]] && source "$HOME/opt/sgxsdk/environment"
 
@@ -41,7 +45,7 @@ PATH="$PATH:/Library/TeX/texbin"
 
 # - Ubuntu - cuda
 PATH="/usr/local/cuda/bin/:$PATH"
-export CUDA_HOME=/usr/local/cuda
+export CUDA_HOME="/usr/local/cuda"
 
 # - Ubuntu - sdkman
 export SDKMAN_DIR="$HOME/.sdkman"
