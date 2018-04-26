@@ -29,6 +29,7 @@ PATH="$HOME/opt/cmake/bin:$PATH"
 
 # - golang
 export GOROOT="$HOME/opt/go"
+export GOPATH="$HOME/develop/go"
 PATH="$GOROOT/bin:$PATH"
 
 # - SGXSDK
