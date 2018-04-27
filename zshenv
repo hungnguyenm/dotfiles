@@ -17,12 +17,11 @@ elif [[ `uname` == 'Darwin' ]]; then
   # place holder
 fi
 
-PATH=""
-LD_LIBRARY_PATH=""
-
-# Path
 PATH="$HOME/bin:/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 PATH="$PATH:$DOTFILES_DIR/scripts"
+LD_LIBRARY_PATH="/usr/local/lib"
+
+# Path
 
 # - anaconda
 PATH="$HOME/opt/anaconda3/bin:$HOME/opt/anaconda2/bin:$PATH"
@@ -48,6 +47,7 @@ export XAPPLRESDIR="$MCR_ROOT/v92/X11/app-defaults"
 
 # - OSX
 PATH="$PATH:/opt/X11/bin"
+
 # - OSX - LaTex
 PATH="$PATH:/Library/TeX/texbin"
 
@@ -65,7 +65,6 @@ PATH="$HOME/.cargo/bin:$PATH"
 export PATH
 
 # Libraries
-LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 
 # - Ubuntu - cuda
 LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
