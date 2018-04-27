@@ -17,6 +17,9 @@ elif [[ `uname` == 'Darwin' ]]; then
   # place holder
 fi
 
+PATH=""
+LD_LIBRARY_PATH=""
+
 # Path
 PATH="$HOME/bin:/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 PATH="$PATH:$DOTFILES_DIR/scripts"
@@ -33,7 +36,11 @@ export GOPATH="$HOME/develop/go"
 PATH="$GOROOT/bin:$PATH"
 
 # - SGXSDK
-[[ -s "$HOME/opt/sgxsdk/environment" ]] && source "$HOME/opt/sgxsdk/environment"
+#[[ -s "$HOME/opt/sgxsdk/environment" ]] && source "$HOME/opt/sgxsdk/environment"
+export SGX_SDK="$HOME/opt/sgxsdk"
+export PKG_CONFIG_PATH="$SGX_SDK/pkgconfig"
+PATH="$PATH:$SGX_SDK/bin:$SGX_SDK/bin/x64"
+LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$SGX_SDK/sdk_libs"
 
 # - MATLAB runtime
 export MCR_ROOT="/usr/local/MATLAB/MATLAB_Runtime"
@@ -58,7 +65,7 @@ PATH="$HOME/.cargo/bin:$PATH"
 export PATH
 
 # Libraries
-LD_LIBRARY_PATH=/usr/local/lib
+LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 
 # - Ubuntu - cuda
 LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
