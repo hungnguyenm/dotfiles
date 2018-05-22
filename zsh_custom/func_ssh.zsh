@@ -163,4 +163,4 @@ function fso() {
   fi
 }
 
-compctl -k "($_ssh_config)" fs fsu fsc fso ssh-tunnel ssh-copy-auth rb-vtun3
+compctl -k "($_ssh_config)" fs fsu fsc fso ssh-tunnel ssh-copy-auth rb-vtun4
