@@ -82,6 +82,23 @@ function rb-vtun4() {
   fi
 }
 
+function erx-clear-ip() {
+  if [[ -r ~/.ssh/config ]]; then
+    if [[ -n $1 ]] && [[ $_routers =~ (^|[[:space:]])$1($|[[:space:]]) ]]; then
+      local _ip=$2
+      if [[ -n $_ip ]] && [[ $_ip != ${_ip#*[0-9].[0-9]} ]]; then
+        ssh $1 "clear dhcp lease ip $2"
+      else
+        echo "fatal: erx-clear-ip requires an ip address\n\rusage: erx-clear-ip router ip"
+      fi
+    else
+      echo "fatal: erx-clear-ip only works with erxh erxw\n\rusage: erx-clear-ip router ip"
+    fi
+  else
+    echo "fatal: ~/.ssh/config doesn't exist"
+  fi
+}
+
 ## sshfs ##
 # fs: mount remote ssh $HOST to ~/remote/$HOST folder
 function fs() {
