@@ -48,6 +48,9 @@ export XAPPLRESDIR="$MCR_ROOT/v92/X11/app-defaults"
 # - OSX
 PATH="$PATH:/opt/X11/bin"
 
+# - OSX - homebrew
+export HOMEBREW_NO_ANALYTICS=1
+
 # - OSX - LaTex
 PATH="$PATH:/Library/TeX/texbin"
 
