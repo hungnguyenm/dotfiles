@@ -1,4 +1,4 @@
-# Environment setup for all types of shell
+## Environment setup for all types of shell
 export DOTFILES_DIR=$HOME/dotfiles
 export ZSH_CACHE_DIR=$HOME/.zsh
 
@@ -21,7 +21,7 @@ PATH="$HOME/bin:/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr
 PATH="$PATH:$DOTFILES_DIR/scripts"
 LD_LIBRARY_PATH="/usr/local/lib"
 
-# Path
+## Path
 
 # - anaconda
 PATH="$HOME/opt/anaconda3/bin:$HOME/opt/anaconda2/bin:$PATH"
@@ -33,17 +33,6 @@ PATH="$HOME/opt/cmake/bin:$PATH"
 export GOROOT="$HOME/opt/go"
 export GOPATH="$HOME/develop/go"
 PATH="$GOROOT/bin:$PATH"
-
-# - SGXSDK
-#[[ -s "$HOME/opt/sgxsdk/environment" ]] && source "$HOME/opt/sgxsdk/environment"
-export SGX_SDK="$HOME/opt/sgxsdk"
-export PKG_CONFIG_PATH="$SGX_SDK/pkgconfig"
-PATH="$PATH:$SGX_SDK/bin:$SGX_SDK/bin/x64"
-LD_LIBRARY_PATH="$LD_LIBRARY_PATH:$SGX_SDK/sdk_libs"
-
-# - MATLAB runtime
-export MCR_ROOT="/usr/local/MATLAB/MATLAB_Runtime"
-export XAPPLRESDIR="$MCR_ROOT/v92/X11/app-defaults"
 
 # - OSX
 PATH="$PATH:/opt/X11/bin"
@@ -62,12 +51,9 @@ export CUDA_HOME="/usr/local/cuda"
 export SDKMAN_DIR="$HOME/.sdkman"
 [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
 
-# - Ubuntu - rust
-PATH="$HOME/.cargo/bin:$PATH"
-
 export PATH
 
-# Libraries
+## Libraries
 
 # - Ubuntu - cuda
 LD_LIBRARY_PATH="/usr/local/cuda/lib64:$LD_LIBRARY_PATH"
