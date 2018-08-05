@@ -72,7 +72,7 @@ function ssh-copy-auth() {
 function ssh-copy-pubkey() {
   auth="~/.ssh/authorized_keys"
   if [[ -n $1 ]] && [[ -n $2 ]]; then
-    if [[ -f $1 ]] && [ ${1: -4} == ".pub" ]; then
+    if [[ -f $1 ]] && [ ${1: -4} = ".pub" ]; then
       key=$(<$1)
       cmd="mkdir -p ~/.ssh;touch $auth;echo $key | tee -a $auth"
       command ssh "$2" "$cmd"
