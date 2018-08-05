@@ -68,6 +68,22 @@ function ssh-copy-auth() {
   fi
 }
 
+# copy public key to authorized_keys at host
+function ssh-copy-pubkey() {
+  auth="~/.ssh/authorized_keys"
+  if [[ -n $1 ]] && [[ -n $2 ]]; then
+    if [[ -f $1 ]] && [ ${1: -4} == ".pub" ]; then
+      key=$(<$1)
+      cmd="mkdir -p ~/.ssh;touch $auth;echo $key | tee -a $auth"
+      command ssh "$2" "$cmd"
+    else
+      echo "fatal: invalid pubkey"
+    fi
+  else
+    echo "Usage: ssh-copy-pubkey path-to-file.pub hostname/ipaddr"
+  fi
+}
+
 ## routers ##
 _routers="erxh erxw"
 function rb-vtun4() {
