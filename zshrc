@@ -98,7 +98,10 @@ source $ZSH/oh-my-zsh.sh
 
 # Binding keys (some overwritten)
 bindkey "^W" beginning-of-line
-bindkey "^L" backward-kill-word
+bindkey "^B" backward-delete-word
+bindkey "^F" forward-word
+bindkey "^R" history-incremental-pattern-search-backward
+bindkey "^S" history-incremental-pattern-search-forward
 
 ## ** SDKMAN needs to be loaded at the end, also requires clobber to be enabled
 # -- Enable clobber
