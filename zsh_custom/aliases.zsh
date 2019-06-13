@@ -46,6 +46,7 @@ alias catc="colorize"
 alias path='echo -e ${PATH//:/\\n}'
 alias zsh_debug="/bin/zsh -i -x -c exit; set +xv;"
 alias w_nvidiasmi="watch -n 0.5 nvidia-smi"
+alias 7z_mhe="7z a -p -mhe=on"
 
 # virtualbox
 alias vbm="VBoxManage"
