@@ -17,7 +17,7 @@ elif [[ `uname` == 'Darwin' ]]; then
   # place holder
 fi
 
-PATH="$HOME/bin:/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
+PATH="$HOME/bin:/opt/homebrew/bin:/opt/local/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/sbin:/sbin"
 PATH="$PATH:$DOTFILES_DIR/scripts"
 LD_LIBRARY_PATH="/usr/local/lib"
 
