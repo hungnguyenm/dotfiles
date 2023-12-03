@@ -52,7 +52,7 @@ install_tmux () {
             sudo apt-get install tmux bc -y
         # If the platform is OS X, tell the user to install tmux, bc
         elif [[ $platform == 'Darwin' ]]; then
-            echo "Please install tmux and bc, then re-run this script!"
+            echo "Please install tmux, bc, reattach-to-user-namespace; then re-run this script!"
             exit
         fi
     }
