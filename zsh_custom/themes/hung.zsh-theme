@@ -27,7 +27,7 @@ function chpwd_update_git_vars() {
 function update_current_git_vars() {
 	unset __CURRENT_GIT_STATUS
 	local gitstatus="$ZSH_CUSTOM/gitstatus.py"
-	_GIT_STATUS=`python ${gitstatus} 2>/dev/null`
+	_GIT_STATUS=`python3 ${gitstatus} 2>/dev/null`
 
 	__CURRENT_GIT_STATUS=("${(@s: :)_GIT_STATUS}")
 		GIT_BRANCH=$__CURRENT_GIT_STATUS[1]
