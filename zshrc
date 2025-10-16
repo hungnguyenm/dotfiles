@@ -37,6 +37,11 @@ if [[ -f ~/opt/google-cloud-sdk/path.zsh.inc ]]; then
   source ~/opt/google-cloud-sdk/path.zsh.inc
 fi
 
+# Anaconda3
+if [[ -f ~/opt/anaconda3/etc/profile.d/conda.sh ]]; then
+    source ~/opt/anaconda3/etc/profile.d/conda.sh
+fi
+
 # Enable 256-color
 if [ "$TERM" = "xterm" ]; then
   export TERM="xterm-256color"
