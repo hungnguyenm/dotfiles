@@ -52,6 +52,12 @@ fi
 ZSH_THEME="hung"
 DEFAULT_USER=hung
 
+# - Turn off mouse/focus reporting a dead remote tmux (or any crashed TUI) left on
+_reset_term_modes() {
+  printf '\e[?1000l\e[?1002l\e[?1003l\e[?1006l\e[?1015l\e[?1004l'
+}
+precmd_functions+=(_reset_term_modes)
+
 # - Turn on interactive comments
 setopt interactivecomments
 
